@@ -11,9 +11,9 @@ public class Funcionario {
     private double salario;
    
     
-    Funcionario (){}
+    public Funcionario (){}
     
-    Funcionario (int id, String nome, String cargo, String email, float salario){
+    public Funcionario (int id, String nome, String cargo, String email, float salario){
     this.id = id;
     this.nome = nome;
     this.cargo = cargo;

@@ -13,9 +13,9 @@ public class Veiculo {
     private  ArrayList<Servico> historicoServicos;
     //ainda preciso ver como relacionar as classes cliente, servicos e relatorio com o veiculo
     
-    Veiculo(){}
+    public Veiculo(){}
     
-    Veiculo(int id, String marca, String modelo, int ano, String placa, String status){
+    public Veiculo(int id, String marca, String modelo, int ano, String placa, String status){
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;

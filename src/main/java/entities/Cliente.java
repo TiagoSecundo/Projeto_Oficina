@@ -13,13 +13,13 @@ public class Cliente {
     private static ArrayList<Veiculo> veiculo;
 
 
-    Cliente(){
+    public Cliente(){
        veiculo = new ArrayList<>();
     }
 
     ;//Deixando dois construtores pensando na flexibilidade do código 
     
-    Cliente(int id, String nome, String telefone, String endereco, String cpf, String email) {
+    public Cliente(int id, String nome, String telefone, String endereco, String cpf, String email) {
         this.idCliente = id;
         this.nome = nome;
         this.telefone = telefone;
