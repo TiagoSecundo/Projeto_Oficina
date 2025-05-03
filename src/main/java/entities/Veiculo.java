@@ -9,6 +9,8 @@ public class Veiculo {
     private int ano;
     private String placa;
     private String status;
+    private Cliente proprietario;
+    private  ArrayList<Servico> historicoServicos;
     //ainda preciso ver como relacionar as classes cliente, servicos e relatorio com o veiculo
     
     Veiculo(){}
@@ -21,7 +23,10 @@ public class Veiculo {
         this.placa = placa;
         this.status = status;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getId(){
         return this.id;
     }

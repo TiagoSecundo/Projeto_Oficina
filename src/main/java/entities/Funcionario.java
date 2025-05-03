@@ -1,5 +1,5 @@
 package entities;
-
+// ainda preciso comentar
 import java.util.ArrayList;
 
 public class Funcionario {
@@ -8,7 +8,8 @@ public class Funcionario {
     private String nome;
     private String cargo;
     private String email;
-    private float salario;
+    private double salario;
+   
     
     Funcionario (){}
     
@@ -21,6 +22,14 @@ public class Funcionario {
     }
     public int getId() {
         return this.id;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public void setId(int id) {
@@ -43,11 +52,11 @@ public class Funcionario {
         this.email = email;
     }
 
-    public float getSalario() {
+    public double getSalario() {
         return salario;
     }
 
-    public void Salario(float salario) {
+    public void setSalario(float salario) {
         this.salario = salario;
     }
 

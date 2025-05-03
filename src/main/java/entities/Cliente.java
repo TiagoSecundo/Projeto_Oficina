@@ -1,5 +1,5 @@
 package entities;
-
+//ainda preciso comentar
 import java.util.ArrayList;
 
 public class Cliente {
@@ -11,10 +11,10 @@ public class Cliente {
     private String cpf;
     private String email;
     private static ArrayList<Veiculo> veiculo;
-    // ainda tem que ver necesssidade de importar os veiculos para vincular com cliente
+
 
     Cliente(){
-        this.veiculo = new ArrayList<>();
+       veiculo = new ArrayList<>();
     }
 
     ;//Deixando dois construtores pensando na flexibilidade do código 
@@ -29,7 +29,7 @@ public class Cliente {
         this.veiculo = new ArrayList<>();
     }
 
-    public int getIdcliente() {
+    public int getIdCliente() {
         return idCliente;
     }
 
@@ -45,7 +45,7 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getTElefone() {
+    public String getTelefone() {
         return telefone;
     }
 

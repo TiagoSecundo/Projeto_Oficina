@@ -1,9 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
-
 import java.time.LocalDate;
-
 
 public class Servico {
 
@@ -11,6 +9,9 @@ public class Servico {
     private String descricao;
     private double valor;
     private LocalDate data;
+    private Veiculo veiculo;
+    private Funcionario responsavel;
+    private ArrayList<Produto> pecasUtilizadas;
     //preciso ainda vincular o servico ao funcionario e ao carro 
 
     public Servico() {

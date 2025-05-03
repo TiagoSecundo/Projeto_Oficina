@@ -1,5 +1,5 @@
 package entities;
-
+// ainda preciso comentar
 public class Produto {
 
     private int id;
@@ -16,7 +16,6 @@ public class Produto {
         this.id = id;
         this.nome = nome;
         this.precoCusto = precoCusto;
-        this.precoFinal = precoFinal;
         this.quantidade = quantidade;
         this.status = status;
     }
@@ -68,5 +67,10 @@ public class Produto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+        @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto + 
+                ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + '}';
     }
 }
