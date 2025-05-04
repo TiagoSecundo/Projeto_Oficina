@@ -10,8 +10,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Oficina oficina = new Oficina();
 
-        Cliente cliente1 = new Cliente(1, "João Silva", "99999-0000", "Rua A, 123", "123.456.789-00", "joao@email.com");
-
+        Cliente cliente1 = new Cliente(1, "Tiago Secundo", "99999-0000", "Rua A, 123", "123.456.789-00", "tiago.secundo@ufvjm.edu.br");
+            
         boolean cadastrado = oficina.cadastrarCliente(cliente1);
 
         if (cadastrado) {

@@ -20,22 +20,40 @@ public class Oficina {
         this.agendamentos = new ArrayList<>();
         this.produtos = new ArrayList<>();
     }
+
     /**
-     * 
+     *
      * @param cliente
-     * @return 
+     * @return
      */
     public boolean cadastrarCliente(Cliente cliente) {
-    for (Cliente c : clientes) {
-        if (c.getIdCliente() == cliente.getIdCliente()) {
-            return false; // Já cadastrado
+        for (Cliente c : clientes) {
+            if (c.getIdCliente() == cliente.getIdCliente()) {
+                return false; // Já cadastrado
+            }
         }
+        clientes.add(cliente);
+        return true;
     }
-    clientes.add(cliente);
-    return true;
+    /**
+     * 
+     * @param veiculo
+     * @param dono
+     * @return 
+     */
+    public boolean cadastrarVeiculo(Veiculo veiculo, Cliente dono) {
+        // Verifica se o veículo já está cadastrado para o cliente (com base na placa, por exemplo)
+        for (Veiculo v : dono.getVeiculo()) {
+            if (v.getPlaca().equalsIgnoreCase(veiculo.getPlaca())) {
+                return false; // Veículo já cadastrado
+            }
+        }
+        // Adiciona o veículo à lista do cliente
+        dono.getVeiculo().add(veiculo);
+        return true;
     }
     /* Métodos de cadastro;;
-    public boolean cadastrarVeiculo(Veiculo veiculo, Cliente dono) {}
+   
     public boolean contratarFuncionario(Funcionario funcionario) {}
     public boolean registrarProduto(Produto produto) {}
     public boolean registrarServico(Servico servico) {}

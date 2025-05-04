@@ -28,51 +28,87 @@ public class Cliente {
         this.email = email;
         this.veiculo = new ArrayList<>();
     }
-
+    /**
+     * o ID do cliente
+     * @return 
+     */
     public int getIdCliente() {
         return idCliente;
     }
-
+    /**
+     * Define o ID do cliente
+     * @param id 
+     */
     public void setIdCliente(int id) {
         this.idCliente = id;
     }
-
+    /**
+     * Retorna o nome do cliente
+     * @return 
+     */
     public String getNome() {
         return nome;
     }
-
+    /**
+     * Define o nome do cliente
+     * @param nome 
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    /**
+     * Retorna o telefone do cliente
+     * @return 
+     */
     public String getTelefone() {
         return telefone;
     }
-
+    /**
+     * Define o telefone do cliente
+     * @param telefone 
+     */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
+    /**
+     * Retorna o CPF do cliente
+     * @return 
+     */
     public String getCpf() {
         return cpf;
     }
-
+    /**
+     * Define o CPF do cliente
+     * @param cpf 
+     */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-
+    /**
+     * Retorna o e-mail do cliente
+     * @return 
+     */
     public String getEmail() {
         return email;
     }
-
+    /**
+     * Retorna a lista de veículos do cliente
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
-    
+    /**
+     * Retorna a lista de veículos do cliente
+     * @return 
+     */
     public ArrayList<Veiculo> getVeiculo(){
         return veiculo;
     }
-
+    /**
+     * Retorna uma representação em string dos dados do cliente
+     * @return 
+     */
     @Override //sobrescrevendo toString da classe object
     public String toString() {
         return String.format(
