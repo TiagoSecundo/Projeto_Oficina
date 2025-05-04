@@ -3,90 +3,79 @@ package entities;
 import java.util.ArrayList;
 
 public class Veiculo {
-    private int id;
+
     private String marca;
     private String modelo;
     private int ano;
     private String placa;
     private String status;
     private Cliente proprietario;
-    private  ArrayList<Servico> historicoServicos;
+    private ArrayList<Servico> historicoServicos;
     //ainda preciso ver como relacionar as classes cliente, servicos e relatorio com o veiculo
-    
-    public Veiculo(){}
-    
-    public Veiculo(int id, String marca, String modelo, int ano, String placa, String status){
-        this.id = id;
+
+    public Veiculo() {
+    }
+
+    public Veiculo(String placa, String marca, String modelo, int ano, String status) {
+        this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
-        this.placa = placa;
+
         this.status = status;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public int getId(){
-        return this.id;
-    }
-    /**
-     * 
-     * @param id 
-     */
-    public void setId(int id){
-        this.id = id;
-    }
-    /**
-     * 
-     * @return 
-     */
-    public String getPlaca(){
+    public String getPlaca() {
         return this.placa;
     }
+
     /**
-     * 
-     * @param placa 
+     *
+     * @param placa
      */
-    public void setPlaca (String placa){
+    public void setPlaca(String placa) {
         this.placa = placa;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public String getModelo(){
+    public String getModelo() {
         return this.modelo;
     }
+
     /**
-     * 
-     * @param modelo 
+     *
+     * @param modelo
      */
-    public void setModelo(String modelo){
+    public void setModelo(String modelo) {
         this.modelo = modelo;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public String getStatus(){
+    public String getStatus() {
         return this.status;
     }
+
     /**
-     * 
-     * @param status 
+     *
+     * @param status
      */
-    public void setStatus(String status){
+    public void setStatus(String status) {
         this.status = status;
     }
-    /**
-     * 
-     * @return 
-     */
+
     @Override
-    public String toString (){
-        return String.format(
-        "Veiculo [Id: %d Marca: %s, Modelo: %s, Ano: %d, Placa: %s, Status: %s]",
-                id, marca, modelo, ano, placa, status);
+    public String toString() {
+        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + '}';
     }
+
 }
