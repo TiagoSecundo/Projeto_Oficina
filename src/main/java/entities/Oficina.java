@@ -88,8 +88,21 @@ public class Oficina {
         System.out.println("Produto registrado com sucesso: " + produto);
         return true;
     }
+
+    public boolean registrarServico(Servico servico) {
+        //ainda precisa vinvular a peça utilizada do estoque com o que foi utilizada no carro 
+        for (Servico s : servicos) {
+            if (s.getId() == servico.getId()) {
+                System.out.println("Servico descrito com ID " + servico.getId() + " já cadastrado");
+                return false;
+            }
+        }
+
+        servicos.add(servico);
+        System.out.println("Servico registrado com sucesso: " + servico);
+        return true;
+    }
     /* Métodos de cadastro;;
-    public boolean registrarServico(Servico servico) {}
     public boolean agendarServico(Agenda agendamento) {}
 
     // Métodos de listagem/consulta

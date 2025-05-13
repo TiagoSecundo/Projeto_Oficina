@@ -8,6 +8,8 @@ import entities.Funcionario;
 import entities.Gerente;
 import entities.Mecanico;
 import entities.Produto;
+import entities.Servico;
+import java.time.LocalDate;
 
 public class Main {
 
@@ -41,6 +43,10 @@ public class Main {
 
         Produto p1 = new Produto(1, "Oleo de motor", 25.0, 40.0, 10, "disponível");
         oficina.registrarProduto(p1);
+        
+        
+        Servico servico = new Servico(1, "troca de pneu", 200.75, LocalDate.of(2025, 5, 13));
+        oficina.registrarServico(servico);
         sc.close();
     }
 }
