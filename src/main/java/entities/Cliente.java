@@ -112,7 +112,7 @@ public class Cliente {
     @Override //sobrescrevendo toString da classe object
     public String toString() {
         return String.format(
-                "Cliente [ID: %d, Nome: %s, Telefone: %s, Endereço: %s, CPF: %s, Email: %s]",
+                "Cliente [ID: %d, Nome: %s, Telefone: %s, Endereco: %s, CPF: %s, Email: %s]",
                 idCliente, nome, telefone, endereco, cpf, email
         );
     }

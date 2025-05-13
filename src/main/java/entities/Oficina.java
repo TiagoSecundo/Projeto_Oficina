@@ -19,6 +19,7 @@ public class Oficina {
         this.servicos = new ArrayList<>();
         this.agendamentos = new ArrayList<>();
         this.produtos = new ArrayList<>();
+
     }
 
     /**
@@ -35,11 +36,12 @@ public class Oficina {
         clientes.add(cliente);
         return true;
     }
+
     /**
-     * 
+     *
      * @param veiculo
      * @param dono
-     * @return 
+     * @return
      */
     public boolean cadastrarVeiculo(Veiculo veiculo, Cliente dono) {
         // Verifica se o veículo já está cadastrado para o cliente (com base na placa, por exemplo)
@@ -52,10 +54,41 @@ public class Oficina {
         dono.getVeiculo().add(veiculo);
         return true;
     }
+
+    public boolean cadastrarFuncionario(Funcionario funcionario) {
+        // Verifica se já existe funcionário com mesmo ID
+        for (Funcionario f : funcionarios) {
+            if (f.getId() == funcionario.getId()) {
+                System.out.println("Funcionário com ID " + funcionario.getId() + " já está cadastrado.");
+                return false;
+            }
+        }
+        funcionarios.add(funcionario);
+        // Identifica e exibe o tipo do funcionário
+        if (funcionario instanceof Gerente) {
+            System.out.println("Gerente cadastrado: " + funcionario.getNome());
+        } else if (funcionario instanceof Mecanico) {
+            System.out.println("Mecanico cadastrado: " + funcionario.getNome());
+        } else {
+            System.out.println("Funcionário cadastrado: " + funcionario.getNome());
+        }
+        return true;
+    }
+
+    public boolean registrarProduto(Produto produto) {
+        // Verifica se o produto com o mesmo ID já foi cadastrado
+        for (Produto p : produtos) {
+            if (p.getId() == produto.getId()) {
+                System.out.println("Produto com ID " + produto.getId() + " já está registrado.");
+                return false;
+            }
+        }
+
+        produtos.add(produto);
+        System.out.println("Produto registrado com sucesso: " + produto);
+        return true;
+    }
     /* Métodos de cadastro;;
-   
-    public boolean contratarFuncionario(Funcionario funcionario) {}
-    public boolean registrarProduto(Produto produto) {}
     public boolean registrarServico(Servico servico) {}
     public boolean agendarServico(Agenda agendamento) {}
 

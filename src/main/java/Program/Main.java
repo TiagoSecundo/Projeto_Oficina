@@ -4,6 +4,10 @@ import entities.Cliente;
 import entities.Oficina;
 import java.util.Scanner;
 import entities.Veiculo;
+import entities.Funcionario;
+import entities.Gerente;
+import entities.Mecanico;
+import entities.Produto;
 
 public class Main {
 
@@ -22,12 +26,21 @@ public class Main {
         } else {
             System.out.println("Cliente já está cadastrado.");
         }
-        System.out.println("Veículos do cliente:");
+        System.out.println("Veiculos do cliente:");
         for (Veiculo v : cliente1.getVeiculo()) {
             System.out.println(v); // deve mostrar o Uno da Fiat
 
             System.out.println(cliente1);
-            sc.close();
+
         }
+        Gerente gerente = new Gerente(10, "Joao Gerente", "Gerente", "joao@email.com", 7000f, "senha123");
+        Mecanico mecanico = new Mecanico(20, "Carlos Mecanico", "Mecanico", "carlos@email.com", 4000f, "Motor", "Relatório OK");
+
+        oficina.cadastrarFuncionario(gerente);
+        oficina.cadastrarFuncionario(mecanico);
+
+        Produto p1 = new Produto(1, "Oleo de motor", 25.0, 40.0, 10, "disponível");
+        oficina.registrarProduto(p1);
+        sc.close();
     }
 }

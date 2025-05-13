@@ -126,13 +126,14 @@ public class Produto {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto + ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + '}';
+    }
+
     /**
      *
      * @return
      */
-    @Override
-    public String toString() {
-        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto
-                + ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + '}';
-    }
+
 }
