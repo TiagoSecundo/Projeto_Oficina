@@ -93,7 +93,7 @@ public class Servico {
     @Override
     public String toString() {
         return String.format(
-                "Serviço [ID: %d, Descrição: %s, Valor: R$%.2f, Data: %s]",
+                "Servico [ID: %d, Descricao: %s, Valor: R$%.2f, Data: %s]",
                 id, descricao, valor, data
         );
     }

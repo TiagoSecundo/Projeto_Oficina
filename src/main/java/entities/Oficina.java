@@ -21,7 +21,7 @@ public class Oficina {
         this.produtos = new ArrayList<>();
 
     }
-
+    // Métodos de cadastro;
     /**
      *
      * @param cliente
@@ -102,10 +102,21 @@ public class Oficina {
         System.out.println("Servico registrado com sucesso: " + servico);
         return true;
     }
-    /* Métodos de cadastro;;
-    public boolean agendarServico(Agenda agendamento) {}
 
-    // Métodos de listagem/consulta
+    public boolean agendarServico(Agenda agenda) {
+        for (Agenda a : agendamentos) {
+            if (a.getId() == agenda.getId()) {
+                System.out.println("Já existe um agendamento com o ID " + agenda.getId());
+                return false;
+            }
+        }
+
+        agendamentos.add(agenda);
+        System.out.println("Agendamento realizado com sucesso:\n" + agendamentos);
+        return true;
+    }
+    
+    /* Métodos de listagem/consulta
     public List<Cliente> listarClientes() {}
     public List<Veiculo> listarVeiculosDoCliente(int clienteId) {}
     public List<Servico> listarServicosRealizados() {}
@@ -126,5 +137,6 @@ public class Oficina {
     public boolean editarVeiculo(String placa, Veiculo novosDados) {}
     public boolean removerVeiculo(String placa) {}
     public Veiculo buscarVeiculoPorPlaca(String placa) {}
+    
      */
 }

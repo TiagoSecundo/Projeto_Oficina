@@ -10,6 +10,8 @@ import entities.Mecanico;
 import entities.Produto;
 import entities.Servico;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import entities.Agenda;
 
 public class Main {
 
@@ -41,12 +43,31 @@ public class Main {
         oficina.cadastrarFuncionario(gerente);
         oficina.cadastrarFuncionario(mecanico);
 
-        Produto p1 = new Produto(1, "Oleo de motor", 25.0, 40.0, 10, "disponível");
+        Produto p1 = new Produto(1, "Oleo de motor", 25.0, 40.0, 10, "disponivel");
         oficina.registrarProduto(p1);
         
         
         Servico servico = new Servico(1, "troca de pneu", 200.75, LocalDate.of(2025, 5, 13));
         oficina.registrarServico(servico);
+        
+                // Criando agenda
+        Agenda agenda1 = new Agenda(
+            1,
+            cliente1,
+            veiculo1,
+            "Barulho no motor ao ligar",
+            mecanico,
+            LocalDateTime.now().plusDays(1),
+            "Agendado"
+        );
+
+        // Agendando o serviço
+        boolean agendado = oficina.agendarServico(agenda1);
+        if (agendado) {
+            System.out.println("Agendamento realizado com sucesso!");
+        } else {
+            System.out.println("Agendamento falhou.");
+        }
         sc.close();
     }
 }
