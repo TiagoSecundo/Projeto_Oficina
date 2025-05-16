@@ -18,56 +18,71 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Oficina oficina = new Oficina();
+        int opcao;
 
-        Cliente cliente1 = new Cliente(1, "Tiago Secundo", "99999-0000", "Rua A, 123", "123.456.789-00", "tiago.secundo@ufvjm.edu.br");
-        Veiculo veiculo1 = new Veiculo("ABC-1234", "Fiat", "Uno", 2015, "Branco");
-        oficina.cadastrarVeiculo(veiculo1, cliente1);
+ do {
+            System.out.println("\n===== MENU PRINCIPAL =====");
+            System.out.println("1 - Cadastrar Cliente");
+            System.out.println("2 - Editar Cliente");
+            System.out.println("3 - Remover Cliente");
+            System.out.println("4 - Listar Clientes");
+            System.out.println("5 - Cadastrar Veículo");
+            System.out.println("6 - Editar Veículo");
+            System.out.println("7 - Remover Veículo");
+            System.out.println("8 - Cadastrar Funcionário");
+            System.out.println("9 - Editar Funcionário");
+            System.out.println("10 - Remover Funcionário");
+            // Futuras implementações:
+            // System.out.println("11 - Registrar Produto");
+            // System.out.println("12 - Registrar Serviço");
+            // System.out.println("13 - Agendar Serviço");
+            // System.out.println("14 - Consultar Agenda por Data");
+            // System.out.println("15 - Gerar Relatório Mensal");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = sc.nextInt();
+            sc.nextLine(); // limpar buffer
 
-        boolean cadastrado = oficina.cadastrarCliente(cliente1);
+            switch (opcao) {
+                case 1:
+                    oficina.cadastrarCliente();
+                    break;
+                case 2:
+                    oficina.editarCliente();
+                    break;
+                case 3:
+                    oficina.removerCliente();
+                    break;
+                case 4:
+                    oficina.listarClientes();
+                    break;
+                case 5:
+                    oficina.cadastrarVeiculo();
+                    break;
+                case 6:
+                    oficina.editarVeiculo();
+                    break;
+                case 7:
+                    oficina.removerVeiculo();
+                    break;
+                case 8:
+                    oficina.cadastrarFuncionario();
+                    break;
+                case 9:
+                    oficina.editarFuncionario();
+                    break;
+                case 10:
+                    oficina.removerFuncionario();
+                    break;
+                case 0:
+                    System.out.println("Encerrando o sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
 
-        if (cadastrado) {
-            System.out.println("Cliente cadastrado com sucesso!");
-        } else {
-            System.out.println("Cliente já está cadastrado.");
-        }
-        System.out.println("Veiculos do cliente:");
-        for (Veiculo v : cliente1.getVeiculo()) {
-            System.out.println(v); // deve mostrar o Uno da Fiat
+        } while (opcao != 0);
 
-            System.out.println(cliente1);
-
-        }
-        Gerente gerente = new Gerente(10, "Joao Gerente", "Gerente", "joao@email.com", 7000f, "senha123");
-        Mecanico mecanico = new Mecanico(20, "Carlos Mecanico", "Mecanico", "carlos@email.com", 4000f, "Motor", "Relatório OK");
-
-        oficina.cadastrarFuncionario(gerente);
-        oficina.cadastrarFuncionario(mecanico);
-
-        Produto p1 = new Produto(1, "Oleo de motor", 25.0, 40.0, 10, "disponivel");
-        oficina.registrarProduto(p1);
-        
-        
-        Servico servico = new Servico(1, "troca de pneu", 200.75, LocalDate.of(2025, 5, 13));
-        oficina.registrarServico(servico);
-        
-                // Criando agenda
-        Agenda agenda1 = new Agenda(
-            1,
-            cliente1,
-            veiculo1,
-            "Barulho no motor ao ligar",
-            mecanico,
-            LocalDateTime.now().plusDays(1),
-            "Agendado"
-        );
-
-        // Agendando o serviço
-        boolean agendado = oficina.agendarServico(agenda1);
-        if (agendado) {
-            System.out.println("Agendamento realizado com sucesso!");
-        } else {
-            System.out.println("Agendamento falhou.");
-        }
         sc.close();
     }
 }

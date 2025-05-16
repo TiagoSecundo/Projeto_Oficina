@@ -98,6 +98,16 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+    
+    
     /**
      * Retorna a lista de veículos do cliente
      * @return 

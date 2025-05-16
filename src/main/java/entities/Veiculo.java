@@ -21,8 +21,23 @@ public class Veiculo {
         this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
-
         this.status = status;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public void setProprietario(Cliente proprietario) {
+        this.proprietario = proprietario;
+    }
+
+    public void setHistoricoServicos(ArrayList<Servico> historicoServicos) {
+        this.historicoServicos = historicoServicos;
     }
 
     /**
