@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Scanner;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.time.format.DateTimeFormatter;
 
 public class Oficina {
 
@@ -379,9 +379,8 @@ public class Oficina {
 
         System.out.println("Funcionário com ID " + id + " e cargo " + cargo + " não encontrado.");
     }
-    
-    
-    /*    public boolean registrarProduto(Produto produto) {
+
+    public boolean registrarProduto(Produto produto) {
         // Verifica se o produto com o mesmo ID já foi cadastrado
         for (Produto p : produtos) {
             if (p.getId() == produto.getId()) {
@@ -395,33 +394,10 @@ public class Oficina {
         return true;
     }
 
-    public void registrarServico(Scanner sc) {
-        System.out.println("\n--- Registrar Serviço ---");
-        System.out.print("ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Descrição: ");
-        String descricao = sc.nextLine();
-        System.out.print("Valor: ");
-        double valor = sc.nextDouble();
-        sc.nextLine();
-        System.out.print("Data (yyyy-mm-dd): ");
-        String dataStr = sc.nextLine();
-        LocalDate data = LocalDate.parse(dataStr);
-
-        for (Servico s : servicos) {
-            if (s.getId() == id) {
-                System.out.println("Serviço já cadastrado.");
-                return;
-            }
-        }
-
-        servicos.add(new Servico(id, descricao, valor, data));
-        System.out.println("Serviço registrado com sucesso!");
-    }
-
-    /*  public void agendarServico(Scanner sc) {
+    public void agendarServico() {
+        Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Agendar Serviço ---");
+
         System.out.print("ID do agendamento: ");
         int id = sc.nextInt();
         sc.nextLine();
@@ -467,15 +443,22 @@ public class Oficina {
             return;
         }
 
-        System.out.print("Data e hora (yyyy-MM-ddTHH:mm): ");
+        System.out.print("Data e hora do agendamento (ex: 20/05/2025 14:30): ");
         String dataHoraStr = sc.nextLine();
-        LocalDateTime dataHora = LocalDateTime.parse(dataHoraStr);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime dataHora = LocalDateTime.parse(dataHoraStr, formatter);
+        try {
+            dataHora = LocalDateTime.parse(dataHoraStr, formatter);
+        } catch (Exception e) {
+            System.out.println("Formato de data e hora inválido.");
+            return;
+        }
 
         Agenda nova = new Agenda(id, cliente, veiculo, problema, mecanico, dataHora, "Agendado");
-        agendas.add(nova);
+        agendamentos.add(nova);
         System.out.println("Agendamento realizado com sucesso!");
     }
-    
+
     // Métodos de listagem/consulta
     public void consultarAgendaPorData(LocalDate data) {
         boolean encontrado = false;
@@ -508,16 +491,4 @@ public class Oficina {
         System.out.printf("Receita total: R$ %.2f\n", totalServicos);
     }
 
-    // METODOS DE AGENDA
-    /* Métodos para gerenciar funcionários
-    public boolean editarFuncionario(int id, Funcionario novosDados) {}
-    public boolean removerFuncionario(int id) {}
-    public Funcionario buscarFuncionarioPorId(int id) {}
-
-    // Métodos para gerenciar veículos
-    public boolean editarVeiculo(String placa, Veiculo novosDados) {}
-    public boolean removerVeiculo(String placa) {}
-    public Veiculo buscarVeiculoPorPlaca(String placa) {}
-    
-     */
 }

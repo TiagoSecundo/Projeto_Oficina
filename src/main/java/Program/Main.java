@@ -20,7 +20,7 @@ public class Main {
         Oficina oficina = new Oficina();
         int opcao;
 
- do {
+        do {
             System.out.println("\n===== MENU PRINCIPAL =====");
             System.out.println("1 - Cadastrar Cliente");
             System.out.println("2 - Editar Cliente");
@@ -32,12 +32,11 @@ public class Main {
             System.out.println("8 - Cadastrar Funcionário");
             System.out.println("9 - Editar Funcionário");
             System.out.println("10 - Remover Funcionário");
-            // Futuras implementações:
+            System.out.println("11 - Agendar Serviço");
             // System.out.println("11 - Registrar Produto");
             // System.out.println("12 - Registrar Serviço");
-            // System.out.println("13 - Agendar Serviço");
-            // System.out.println("14 - Consultar Agenda por Data");
-            // System.out.println("15 - Gerar Relatório Mensal");
+            // System.out.println("13 - Consultar Agenda por Data");
+            // System.out.println("14 - Gerar Relatório Mensal");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
@@ -73,6 +72,9 @@ public class Main {
                     break;
                 case 10:
                     oficina.removerFuncionario();
+                    break;
+                case 11:
+                    oficina.agendarServico();
                     break;
                 case 0:
                     System.out.println("Encerrando o sistema...");
