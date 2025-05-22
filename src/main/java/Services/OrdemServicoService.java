@@ -8,6 +8,6 @@ package Services;
  *
  * @author Tiago Secundo
  */
-public class ServicoService {
+public class OrdemServicoService {
     
 }

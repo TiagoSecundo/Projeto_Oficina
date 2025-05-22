@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Mecanico extends Funcionario {
 
-    private String relatorio;
     private String especialidade;
 
     public Mecanico() {
@@ -19,10 +18,10 @@ public class Mecanico extends Funcionario {
  * @param especialidade
  * @param relatorio 
  */
-    public Mecanico(int id, String nome, String cargo, String email, float salario, String especialidade, String relatorio) {
+    public Mecanico(int id, String nome, String cargo, String email, float salario, String especialidade) {
         super(id, nome, cargo, email, salario);//usado para instanciar os atributos da classe pai na classe filha
         this.especialidade = especialidade;
-        this.relatorio = relatorio;
+        
     }
     /**
      * retorna a especialidade do mecanico 
@@ -38,20 +37,7 @@ public class Mecanico extends Funcionario {
     public void setEspecialidade(String especialidade) {
         this.especialidade = especialidade;
     }
-    /**
-     * retorna o relatorio do veiculo 
-     * @return 
-     */
-    public String getRlatorio() {
-        return this.relatorio;
-    }
-    /**
-     * define o relatorio do carro 
-     * @param relatorio 
-     */
-    public void setRelatorio(String relatorio) {
-        this.especialidade = especialidade;
-    }
+
     /**
      * Retorna uma representação em string dos dados do Mecanico
      * @return 

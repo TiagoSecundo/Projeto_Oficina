@@ -15,13 +15,15 @@ import java.util.Scanner;
 public class AgendamentoService {
 
     private List<Agenda> agendamentos;
-    private List<Cliente> clientes;
-    private List<Funcionario> funcionarios;
+    private ClienteService clienteService;
+    private VeiculoService veiculoService;
+    private FuncionarioService funcionarioService;
 
-    public AgendamentoService(List<Agenda> agendamentos, List<Cliente> clientes, List<Funcionario> funcionarios) {
+    public AgendamentoService(List<Agenda> agendamentos, ClienteService clienteService, VeiculoService veiculoService, FuncionarioService funcionarioService) {
         this.agendamentos = agendamentos;
-        this.clientes = clientes;
-        this.funcionarios = funcionarios;
+        this.clienteService = clienteService;
+        this.veiculoService = veiculoService;
+        this.funcionarioService = funcionarioService;
     }
 
     public void menuAgendamentos() {
@@ -39,11 +41,16 @@ public class AgendamentoService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> agendarServico();
-                case 2 -> consultarAgendaPorData();
-                case 3 -> listarTodosAgendamentos();
-                case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção inválida.");
+                case 1 ->
+                    agendarServico();
+                case 2 ->
+                    consultarAgendaPorData();
+                case 3 ->
+                    listarTodosAgendamentos();
+                case 0 ->
+                    System.out.println("Voltando ao menu principal...");
+                default ->
+                    System.out.println("Opção inválida.");
             }
 
         } while (opcao != 0);
@@ -57,47 +64,61 @@ public class AgendamentoService {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("ID do cliente: ");
-        int idCliente = sc.nextInt();
-        sc.nextLine();
-        Cliente cliente = buscarClientePorId(idCliente);
-        if (cliente == null) {
-            System.out.println("Cliente não encontrado.");
-            return;
-        }
+        // Cliente
+        System.out.print("Cliente já está cadastrado? (s/n): ");
+        String respCliente = sc.nextLine();
 
-        System.out.print("Placa do veículo: ");
-        String placa = sc.nextLine();
-        Veiculo veiculo = null;
-        for (Veiculo v : cliente.getVeiculo()) {
-            if (v.getPlaca().equalsIgnoreCase(placa)) {
-                veiculo = v;
-                break;
+        Cliente cliente;
+        if (respCliente.equalsIgnoreCase("s")) {
+            cliente = clienteService.buscarClientePorId();
+            if (cliente == null) {
+                System.out.println("Cliente não encontrado. Encerrando agendamento.");
+                return;
             }
-        }
-        if (veiculo == null) {
-            System.out.println("Veículo não encontrado para este cliente.");
-            return;
+        } else {
+            clienteService.cadastrarCliente();
+            cliente = clienteService.getUltimoClienteCadastrado();
         }
 
+        // Veículo
+        System.out.print("Veículo já está cadastrado? (s/n): ");
+        String respVeiculo = sc.nextLine();
+
+        Veiculo veiculo;
+        if (respVeiculo.equalsIgnoreCase("s")) {
+            veiculo = veiculoService.buscarVeiculoPorCliente(cliente);
+            if (veiculo == null) {
+                System.out.println("Veículo não encontrado para este cliente. Encerrando agendamento.");
+                return;
+            }
+        } else {
+            veiculoService.cadastrarVeiculoParaCliente(cliente);
+            veiculo = veiculoService.getUltimoVeiculoCadastrado();
+        }
+
+        // Descrição
         System.out.print("Descrição do problema: ");
         String problema = sc.nextLine();
 
+        // Funcionário
         System.out.print("ID do mecânico: ");
         int idMec = sc.nextInt();
         sc.nextLine();
-        Mecanico mecanico = null;
-        for (Funcionario f : funcionarios) {
-            if (f instanceof Mecanico && f.getId() == idMec) {
-                mecanico = (Mecanico) f;
-                break;
+
+        Mecanico mecanico = funcionarioService.buscarMecanicoPorId(idMec);
+        if (mecanico == null) {
+            System.out.print("Mecânico não encontrado. Deseja cadastrar um novo? (s/n): ");
+            String respFunc = sc.nextLine();
+            if (respFunc.equalsIgnoreCase("s")) {
+                funcionarioService.cadastrarFuncionario();
+                mecanico = funcionarioService.getUltimoMecanicoCadastrado();
+            } else {
+                System.out.println("Agendamento cancelado.");
+                return;
             }
         }
-        if (mecanico == null) {
-            System.out.println("Mecânico não encontrado.");
-            return;
-        }
 
+        // Data e hora
         System.out.print("Data e hora do agendamento (ex: 20/05/2025 14:30): ");
         String dataHoraStr = sc.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -110,6 +131,7 @@ public class AgendamentoService {
             return;
         }
 
+        // Criar agendamento
         Agenda nova = new Agenda(id, cliente, veiculo, problema, mecanico, dataHora, "Agendado");
         agendamentos.add(nova);
         System.out.println("Agendamento realizado com sucesso!");
@@ -156,14 +178,6 @@ public class AgendamentoService {
         }
     }
 
-    private Cliente buscarClientePorId(int id) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getIdCliente() == id) {
-                return cliente;
-            }
-        }
-        return null;
-    }
 
     public List<Agenda> getAgendamentos() {
         return agendamentos;

@@ -33,13 +33,20 @@ public class ClienteService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> cadastrarCliente();
-                case 2 -> editarCliente();
-                case 3 -> removerCliente();
-                case 4 -> listarClientes();
-                case 5 -> listarVeiculosDoCliente();
-                case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção inválida.");
+                case 1 ->
+                    cadastrarCliente();
+                case 2 ->
+                    editarCliente();
+                case 3 ->
+                    removerCliente();
+                case 4 ->
+                    listarClientes();
+                case 5 ->
+                    listarVeiculosDoCliente();
+                case 0 ->
+                    System.out.println("Voltando ao menu principal...");
+                default ->
+                    System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
     }
@@ -161,6 +168,26 @@ public class ClienteService {
             if (cliente.getIdCliente() == id) {
                 return cliente;
             }
+        }
+        return null;
+    }
+
+    public Cliente buscarClientePorId() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Informe o ID do cliente: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        for (Cliente c : clientes) {
+            if (c.getIdCliente() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Cliente getUltimoClienteCadastrado() {
+        if (!clientes.isEmpty()) {
+            return clientes.get(clientes.size() - 1);
         }
         return null;
     }
