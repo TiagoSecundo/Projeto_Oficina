@@ -27,6 +27,7 @@ public class FuncionarioService {
             System.out.println("1. Cadastrar funcionário");
             System.out.println("2. Editar funcionário");
             System.out.println("3. Remover funcionário");
+            System.out.println("4. Bater ponto");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
@@ -39,6 +40,8 @@ public class FuncionarioService {
                     editarFuncionario();
                 case 3 ->
                     removerFuncionario();
+                case 4 ->
+                    baterPonto();
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -193,10 +196,10 @@ public class FuncionarioService {
                 LocalDateTime agora = LocalDateTime.now();
 
                 if (tipo == 1) {
-                    f.setPontoEntrada(agora);
+                    f.getPonto().setEntrada(agora);  // ✅ Ajuste aqui
                     System.out.println("Ponto de entrada registrado para " + f.getNome() + " em: " + agora);
                 } else if (tipo == 2) {
-                    f.setPontoSaida(agora);
+                    f.getPonto().setSaida(agora);  // ✅ Ajuste aqui
                     System.out.println("Ponto de saída registrado para " + f.getNome() + " em: " + agora);
                 } else {
                     System.out.println("Opção inválida.");
