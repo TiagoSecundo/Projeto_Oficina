@@ -1,32 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entities;
 
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 public class Ponto {
 
-    private LocalDateTime pontoEntrada;
-    private LocalDateTime pontoSaida;
+    private LocalDateTime entrada;
+    private LocalDateTime saida;
 
-// Getters e Setters
-    public LocalDateTime getPontoEntrada() {
-        return pontoEntrada;
+    public LocalDateTime getEntrada() {
+        return entrada;
     }
 
-    public void setPontoEntrada(LocalDateTime pontoEntrada) {
-        this.pontoEntrada = pontoEntrada;
+    public void setEntrada(LocalDateTime entrada) {
+        this.entrada = entrada;
     }
 
-    public LocalDateTime getPontoSaida() {
-        return pontoSaida;
+    public LocalDateTime getSaida() {
+        return saida;
     }
 
-    public void setPontoSaida(LocalDateTime pontoSaida) {
-        this.pontoSaida = pontoSaida;
+    public void setSaida(LocalDateTime saida) {
+        this.saida = saida;
     }
 
+    @Override
+    public String toString() {
+        return "Ponto{" + "entrada=" + entrada + ", saida=" + saida + '}';
+    }
 }
