@@ -35,6 +35,7 @@ public class AgendamentoService {
             System.out.println("1. Realizar agendamento");
             System.out.println("2. Consultar agendamentos por data");
             System.out.println("3. Listar todos os agendamentos");
+            System.out.println("4. Cancelar agendamento");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
@@ -47,6 +48,8 @@ public class AgendamentoService {
                     consultarAgendaPorData();
                 case 3 ->
                     listarTodosAgendamentos();
+                case 4 ->
+                    cancelarAgendamento();
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -137,6 +140,35 @@ public class AgendamentoService {
         System.out.println("Agendamento realizado com sucesso!");
     }
 
+    public void cancelarAgendamento() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n--- Cancelar Agendamento ---");
+
+        System.out.print("Digite o ID do agendamento: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Agenda a : agendamentos) {
+            if (a.getId() == id) {
+                a.setStatus("Cancelado");
+
+                // Exemplo: se houver valor associado ao serviço.
+                System.out.print("Informe o valor estimado do serviço (ou 0 se não houver): ");
+                double valor = sc.nextDouble();
+                sc.nextLine();
+
+                if (valor > 0) {
+                    double multa = valor * 0.20;
+                    System.out.printf("Agendamento cancelado. Multa de 20%%: R$ %.2f\n", multa);
+                } else {
+                    System.out.println("Agendamento cancelado sem multa.");
+                }
+                return;
+            }
+        }
+        System.out.println("Agendamento com ID " + id + " não encontrado.");
+    }
+
     public void consultarAgendaPorData() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite a data (dd/MM/yyyy): ");
@@ -177,7 +209,6 @@ public class AgendamentoService {
             System.out.println(a);
         }
     }
-
 
     public List<Agenda> getAgendamentos() {
         return agendamentos;

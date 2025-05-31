@@ -4,7 +4,6 @@ package entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
 public class Funcionario {
 
     private int id;
@@ -12,6 +11,7 @@ public class Funcionario {
     private String cargo;
     private String email;
     private double salario;
+    private Ponto ponto = new Ponto();
 
     public Funcionario() {
     }
@@ -123,6 +123,14 @@ public class Funcionario {
      */
     public void setSalario(float salario) {
         this.salario = salario;
+    }
+
+    public Ponto getPonto() {
+        return ponto;
+    }
+
+    public void setPonto(Ponto ponto) {
+        this.ponto = ponto;
     }
 
     /**

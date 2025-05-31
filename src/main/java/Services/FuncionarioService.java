@@ -28,6 +28,7 @@ public class FuncionarioService {
             System.out.println("2. Editar funcionario");
             System.out.println("3. Remover funcionario");
             System.out.println("4. Bater ponto");
+            System.out.println("5. Alterar senha do gerente");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
@@ -42,6 +43,9 @@ public class FuncionarioService {
                     removerFuncionario();
                 case 4 ->
                     baterPonto();
+                case 5 ->
+                    alterarSenhaGerente();
+
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -128,6 +132,38 @@ public class FuncionarioService {
         }
 
         System.out.println("Funcionario com ID " + id + " nao encontrado.");
+    }
+
+    public void alterarSenhaGerente() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n--- Alterar Senha do Gerente ---");
+
+        System.out.print("ID do gerente: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Funcionario f : funcionarios) {
+            if (f instanceof Gerente && f.getId() == id) {
+                Gerente gerente = (Gerente) f;
+
+                System.out.print("Digite a senha atual: ");
+                String senhaAtual = sc.nextLine();
+
+                if (!gerente.getSenha().equals(senhaAtual)) {
+                    System.out.println("Senha incorreta. Alteração cancelada.");
+                    return;
+                }
+
+                System.out.print("Digite a nova senha: ");
+                String novaSenha = sc.nextLine();
+
+                gerente.setSenha(novaSenha);
+                System.out.println("Senha alterada com sucesso!");
+                return;
+            }
+        }
+
+        System.out.println("Gerente com ID " + id + " não encontrado.");
     }
 
     public void removerFuncionario() {
