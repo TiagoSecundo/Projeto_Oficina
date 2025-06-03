@@ -2,14 +2,14 @@ package entities;
 
 import java.time.LocalDate;
 
-public class Despesa {
+public class Despesas {
 
     private int id;
     private String descricao;
     private double valor;
     private LocalDate data;
 
-    public Despesa(int id, String descricao, double valor, LocalDate data) {
+    public Despesas(int id, String descricao, double valor, LocalDate data) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
@@ -52,7 +52,7 @@ public class Despesa {
 
     @Override
     public String toString() {
-        return "Despesa{" +
+        return "Despesas{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +

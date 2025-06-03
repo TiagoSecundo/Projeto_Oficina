@@ -9,6 +9,7 @@ import entities.Funcionario;
 import entities.Mecanico;
 import entities.Gerente;
 import entities.Servico;
+import entities.Despesas;
 
 import services.ClienteService;
 import services.ProdutoService;
@@ -16,6 +17,7 @@ import services.VeiculoService;
 import services.AgendamentoService;
 import services.EstoqueService;
 import services.FuncionarioService;
+import services.DespesaService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,13 @@ public class OficinaController {
     private List<Cliente> clientes;
     private List<Veiculo> veiculos;
     private List<Produto> produtos;
+    private List<Despesas> despesas;
 
     private ClienteService clienteService;
     private VeiculoService veiculoService;
     private ProdutoService produtoService;
     private EstoqueService estoqueService;
+    private DespesaService despesaService;
 
     private List<Funcionario> funcionarios;
     private FuncionarioService funcionarioService;
@@ -51,11 +55,13 @@ public class OficinaController {
 
         this.funcionarios = new ArrayList<>();
         this.funcionarioService = new FuncionarioService(funcionarios);
+        this.despesas = new ArrayList<>();
+        this.despesaService = new DespesaService(despesas);
 
         this.agendamentos = new ArrayList<>();
         //this.funcionarios = new ArrayList<>();
         this.agendamentoService = new AgendamentoService(agendamentos,
-        clienteService, veiculoService, funcionarioService);
+                clienteService, veiculoService, funcionarioService);
     }
 
     public void menuPrincipal() {
@@ -70,6 +76,7 @@ public class OficinaController {
             System.out.println("4. Agendamentos");
             System.out.println("5. Estoque");
             System.out.println("6. Funcionários");
+            System.out.println("7. Despesas");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -88,6 +95,9 @@ public class OficinaController {
                     estoqueService.menuEstoque();
                 case 6 ->
                     funcionarioService.menuFuncionario();
+                case 7 ->
+                    despesaService.menuDespesas();
+
                 case 0 ->
                     System.out.println("Encerrando sistema...");
                 default ->
