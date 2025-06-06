@@ -33,82 +33,35 @@ public class OficinaController {
     private List<Veiculo> veiculos;
     private List<Produto> produtos;
     private List<Despesas> despesas;
+    private List<Funcionario> funcionarios;
+    private List<Agenda> agendamentos;
 
     private ClienteService clienteService;
     private VeiculoService veiculoService;
     private ProdutoService produtoService;
     private EstoqueService estoqueService;
     private DespesaService despesaService;
-
-    private List<Funcionario> funcionarios;
     private FuncionarioService funcionarioService;
-
-    private List<Agenda> agendamentos;
-    //private List<Funcionario> funcionarios;
     private AgendamentoService agendamentoService;
 
     public OficinaController() {
-        Type tipoClientes = new TypeToken<List<Cliente>>() {
-        }.getType();
-        this.clientes = PersistenciaUtil.carregarDeArquivo("clientes.json", tipoClientes);
-        if (this.clientes == null) {
-            this.clientes = new ArrayList<>();
-        }
 
-        Type tipoVeiculos = new TypeToken<List<Veiculo>>() {
-        }.getType();
-        this.veiculos = PersistenciaUtil.carregarDeArquivo("veiculos.json", tipoVeiculos);
-        if (this.veiculos == null) {
-            this.veiculos = new ArrayList<>();
-        }
+        // ✅ Etapa 1 - Carregar os dados salvos em JSON
+        this.clientes = carregar("clientes.json", new TypeToken<List<Cliente>>() {}.getType());
+        this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {}.getType());
+        this.funcionarios = carregar("funcionarios.json", new TypeToken<List<Funcionario>>() {}.getType());
+        this.produtos = carregar("produtos.json", new TypeToken<List<Produto>>() {}.getType());
+        this.agendamentos = carregar("agendamentos.json", new TypeToken<List<Agenda>>() {}.getType());
+        this.despesas = carregar("despesas.json", new TypeToken<List<Despesas>>() {}.getType());
 
-        Type tipoFuncionarios = new TypeToken<List<Funcionario>>() {
-        }.getType();
-        this.funcionarios = PersistenciaUtil.carregarDeArquivo("funcionarios.json", tipoFuncionarios);
-        if (this.funcionarios == null) {
-            this.funcionarios = new ArrayList<>();
-        }
-
-        Type tipoProdutos = new TypeToken<List<Produto>>() {
-        }.getType();
-        this.produtos = PersistenciaUtil.carregarDeArquivo("produtos.json", tipoProdutos);
-        if (this.produtos == null) {
-            this.produtos = new ArrayList<>();
-        }
-
-        Type tipoAgendamento = new TypeToken<List<Agenda>>() {
-        }.getType();
-        this.agendamentos = PersistenciaUtil.carregarDeArquivo("agendamentos.json", tipoAgendamento);
-        if (this.agendamentos == null) {
-            this.agendamentos = new ArrayList<>();
-        }
-
-        Type tipoDespesas = new TypeToken<List<Despesas>>() {
-        }.getType();
-        this.despesas = PersistenciaUtil.carregarDeArquivo("despesas.json", tipoDespesas);
-        if (this.despesas == null) {
-            this.despesas = new ArrayList<>();
-        }
-
-        this.clientes = new ArrayList<>();
-        this.veiculos = new ArrayList<>();
-        this.produtos = new ArrayList<>();
-
+        // ✅ Etapa 2 - Inicializar os serviços com as listas carregadas
         this.clienteService = new ClienteService(clientes);
         this.veiculoService = new VeiculoService(veiculos, clientes);
         this.produtoService = new ProdutoService(produtos);
         this.estoqueService = new EstoqueService(produtos);
-
-        this.funcionarios = new ArrayList<>();
         this.funcionarioService = new FuncionarioService(funcionarios);
-        this.despesas = new ArrayList<>();
         this.despesaService = new DespesaService(despesas);
-
-        this.agendamentos = new ArrayList<>();
-        //this.funcionarios = new ArrayList<>();
-        this.agendamentoService = new AgendamentoService(agendamentos,
-                clienteService, veiculoService, funcionarioService);
-
+        this.agendamentoService = new AgendamentoService(agendamentos, clienteService, veiculoService, funcionarioService);
     }
 
     public void menuPrincipal() {
@@ -130,26 +83,18 @@ public class OficinaController {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 ->
-                    clienteService.menuCliente();
-                case 2 ->
-                    veiculoService.menuVeiculo();
-                case 3 ->
-                    produtoService.menuProdutos();
-                case 4 ->
-                    agendamentoService.menuAgendamentos();
-                case 5 ->
-                    estoqueService.menuEstoque();
-                case 6 ->
-                    funcionarioService.menuFuncionario();
-                case 7 ->
-                    despesaService.menuDespesas();
+                case 1 -> clienteService.menuCliente();
+                case 2 -> veiculoService.menuVeiculo();
+                case 3 -> produtoService.menuProdutos();
+                case 4 -> agendamentoService.menuAgendamentos();
+                case 5 -> estoqueService.menuEstoque();
+                case 6 -> funcionarioService.menuFuncionario();
+                case 7 -> despesaService.menuDespesas();
                 case 0 -> {
                     salvarTudo();
                     System.out.println("Encerrando sistema e salvando dados...");
                 }
-                default ->
-                    System.out.println("Opção inválida.");
+                default -> System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
     }
@@ -161,5 +106,16 @@ public class OficinaController {
         PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");
         PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");
         PersistenciaUtil.salvarEmArquivo(despesas, "despesas.json");
+    }
+
+    private <T> List<T> carregar(String nomeArquivo, Type tipoLista) {
+        List<T> dados = PersistenciaUtil.carregarDeArquivo(nomeArquivo, tipoLista);
+        if (dados == null) {
+            System.out.println("Iniciando lista vazia para " + nomeArquivo);
+            return new ArrayList<>();
+        } else {
+            System.out.println("Dados carregados de " + nomeArquivo + ": " + dados.size());
+            return dados;
+        }
     }
 }
