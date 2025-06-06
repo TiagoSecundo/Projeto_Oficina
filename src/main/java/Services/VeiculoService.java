@@ -23,14 +23,14 @@ public class VeiculoService {
 
         do {
             System.out.println("\n--- Menu de Veículos ---");
-            System.out.println("1. Cadastrar veículo");
-            System.out.println("2. Editar veículo");
-            System.out.println("3. Remover veículo");
+            System.out.println("1. Cadastrar veiculo");
+            System.out.println("2. Editar veiculo");
+            System.out.println("3. Remover veiculo");
             System.out.println("4. Listar veículos por cliente");
-            System.out.println("5. Atualizar status de veículo");
+            System.out.println("5. Atualizar status de veiculo");
             System.out.println("6. Atualizar relatório do veículo");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
@@ -50,21 +50,21 @@ public class VeiculoService {
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
 
     public void cadastrarVeiculo() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Cadastro de Veículo ---");
+        System.out.println("\n--- Cadastro de Veiculo ---");
 
         System.out.print("Placa: ");
         String placa = sc.nextLine();
 
         for (Veiculo v : veiculos) {
             if (v.getPlaca().equalsIgnoreCase(placa)) {
-                System.out.println("Veículo com essa placa já está cadastrado.");
+                System.out.println("Veiculo com essa placa já está cadastrado.");
                 return;
             }
         }
@@ -76,15 +76,15 @@ public class VeiculoService {
         System.out.print("Ano: ");
         int ano = sc.nextInt();
         sc.nextLine();
-        System.out.print("Status do veículo: ");
+        System.out.print("Status do veiculo: ");
         String status = sc.nextLine();
-        System.out.print("Relatório preliminar: ");
+        System.out.print("Relatorio preliminar: ");
         String relatorio = sc.nextLine();
 
         Veiculo novo = new Veiculo(placa, marca, modelo, ano, status, relatorio);
         veiculos.add(novo);
 
-        System.out.print("Informe o ID do cliente dono do veículo: ");
+        System.out.print("Informe o ID do cliente dono do veiculo: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
 
@@ -92,19 +92,20 @@ public class VeiculoService {
             if (cliente.getIdCliente() == idCliente) {
                 cliente.getVeiculo().add(novo);
                 novo.setProprietario(cliente);
-                System.out.println("Veículo vinculado ao cliente " + cliente.getNome());
+                System.out.println("Veiculo vinculado ao cliente " + cliente.getNome());
                 return;
             }
         }
 
-        System.out.println("Cliente não encontrado. Veículo foi cadastrado, mas sem dono.");
+        System.out.println("Cliente nao encontrado. Veículo foi cadastrado, mas sem dono.");
+        System.out.println("Total de veículos cadastrados: " + Veiculo.getTotalVeiculos());
     }
 
     public void editarVeiculo() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Editar Veículo ---");
 
-        System.out.print("Digite a placa do veículo a editar: ");
+        System.out.print("Digite a placa do veiculo a editar: ");
         String placa = sc.nextLine();
 
         for (Veiculo v : veiculos) {
@@ -119,19 +120,19 @@ public class VeiculoService {
                 System.out.print("Nova cor: ");
                 v.setStatus(sc.nextLine());
 
-                System.out.println("Veículo atualizado com sucesso!");
+                System.out.println("Veiculo atualizado com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Veículo com placa " + placa + " não encontrado.");
+        System.out.println("Veiculo com placa " + placa + " nao encontrado.");
     }
 
     public void removerVeiculo() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Remover Veículo ---");
+        System.out.println("\n--- Remover Veiculo ---");
 
-        System.out.print("Digite a placa do veículo a remover: ");
+        System.out.print("Digite a placa do veiculo a remover: ");
         String placa = sc.nextLine();
 
         Iterator<Veiculo> iterator = veiculos.iterator();
@@ -145,12 +146,12 @@ public class VeiculoService {
                     c.getVeiculo().removeIf(veiculo -> veiculo.getPlaca().equalsIgnoreCase(placa));
                 }
 
-                System.out.println("Veículo removido com sucesso!");
+                System.out.println("Veiculo removido com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Veículo com placa " + placa + " não encontrado.");
+        System.out.println("Veiculo com placa " + placa + " nao encontrado.");
     }
 
     public void listarVeiculosDoCliente() {
@@ -161,9 +162,9 @@ public class VeiculoService {
 
         for (Cliente cliente : clientes) {
             if (cliente.getIdCliente() == clienteId) {
-                System.out.println("\n--- Veículos do cliente: " + cliente.getNome() + " ---");
+                System.out.println("\n--- Veiculos do cliente: " + cliente.getNome() + " ---");
                 if (cliente.getVeiculo().isEmpty()) {
-                    System.out.println("Nenhum veículo cadastrado.");
+                    System.out.println("Nenhum veiculo cadastrado.");
                 } else {
                     for (Veiculo v : cliente.getVeiculo()) {
                         System.out.println(v);
@@ -172,14 +173,14 @@ public class VeiculoService {
                 return;
             }
         }
-        System.out.println("Cliente com ID " + clienteId + " não encontrado.");
+        System.out.println("Cliente com ID " + clienteId + " nao encontrado.");
     }
 
     public void atualizarStatusVeiculo() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Atualizar Status do Veículo ---");
 
-        System.out.print("Digite a placa do veículo: ");
+        System.out.print("Digite a placa do veiculo: ");
         String placa = sc.nextLine();
 
         for (Veiculo v : veiculos) {
@@ -187,37 +188,37 @@ public class VeiculoService {
                 System.out.print("Novo status: ");
                 String status = sc.nextLine();
                 v.setStatus(status);
-                System.out.println("Status do veículo atualizado com sucesso!");
+                System.out.println("Status do veiculo atualizado com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Veículo com placa " + placa + " não encontrado.");
+        System.out.println("Veiculo com placa " + placa + " nao encontrado.");
     }
 
     public void atualizarRelatorioVeiculo() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Atualizar Relatório do Veículo ---");
+        System.out.println("\n--- Atualizar Relatorio do Veiculo ---");
 
-        System.out.print("Digite a placa do veículo: ");
+        System.out.print("Digite a placa do veiculo: ");
         String placa = sc.nextLine();
 
         for (Veiculo v : veiculos) {
             if (v.getPlaca().equalsIgnoreCase(placa)) {
-                System.out.print("Novo relatório: ");
+                System.out.print("Novo relatorio: ");
                 String relatorio = sc.nextLine();
                 v.setRelatorio(relatorio);
-                System.out.println("Relatório do veículo atualizado com sucesso!");
+                System.out.println("Relatorio do veículo atualizado com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Veículo com placa " + placa + " não encontrado.");
+        System.out.println("Veiculo com placa " + placa + " não encontrado.");
     }
 
     public Veiculo buscarVeiculoPorCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Informe a placa do veículo: ");
+        System.out.print("Informe a placa do veiculo: ");
         String placa = sc.nextLine();
 
         return cliente.getVeiculo().stream()

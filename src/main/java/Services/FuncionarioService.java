@@ -49,7 +49,7 @@ public class FuncionarioService {
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
-                    System.out.println("Opcao inválida.");
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -150,7 +150,7 @@ public class FuncionarioService {
                 String senhaAtual = sc.nextLine();
 
                 if (!gerente.getSenha().equals(senhaAtual)) {
-                    System.out.println("Senha incorreta. Alteração cancelada.");
+                    System.out.println("Senha incorreta. Alteracao cancelada.");
                     return;
                 }
 

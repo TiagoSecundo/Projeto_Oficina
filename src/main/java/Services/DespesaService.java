@@ -38,7 +38,7 @@ public class DespesaService {
                 case 3 -> removerDespesa();
                 case 4 -> totalDespesas();
                 case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
@@ -51,7 +51,7 @@ public class DespesaService {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Descrição: ");
+        System.out.print("Descricao: ");
         String descricao = sc.nextLine();
 
         System.out.print("Valor: ");
@@ -97,7 +97,7 @@ public class DespesaService {
             }
         }
 
-        System.out.println("Despesa com ID " + id + " não encontrada.");
+        System.out.println("Despesa com ID " + id + " nao encontrada.");
     }
 
     public void totalDespesas() {

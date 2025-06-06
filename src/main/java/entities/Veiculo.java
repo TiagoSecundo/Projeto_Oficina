@@ -12,6 +12,7 @@ public class Veiculo {
     private Cliente proprietario;
     private ArrayList<Servico> historicoServicos;
     private String relatorio;
+    private static int totalVeiculos = 0;
 
     public Veiculo(String placa, String marca, String modelo, int ano, String status, String relatorio) {
         this.placa = placa;
@@ -21,9 +22,15 @@ public class Veiculo {
         this.status = status;
         this.relatorio = relatorio;
         this.historicoServicos = new ArrayList<>();
+        totalVeiculos++;
     }
 
-    public Veiculo(){}
+    public Veiculo() {
+    }
+
+    public static int getTotalVeiculos() {
+        return totalVeiculos;
+    }
 
     public void setMarca(String marca) {
         this.marca = marca;
@@ -88,18 +95,17 @@ public class Veiculo {
     public void setStatus(String status) {
         this.status = status;
     }
-        public String getRelatorio() {
+
+    public String getRelatorio() {
         return relatorio;
     }
 
     public void setRelatorio(String relatorio) {
         this.relatorio = relatorio;
     }
-    
+
     @Override
     public String toString() {
-        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa
-                + ", status=" + status + ", relatorio=" + relatorio + '}';
-        // Removido proprietario e historicoServicos da impressão para não poluir.
+        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}';
     }
 }

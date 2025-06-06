@@ -36,7 +36,7 @@ public class ProdutoService {
                 case 3 -> removerProduto();
                 case 4 -> listarProdutos();
                 case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opcao inválida.");
             }
 
         } while (opcao != 0);
@@ -52,7 +52,7 @@ public class ProdutoService {
 
         for (Produto p : produtos) {
             if (p.getId() == id) {
-                System.out.println("Produto já cadastrado com este ID.");
+                System.out.println("Produto ja cadastrado com este ID.");
                 return;
             }
         }
@@ -60,7 +60,7 @@ public class ProdutoService {
         System.out.print("Nome: ");
         String nome = sc.nextLine();
 
-        System.out.print("Preço de Custo: ");
+        System.out.print("Preco de Custo: ");
         double precoCusto = sc.nextDouble();
         sc.nextLine();
 
@@ -91,7 +91,7 @@ public class ProdutoService {
                 System.out.print("Novo nome: ");
                 produto.setNome(sc.nextLine());
 
-                System.out.print("Novo preço de custo: ");
+                System.out.print("Novo preco de custo: ");
                 double novoPrecoCusto = sc.nextDouble();
                 sc.nextLine();
                 produto.setPrecoCusto(novoPrecoCusto);
@@ -109,7 +109,7 @@ public class ProdutoService {
             }
         }
 
-        System.out.println("Produto com ID " + id + " não encontrado.");
+        System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
     public void removerProduto() {
@@ -130,7 +130,7 @@ public class ProdutoService {
             }
         }
 
-        System.out.println("Produto com ID " + id + " não encontrado.");
+        System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
     public void listarProdutos() {

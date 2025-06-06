@@ -26,9 +26,9 @@ public class ClienteService {
             System.out.println("2. Editar cliente");
             System.out.println("3. Remover cliente");
             System.out.println("4. Listar clientes");
-            System.out.println("5. Ver veículos do cliente");
+            System.out.println("5. Ver veiculos do cliente");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
@@ -46,7 +46,7 @@ public class ClienteService {
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
@@ -60,7 +60,7 @@ public class ClienteService {
 
         for (Cliente c : clientes) {
             if (c.getIdCliente() == id) {
-                System.out.println("Cliente já está cadastrado.");
+                System.out.println("Cliente ja está cadastrado.");
                 return;
             }
         }
@@ -69,7 +69,7 @@ public class ClienteService {
         String nome = sc.nextLine();
         System.out.print("Telefone: ");
         String telefone = sc.nextLine();
-        System.out.print("Endereço: ");
+        System.out.print("Endereco: ");
         String endereco = sc.nextLine();
         System.out.print("CPF: ");
         String cpf = sc.nextLine();
@@ -94,7 +94,7 @@ public class ClienteService {
                 cliente.setNome(sc.nextLine());
                 System.out.print("Novo telefone: ");
                 cliente.setTelefone(sc.nextLine());
-                System.out.print("Novo endereço: ");
+                System.out.print("Novo endereco: ");
                 cliente.setEndereco(sc.nextLine());
                 System.out.print("Novo CPF: ");
                 cliente.setCpf(sc.nextLine());
@@ -106,7 +106,7 @@ public class ClienteService {
             }
         }
 
-        System.out.println("Cliente com ID " + id + " não encontrado.");
+        System.out.println("Cliente com ID " + id + " nao encontrado.");
     }
 
     public void removerCliente() {
@@ -126,7 +126,7 @@ public class ClienteService {
             }
         }
 
-        System.out.println("Cliente com ID " + id + " não encontrado.");
+        System.out.println("Cliente com ID " + id + " nao encontrado.");
     }
 
     public void listarClientes() {
@@ -149,9 +149,9 @@ public class ClienteService {
 
         for (Cliente cliente : clientes) {
             if (cliente.getIdCliente() == clienteId) {
-                System.out.println("\n--- Veículos do cliente: " + cliente.getNome() + " ---");
+                System.out.println("\n--- Veiculos do cliente: " + cliente.getNome() + " ---");
                 if (cliente.getVeiculo().isEmpty()) {
-                    System.out.println("Nenhum veículo cadastrado.");
+                    System.out.println("Nenhum veiculo cadastrado.");
                 } else {
                     for (Veiculo v : cliente.getVeiculo()) {
                         System.out.println(v);
@@ -160,7 +160,7 @@ public class ClienteService {
                 return;
             }
         }
-        System.out.println("Cliente com ID " + clienteId + " não encontrado.");
+        System.out.println("Cliente com ID " + clienteId + " nao encontrado.");
     }
 
     public Cliente buscarClientePorId(int id) {
@@ -195,4 +195,5 @@ public class ClienteService {
     public List<Cliente> getClientes() {
         return clientes;
     }
+
 }

@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.google.gson.reflect.TypeToken;
+import utils.PersistenciaUtil;
+import java.lang.reflect.Type;
+
 public class OficinaController {
 
     private List<Cliente> clientes;
@@ -44,6 +48,48 @@ public class OficinaController {
     private AgendamentoService agendamentoService;
 
     public OficinaController() {
+        Type tipoClientes = new TypeToken<List<Cliente>>() {
+        }.getType();
+        this.clientes = PersistenciaUtil.carregarDeArquivo("clientes.json", tipoClientes);
+        if (this.clientes == null) {
+            this.clientes = new ArrayList<>();
+        }
+
+        Type tipoVeiculos = new TypeToken<List<Veiculo>>() {
+        }.getType();
+        this.veiculos = PersistenciaUtil.carregarDeArquivo("veiculos.json", tipoVeiculos);
+        if (this.veiculos == null) {
+            this.veiculos = new ArrayList<>();
+        }
+
+        Type tipoFuncionarios = new TypeToken<List<Funcionario>>() {
+        }.getType();
+        this.funcionarios = PersistenciaUtil.carregarDeArquivo("funcionarios.json", tipoFuncionarios);
+        if (this.funcionarios == null) {
+            this.funcionarios = new ArrayList<>();
+        }
+
+        Type tipoProdutos = new TypeToken<List<Produto>>() {
+        }.getType();
+        this.produtos = PersistenciaUtil.carregarDeArquivo("produtos.json", tipoProdutos);
+        if (this.produtos == null) {
+            this.produtos = new ArrayList<>();
+        }
+
+        Type tipoAgendamento = new TypeToken<List<Agenda>>() {
+        }.getType();
+        this.agendamentos = PersistenciaUtil.carregarDeArquivo("agendamentos.json", tipoAgendamento);
+        if (this.agendamentos == null) {
+            this.agendamentos = new ArrayList<>();
+        }
+
+        Type tipoDespesas = new TypeToken<List<Despesas>>() {
+        }.getType();
+        this.despesas = PersistenciaUtil.carregarDeArquivo("despesas.json", tipoDespesas);
+        if (this.despesas == null) {
+            this.despesas = new ArrayList<>();
+        }
+
         this.clientes = new ArrayList<>();
         this.veiculos = new ArrayList<>();
         this.produtos = new ArrayList<>();
@@ -62,6 +108,7 @@ public class OficinaController {
         //this.funcionarios = new ArrayList<>();
         this.agendamentoService = new AgendamentoService(agendamentos,
                 clienteService, veiculoService, funcionarioService);
+
     }
 
     public void menuPrincipal() {
@@ -71,11 +118,11 @@ public class OficinaController {
         do {
             System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("1. Clientes");
-            System.out.println("2. Veículos");
+            System.out.println("2. Veiculos");
             System.out.println("3. Produtos");
             System.out.println("4. Agendamentos");
             System.out.println("5. Estoque");
-            System.out.println("6. Funcionários");
+            System.out.println("6. Funcionarios");
             System.out.println("7. Despesas");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
@@ -97,12 +144,22 @@ public class OficinaController {
                     funcionarioService.menuFuncionario();
                 case 7 ->
                     despesaService.menuDespesas();
-
-                case 0 ->
-                    System.out.println("Encerrando sistema...");
+                case 0 -> {
+                    salvarTudo();
+                    System.out.println("Encerrando sistema e salvando dados...");
+                }
                 default ->
                     System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
+    }
+
+    public void salvarTudo() {
+        PersistenciaUtil.salvarEmArquivo(clientes, "clientes.json");
+        PersistenciaUtil.salvarEmArquivo(veiculos, "veiculos.json");
+        PersistenciaUtil.salvarEmArquivo(funcionarios, "funcionarios.json");
+        PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");
+        PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");
+        PersistenciaUtil.salvarEmArquivo(despesas, "despesas.json");
     }
 }

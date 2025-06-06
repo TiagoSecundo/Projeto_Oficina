@@ -3,7 +3,7 @@ package utils;
 import entities.Cliente;
 import java.util.Comparator;
 
-public class ClienteComparator implements Comparator<Cliente> {
+public class ClienteComparatorUtil implements Comparator<Cliente> {
 
     @Override
     public int compare(Cliente c1, Cliente c2) {

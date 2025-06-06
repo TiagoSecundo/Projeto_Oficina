@@ -23,7 +23,7 @@ public class EstoqueService {
             System.out.println("2. Dar baixa no estoque");
             System.out.println("3. Consultar estoque atual");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
@@ -32,7 +32,7 @@ public class EstoqueService {
                 case 2 -> darBaixaEstoque();
                 case 3 -> consultarEstoque();
                 case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -46,7 +46,7 @@ public class EstoqueService {
 
         Produto produto = buscarProdutoPorId(id);
         if (produto == null) {
-            System.out.println("Produto não encontrado.");
+            System.out.println("Produto nao encontrado.");
             return;
         }
 
@@ -66,7 +66,7 @@ public class EstoqueService {
 
         Produto produto = buscarProdutoPorId(id);
         if (produto == null) {
-            System.out.println("Produto não encontrado.");
+            System.out.println("Produto nao encontrado.");
             return;
         }
 

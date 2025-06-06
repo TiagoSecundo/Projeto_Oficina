@@ -53,7 +53,7 @@ public class AgendamentoService {
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -61,21 +61,21 @@ public class AgendamentoService {
 
     public void agendarServico() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Agendar Serviço ---");
+        System.out.println("\n--- Agendar Servico ---");
 
         System.out.print("ID do agendamento: ");
         int id = sc.nextInt();
         sc.nextLine();
 
         // Cliente
-        System.out.print("Cliente já está cadastrado? (s/n): ");
+        System.out.print("Cliente ja está cadastrado? (s/n): ");
         String respCliente = sc.nextLine();
 
         Cliente cliente;
         if (respCliente.equalsIgnoreCase("s")) {
             cliente = clienteService.buscarClientePorId();
             if (cliente == null) {
-                System.out.println("Cliente não encontrado. Encerrando agendamento.");
+                System.out.println("Cliente nao encontrado. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -84,14 +84,14 @@ public class AgendamentoService {
         }
 
         // Veículo
-        System.out.print("Veículo já está cadastrado? (s/n): ");
+        System.out.print("Veiculo já esta cadastrado? (s/n): ");
         String respVeiculo = sc.nextLine();
 
         Veiculo veiculo;
         if (respVeiculo.equalsIgnoreCase("s")) {
             veiculo = veiculoService.buscarVeiculoPorCliente(cliente);
             if (veiculo == null) {
-                System.out.println("Veículo não encontrado para este cliente. Encerrando agendamento.");
+                System.out.println("Veiculo nao encontrado para este cliente. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -100,17 +100,17 @@ public class AgendamentoService {
         }
 
         // Descrição
-        System.out.print("Descrição do problema: ");
+        System.out.print("Descricao do problema: ");
         String problema = sc.nextLine();
 
         // Funcionário
-        System.out.print("ID do mecânico: ");
+        System.out.print("ID do mecanico: ");
         int idMec = sc.nextInt();
         sc.nextLine();
 
         Mecanico mecanico = funcionarioService.buscarMecanicoPorId(idMec);
         if (mecanico == null) {
-            System.out.print("Mecânico não encontrado. Deseja cadastrar um novo? (s/n): ");
+            System.out.print("Mecanico nao encontrado. Deseja cadastrar um novo? (s/n): ");
             String respFunc = sc.nextLine();
             if (respFunc.equalsIgnoreCase("s")) {
                 funcionarioService.cadastrarFuncionario();
@@ -130,7 +130,7 @@ public class AgendamentoService {
         try {
             dataHora = LocalDateTime.parse(dataHoraStr, formatter);
         } catch (Exception e) {
-            System.out.println("Formato de data e hora inválido.");
+            System.out.println("Formato de data e hora invalido.");
             return;
         }
 
@@ -179,7 +179,7 @@ public class AgendamentoService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             data = LocalDate.parse(dataStr, formatter);
         } catch (Exception e) {
-            System.out.println("Formato de data inválido.");
+            System.out.println("Formato de data invalido.");
             return;
         }
 
