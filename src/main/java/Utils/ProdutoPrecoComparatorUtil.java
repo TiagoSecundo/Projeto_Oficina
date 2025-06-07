@@ -1,13 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Utils;
+import java.util.Comparator;
+import entities.Produto;
 
-/**
- *
- * @author Tiago Secundo
- */
-public class ProdutoPrecoComparatorUtil {
-    
+public class ProdutoPrecoComparatorUtil implements Comparator<Produto> {
+
+    @Override
+    public int compare(Produto p1, Produto p2) {
+        // Comparação manual sem usar compareTo()
+        if (p1.getPrecoFinal() < p2.getPrecoFinal()) {
+            return -1;
+        } else if (p1.getPrecoFinal() > p2.getPrecoFinal()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

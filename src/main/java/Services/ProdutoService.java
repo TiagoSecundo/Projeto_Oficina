@@ -1,6 +1,7 @@
 package services;
 
 import entities.Produto;
+import Utils.ProdutoPrecoComparatorUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ProdutoService {
             System.out.println("2. Editar produto");
             System.out.println("3. Remover produto");
             System.out.println("4. Listar produtos");
+            System.out.println("5. Listar produtos por preço final");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
@@ -35,6 +37,7 @@ public class ProdutoService {
                 case 2 -> editarProduto();
                 case 3 -> removerProduto();
                 case 4 -> listarProdutos();
+                case 5 -> listarProdutosOrdenadosPorPreco();
                 case 0 -> System.out.println("Voltando ao menu principal...");
                 default -> System.out.println("Opcao inválida.");
             }
@@ -157,4 +160,18 @@ public class ProdutoService {
     public List<Produto> getProdutos() {
         return produtos;
     }
+    
+    public void listarProdutosOrdenadosPorPreco() {
+    if (produtos.isEmpty()) {
+        System.out.println("Nenhum produto cadastrado.");
+        return;
+    }
+
+    produtos.sort(new ProdutoPrecoComparatorUtil());
+
+    System.out.println("\n--- Produtos ordenados por preço final ---");
+    for (Produto p : produtos) {
+        System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
+    }
+}
 }
