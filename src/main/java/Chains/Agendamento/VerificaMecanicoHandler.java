@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Chains.Agendamento;
 
 import entities.Agenda;
@@ -16,10 +12,21 @@ import java.util.List;
 public class VerificaMecanicoHandler extends AgendamentoBaseHandler {
 
     private List<Funcionario> funcionarios;
-
+    /**
+     * Construtor do handler.
+     * 
+     * @param funcionarios Lista de funcionários cadastrados no sistema.
+     */
     public VerificaMecanicoHandler(List<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
     }
+    /**
+     * Executa a validação do mecânico.
+     * 
+     * @param agenda Objeto de agendamento que será validado.
+     * @return true se o mecânico for válido e passa para o próximo handler;
+     *         false se o mecânico não for encontrado, encerrando a cadeia.
+     */
 
     @Override
     public boolean handle(Agenda agenda) {

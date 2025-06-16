@@ -19,7 +19,11 @@ public class VerificaClienteHandler extends AgendamentoBaseHandler {
     public VerificaClienteHandler(List<Cliente> clientes) {
         this.clientes = clientes;
     }
-
+    /**
+     *  Executa a validação. 
+     * @param agenda Verifica se o cliente existe na lista.
+     * @return 
+     */
     @Override
     public boolean handle(Agenda agenda) {
         System.out.println("[Handler Cliente] Verificando se o cliente existe...");
