@@ -169,7 +169,7 @@ public class ProdutoService {
 
     produtos.sort(new ProdutoPrecoComparatorUtil());
 
-    System.out.println("\n--- Produtos ordenados por preço final ---");
+    System.out.println("\n--- Produtos ordenados por preco final ---");
     for (Produto p : produtos) {
         System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
     }

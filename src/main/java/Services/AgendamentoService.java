@@ -6,6 +6,15 @@ import entities.Funcionario;
 import entities.Mecanico;
 import entities.Veiculo;
 
+import Chains.Agendamento.AgendamentoBaseHandler;
+import Chains.Agendamento.AgendamentoHandler;
+import Chains.Agendamento.VerificaClienteHandler;
+import Chains.Agendamento.VerificaDataHandler;
+import Chains.Agendamento.VerificaMecanicoHandler;
+import Chains.Agendamento.VerificaVeiculoHandler;
+
+import entities.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +33,8 @@ public class AgendamentoService {
         this.clienteService = clienteService;
         this.veiculoService = veiculoService;
         this.funcionarioService = funcionarioService;
+        this.agendamentos = agendamentos;
+
     }
 
     public void menuAgendamentos() {
@@ -134,10 +145,6 @@ public class AgendamentoService {
             return;
         }
 
-        // Criar agendamento
-        Agenda nova = new Agenda(id, cliente, veiculo, problema, mecanico, dataHora, "Agendado");
-        agendamentos.add(nova);
-        System.out.println("Agendamento realizado com sucesso!");
     }
 
     public void cancelarAgendamento() {
@@ -213,4 +220,5 @@ public class AgendamentoService {
     public List<Agenda> getAgendamentos() {
         return agendamentos;
     }
+
 }

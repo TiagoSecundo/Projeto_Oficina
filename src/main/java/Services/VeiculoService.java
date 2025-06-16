@@ -29,6 +29,7 @@ public class VeiculoService {
             System.out.println("4. Listar veículos por cliente");
             System.out.println("5. Atualizar status de veiculo");
             System.out.println("6. Atualizar relatório do veículo");
+            System.out.println("7. Listar todos veiculos");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
@@ -47,6 +48,8 @@ public class VeiculoService {
                     atualizarStatusVeiculo();
                 case 6 ->
                     atualizarRelatorioVeiculo();
+                case 7 ->
+                    listarTodosVeiculos();
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -126,6 +129,21 @@ public class VeiculoService {
         }
 
         System.out.println("Veiculo com placa " + placa + " nao encontrado.");
+    }
+
+    public void listarTodosVeiculos() {
+        System.out.println("\n--- Lista de TODOS os veículos cadastrados ---");
+
+        if (veiculos.isEmpty()) {
+            System.out.println("Nenhum veículo foi encontrado (nem do JSON, nem local).");
+            return;
+        }
+
+        int contador = 1;
+        for (Veiculo v : veiculos) {
+            System.out.println("[" + contador + "] " + v);
+            contador++;
+        }
     }
 
     public void removerVeiculo() {

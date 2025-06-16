@@ -18,6 +18,14 @@ import services.AgendamentoService;
 import services.EstoqueService;
 import services.FuncionarioService;
 import services.DespesaService;
+import services.AgendamentoCorDemo;
+
+import Chains.Agendamento.AgendamentoBaseHandler;
+import Chains.Agendamento.AgendamentoHandler;
+import Chains.Agendamento.VerificaClienteHandler;
+import Chains.Agendamento.VerificaDataHandler;
+import Chains.Agendamento.VerificaMecanicoHandler;
+import Chains.Agendamento.VerificaVeiculoHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +51,10 @@ public class OficinaController {
     private DespesaService despesaService;
     private FuncionarioService funcionarioService;
     private AgendamentoService agendamentoService;
+    private AgendamentoCorDemo agendamentoCorDemo;
 
     public OficinaController() {
 
-        // ✅ Etapa 1 - Carregar os dados salvos em JSON
         this.clientes = carregar("clientes.json", new TypeToken<List<Cliente>>() {}.getType());
         this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {}.getType());
         this.funcionarios = carregar("funcionarios.json", new TypeToken<List<Funcionario>>() {}.getType());
@@ -54,7 +62,6 @@ public class OficinaController {
         this.agendamentos = carregar("agendamentos.json", new TypeToken<List<Agenda>>() {}.getType());
         this.despesas = carregar("despesas.json", new TypeToken<List<Despesas>>() {}.getType());
 
-        // ✅ Etapa 2 - Inicializar os serviços com as listas carregadas
         this.clienteService = new ClienteService(clientes);
         this.veiculoService = new VeiculoService(veiculos, clientes);
         this.produtoService = new ProdutoService(produtos);
@@ -62,6 +69,7 @@ public class OficinaController {
         this.funcionarioService = new FuncionarioService(funcionarios);
         this.despesaService = new DespesaService(despesas);
         this.agendamentoService = new AgendamentoService(agendamentos, clienteService, veiculoService, funcionarioService);
+        this.agendamentoCorDemo = new AgendamentoCorDemo();
     }
 
     public void menuPrincipal() {
@@ -77,6 +85,7 @@ public class OficinaController {
             System.out.println("5. Estoque");
             System.out.println("6. Funcionarios");
             System.out.println("7. Despesas");
+            System.out.println("8. Executar exemplo CoR agendamento");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -90,11 +99,12 @@ public class OficinaController {
                 case 5 -> estoqueService.menuEstoque();
                 case 6 -> funcionarioService.menuFuncionario();
                 case 7 -> despesaService.menuDespesas();
+                case 8 -> agendamentoCorDemo.executarCadeiaAgendamento(clientes, funcionarios, agendamentos);
                 case 0 -> {
                     salvarTudo();
                     System.out.println("Encerrando sistema e salvando dados...");
                 }
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
