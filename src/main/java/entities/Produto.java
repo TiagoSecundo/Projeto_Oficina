@@ -9,6 +9,7 @@ public class Produto {
     private double precoFinal;
     private int quantidade;
     private String status;
+    private String fornecedor;
 
     public Produto() {
     }
@@ -22,12 +23,13 @@ public class Produto {
      * @param quantidade
      * @param status
      */
-    public Produto(int id, String nome, double precoCusto, double precoFinal, int quantidade, String status) {
+    public Produto(int id, String nome, double precoCusto, double precoFinal, int quantidade, String status, String fornecedor) {
         this.id = id;
         this.nome = nome;
         this.precoCusto = precoCusto;
         this.quantidade = quantidade;
         this.status = status;
+        this.fornecedor = fornecedor;
     }
 
     /**
@@ -125,15 +127,27 @@ public class Produto {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    /**
+     * 
+     * @return 
+     */
+    public String getFornecedor() {
+        return fornecedor;
+    }
+    /**
+     * 
+     * @param fornecedor 
+     */
+    public void setFornecedor(String fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto + ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + '}';
+        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto + ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + ", fornecedor=" + fornecedor + '}';
     }
-
-    /**
-     *
-     * @return
-     */
-
+    
 }

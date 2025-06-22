@@ -1,90 +1,81 @@
-
 package entities;
 
-import java.time.LocalDate;
-
-
 public class Elevador {
+
     private int id;
-    private String alinhamentoBalanceamento;
-    private String geral;
-    private Veiculo veiculo;
-    
-    public Elevador(){} 
-    /**
-     * Construtor com parâmetros para inicializar os dados do elevador
-     * @param id
-     * @param alinhamentoBalanceamento
-     * @param geral
-     * @param veiculo 
-     */
-    public Elevador(int id, String alinhamentoBalanceamento, String geral, Veiculo veiculo) {
-        this.id = id;
-        this.alinhamentoBalanceamento = alinhamentoBalanceamento;
-        this.geral = geral;
+    private String status; 
+    private String veiculoNaPlataforma;
+    private String servicoEmExecucao;
+
+    public Elevador() {
     }
     /**
-     * Retorna o ID do elevador
+     * 
+     * @param id 
+     */
+    public Elevador(int id) {
+        this.id = id;
+        this.status = "Livre";
+        this.veiculoNaPlataforma = null;
+        this.servicoEmExecucao = null;
+    }
+    /**
+     * 
      * @return 
      */
     public int getId() {
         return id;
     }
     /**
-     * Define o ID do elevador
-     * @param id 
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-    /**
-     * Retorna o veículo associado ao elevador
+     * 
      * @return 
      */
-    public Veiculo getVeiculo() {
-        return veiculo;
+    public String getStatus() {
+        return status;
     }
     /**
-     * Define o veículo associado ao elevador
-     * @param veiculo 
+     * 
+     * @param status 
      */
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setStatus(String status) {
+        this.status = status;
     }
     /**
-     * Retorna informações sobre o alinhamento e balanceamento realizados
+     * 
      * @return 
      */
-    public String getAlinhamentoBalanceamento() {
-        return alinhamentoBalanceamento;
+    public String getVeiculoNaPlataforma() {
+        return veiculoNaPlataforma;
     }
     /**
-     * Define informações sobre o alinhamento e balanceamento realizados
-     * @param alinhamentoBalanceamento 
+     * 
+     * @param veiculoNaPlataforma 
      */
-    public void setAlinhamentoBalanceamento(String alinhamentoBalanceamento) {
-        this.alinhamentoBalanceamento = alinhamentoBalanceamento;
+    public void setVeiculoNaPlataforma(String veiculoNaPlataforma) {
+        this.veiculoNaPlataforma = veiculoNaPlataforma;
     }
     /**
-     * Retorna informações sobre a revisão geral feita
+     * 
      * @return 
      */
-    public String getGeral() {
-        return geral;
+    public String getServicoEmExecucao() {
+        return servicoEmExecucao;
     }
     /**
-     * Define informações sobre a revisão geral feita
-     * @param geral 
+     * 
+     * @param servicoEmExecucao 
      */
-    public void setGeral(String geral) {
-        this.geral = geral;
+    public void setServicoEmExecucao(String servicoEmExecucao) {
+        this.servicoEmExecucao = servicoEmExecucao;
     }
     /**
-     * Retorna uma representação em string dos dados do elevador
+     * 
      * @return 
      */
     @Override
     public String toString() {
-        return "Elevador{" + "id=" + id + ", alinhamentoBalanceamento=" + alinhamentoBalanceamento + ", geral=" + geral + '}';
+        return "Elevador [ID=" + id + ", Status=" + status
+                + ", Veículo=" + (veiculoNaPlataforma == null ? "Nenhum" : veiculoNaPlataforma)
+                + ", Serviço=" + (servicoEmExecucao == null ? "Nenhum" : servicoEmExecucao) + "]";
     }
 }

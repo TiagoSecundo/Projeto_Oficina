@@ -5,14 +5,6 @@ import entities.Cliente;
 import entities.Funcionario;
 import entities.Mecanico;
 import entities.Veiculo;
-
-import Chains.Agendamento.AgendamentoBaseHandler;
-import Chains.Agendamento.AgendamentoHandler;
-import Chains.Agendamento.VerificaClienteHandler;
-import Chains.Agendamento.VerificaDataHandler;
-import Chains.Agendamento.VerificaMecanicoHandler;
-import Chains.Agendamento.VerificaVeiculoHandler;
-
 import entities.*;
 
 import java.time.LocalDate;
@@ -27,14 +19,15 @@ public class AgendamentoService {
     private ClienteService clienteService;
     private VeiculoService veiculoService;
     private FuncionarioService funcionarioService;
+    private ElevadorService elevadorService;
 
-    public AgendamentoService(List<Agenda> agendamentos, ClienteService clienteService, VeiculoService veiculoService, FuncionarioService funcionarioService) {
+    public AgendamentoService(List<Agenda> agendamentos, ClienteService clienteService, VeiculoService veiculoService,
+            FuncionarioService funcionarioService, ElevadorService elevadorService) {
         this.agendamentos = agendamentos;
         this.clienteService = clienteService;
         this.veiculoService = veiculoService;
         this.funcionarioService = funcionarioService;
-        this.agendamentos = agendamentos;
-
+        this.elevadorService = elevadorService;
     }
 
     public void menuAgendamentos() {
@@ -79,14 +72,14 @@ public class AgendamentoService {
         sc.nextLine();
 
         // Cliente
-        System.out.print("Cliente ja está cadastrado? (s/n): ");
+        Cliente cliente;
+        System.out.print("Cliente já está cadastrado? (s/n): ");
         String respCliente = sc.nextLine();
 
-        Cliente cliente;
         if (respCliente.equalsIgnoreCase("s")) {
             cliente = clienteService.buscarClientePorId();
             if (cliente == null) {
-                System.out.println("Cliente nao encontrado. Encerrando agendamento.");
+                System.out.println("Cliente não encontrado. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -95,14 +88,14 @@ public class AgendamentoService {
         }
 
         // Veículo
-        System.out.print("Veiculo já esta cadastrado? (s/n): ");
+        Veiculo veiculo;
+        System.out.print("Veículo já está cadastrado? (s/n): ");
         String respVeiculo = sc.nextLine();
 
-        Veiculo veiculo;
         if (respVeiculo.equalsIgnoreCase("s")) {
             veiculo = veiculoService.buscarVeiculoPorCliente(cliente);
             if (veiculo == null) {
-                System.out.println("Veiculo nao encontrado para este cliente. Encerrando agendamento.");
+                System.out.println("Veículo não encontrado para este cliente. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -111,17 +104,17 @@ public class AgendamentoService {
         }
 
         // Descrição
-        System.out.print("Descricao do problema: ");
+        System.out.print("Descrição do problema: ");
         String problema = sc.nextLine();
 
-        // Funcionário
-        System.out.print("ID do mecanico: ");
+        // Funcionário (Mecânico)
+        System.out.print("ID do mecânico: ");
         int idMec = sc.nextInt();
         sc.nextLine();
 
         Mecanico mecanico = funcionarioService.buscarMecanicoPorId(idMec);
         if (mecanico == null) {
-            System.out.print("Mecanico nao encontrado. Deseja cadastrar um novo? (s/n): ");
+            System.out.print("Mecânico não encontrado. Deseja cadastrar um novo? (s/n): ");
             String respFunc = sc.nextLine();
             if (respFunc.equalsIgnoreCase("s")) {
                 funcionarioService.cadastrarFuncionario();
@@ -141,10 +134,43 @@ public class AgendamentoService {
         try {
             dataHora = LocalDateTime.parse(dataHoraStr, formatter);
         } catch (Exception e) {
-            System.out.println("Formato de data e hora invalido.");
+            System.out.println("Formato de data e hora inválido.");
             return;
         }
 
+        // Verificar se já existe agendamento no mesmo horário
+        for (Agenda a : agendamentos) {
+            if (a.getDataAgendamento().equals(dataHora)) {
+                System.out.println("Já existe um agendamento neste horário. Agendamento cancelado.");
+                return;
+            }
+        }
+
+        // Buscar elevador disponível
+        Elevador elevador = elevadorService.buscarElevadorDisponivel();
+        if (elevador == null) {
+            System.out.println("Nenhum elevador disponível no momento. Tente novamente mais tarde.");
+            return;
+        }
+
+        // Marcar o elevador como ocupado
+        elevador.setStatus("Ocupado");
+        elevador.setVeiculoNaPlataforma(veiculo.getPlaca());
+        elevador.setServicoEmExecucao(problema);
+
+        // Criar o objeto Agenda
+        Agenda agenda = new Agenda(id, cliente, veiculo, problema, mecanico, dataHora, "Agendado", elevador);
+        agenda.setElevador(elevador); // <- Aqui faz o vínculo do elevador na agenda
+
+        // Adicionar na lista de agendamentos
+        agendamentos.add(agenda);
+
+        System.out.println("\n--- Agendamento realizado com sucesso! ---");
+        System.out.println("Cliente: " + cliente.getNome());
+        System.out.println("Veículo: " + veiculo.getModelo() + " - " + veiculo.getPlaca());
+        System.out.println("Mecânico: " + mecanico.getNome());
+        System.out.println("Elevador utilizado: " + elevador.getId());
+        System.out.println("Data e hora: " + dataHora.format(formatter));
     }
 
     public void cancelarAgendamento() {
@@ -173,7 +199,7 @@ public class AgendamentoService {
                 return;
             }
         }
-        System.out.println("Agendamento com ID " + id + " não encontrado.");
+        System.out.println("Agendamento com ID " + id + " nao encontrado.");
     }
 
     public void consultarAgendaPorData() {

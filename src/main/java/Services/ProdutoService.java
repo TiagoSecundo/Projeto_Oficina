@@ -33,13 +33,20 @@ public class ProdutoService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> cadastrarProduto();
-                case 2 -> editarProduto();
-                case 3 -> removerProduto();
-                case 4 -> listarProdutos();
-                case 5 -> listarProdutosOrdenadosPorPreco();
-                case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opcao inválida.");
+                case 1 ->
+                    cadastrarProduto();
+                case 2 ->
+                    editarProduto();
+                case 3 ->
+                    removerProduto();
+                case 4 ->
+                    listarProdutos();
+                case 5 ->
+                    listarProdutosOrdenadosPorPreco();
+                case 0 ->
+                    System.out.println("Voltando ao menu principal...");
+                default ->
+                    System.out.println("Opcao inválida.");
             }
 
         } while (opcao != 0);
@@ -74,9 +81,12 @@ public class ProdutoService {
         System.out.print("Status: ");
         String status = sc.nextLine();
 
+        System.out.print("Fornecedor: ");
+        String fornecedor = sc.nextLine();
+
         double precoFinal = precoCusto * (1 + LUCRO);
 
-        Produto novo = new Produto(id, nome, precoCusto, precoFinal, quantidade, status);
+        Produto novo = new Produto(id, nome, precoCusto, precoFinal, quantidade, status, fornecedor);
         produtos.add(novo);
         System.out.println("Produto cadastrado com sucesso!");
     }
@@ -160,18 +170,18 @@ public class ProdutoService {
     public List<Produto> getProdutos() {
         return produtos;
     }
-    
+
     public void listarProdutosOrdenadosPorPreco() {
-    if (produtos.isEmpty()) {
-        System.out.println("Nenhum produto cadastrado.");
-        return;
-    }
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+            return;
+        }
 
-    produtos.sort(new ProdutoPrecoComparatorUtil());
+        produtos.sort(new ProdutoPrecoComparatorUtil());
 
-    System.out.println("\n--- Produtos ordenados por preco final ---");
-    for (Produto p : produtos) {
-        System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
+        System.out.println("\n--- Produtos ordenados por preco final ---");
+        for (Produto p : produtos) {
+            System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
+        }
     }
-}
 }

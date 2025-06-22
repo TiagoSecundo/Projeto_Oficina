@@ -1,5 +1,6 @@
 package entities;
 // agora falta so comentar e passsar as classes pro diagrama
+
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
@@ -12,25 +13,29 @@ public class Agenda {
     private Mecanico mecanicoResponsavel;
     private LocalDateTime dataHora;
     private String status;
+    private Elevador elevador;
     private ArrayList<Servico> agendamentos;
+
     /**
      * Construtor padrão que inicializa a lista de agendamentos
      */
     public Agenda() {
         this.agendamentos = new ArrayList<>();
     }
+
     /**
      * Construtor com parâmetros para inicializar todos os atributos da agenda
+     *
      * @param id
      * @param cliente
      * @param veiculo
      * @param problemaDescrito
      * @param mecanicoResponsavel
      * @param dataAgendamento
-     * @param status 
+     * @param status
      */
     public Agenda(int id, Cliente cliente, Veiculo veiculo, String problemaDescrito,
-            Mecanico mecanicoResponsavel, LocalDateTime dataAgendamento, String status) {
+            Mecanico mecanicoResponsavel, LocalDateTime dataAgendamento, String status, Elevador elevador) {
         this.id = id;
         this.cliente = cliente;
         this.veiculo = veiculo;
@@ -38,128 +43,173 @@ public class Agenda {
         this.mecanicoResponsavel = mecanicoResponsavel;
         this.dataHora = dataAgendamento;
         this.status = status;
+        this.elevador = elevador;
         this.agendamentos = new ArrayList<>();
     }
+
     /**
      * Retorna o ID da agenda
-     * @return 
+     *
+     * @return
      */
     public int getId() {
         return id;
     }
+
     /**
      * Define o ID da agenda
-     * @param id 
+     *
+     * @param id
      */
     public void setId(int id) {
         this.id = id;
     }
+
     /**
-     * 
+     *
      * @return Retorna o cliente associado ao agendamento
      */
     public Cliente getCliente() {
         return cliente;
     }
+
     /**
      * Retorna o veículo associado ao agendamento
-     * @param cliente 
+     *
+     * @param cliente
      */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
     /**
      * Retorna o veículo associado ao agendamento
-     * @return 
+     *
+     * @return
      */
     public Veiculo getVeiculo() {
         return veiculo;
     }
+
     /**
-     * Define o cliente do agendamento 
-     * @param veiculo 
+     * Define o cliente do agendamento
+     *
+     * @param veiculo
      */
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
+
     /**
      * // Retorna a descrição do problema informado pelo cliente
-     * @return 
+     *
+     * @return
      */
     public String getProblemaDescrito() {
         return problemaDescrito;
     }
+
     /**
      * Define a descrição do problema informado pelo cliente
-     * @param problemaDescrito 
+     *
+     * @param problemaDescrito
      */
     public void setProblemaDescrito(String problemaDescrito) {
         this.problemaDescrito = problemaDescrito;
     }
+
     /**
      * Retorna o mecânico responsável pelo serviço
-     * @return 
+     *
+     * @return
      */
     public Mecanico getMecanicoResponsavel() {
         return mecanicoResponsavel;
     }
+
     /**
      * Define o mecânico responsável pelo serviço
-     * @param mecanicoResponsavel 
+     *
+     * @param mecanicoResponsavel
      */
     public void setMecanicoResponsavel(Mecanico mecanicoResponsavel) {
         this.mecanicoResponsavel = mecanicoResponsavel;
     }
+
     /**
      * Retorna a data e hora do agendamento
-     * @return 
+     *
+     * @return
      */
     public LocalDateTime getDataAgendamento() {
         return dataHora;
     }
+
     /**
      * Define a data e hora do agendamento
-     * @param dataAgendamento 
+     *
+     * @param dataAgendamento
      */
     public void setDataAgendamento(LocalDateTime dataAgendamento) {
         this.dataHora = dataAgendamento;
     }
+
     /**
-     * Retorna o status do agendamento 
-     * @return 
+     * Retorna o status do agendamento
+     *
+     * @return
      */
     public String getStatus() {
         return status;
     }
+
     /**
      * Define o status do agendamento
-     * @param status 
+     *
+     * @param status
      */
     public void setStatus(String status) {
         this.status = status;
     }
+
     /**
      * Retorna a lista de serviços agendados
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Servico> getAgendamentos() {
         return agendamentos;
     }
+
     /**
      * Define a lista de serviços agendados
-     * @param agendamentos 
+     *
+     * @param agendamentos
      */
     public void setAgendamentos(ArrayList<Servico> agendamentos) {
         this.agendamentos = agendamentos;
     }
-
     /**
-     * Retorna uma representação em string da agenda
+     * 
+     * @return 
+     */
+    public Elevador getElevador() {
+        return elevador;
+    }
+    /**
+     * 
+     * @param elevador 
+     */
+    public void setElevador(Elevador elevador) {
+        this.elevador = elevador;
+    }
+    
+    /**
+     * 
      * @return 
      */
     @Override
     public String toString() {
-        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + ", dataHora=" + dataHora + ", status=" + status + ", agendamentos=" + agendamentos + '}';
+        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + ", dataHora=" + dataHora + ", status=" + status + ", elevador=" + elevador + ", agendamentos=" + agendamentos + '}';
     }
-    
 }

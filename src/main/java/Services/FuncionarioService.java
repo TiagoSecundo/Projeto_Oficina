@@ -1,11 +1,9 @@
 package services;
 
 import entities.Funcionario;
-import entities.Gerente;
 import entities.Mecanico;
-import entities.Ponto;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -24,32 +22,24 @@ public class FuncionarioService {
 
         do {
             System.out.println("\n--- Menu de Funcionarios ---");
-            System.out.println("1. Cadastrar funcionario");
+            System.out.println("1. Cadastrar funcionario (Mecânico)");
             System.out.println("2. Editar funcionario");
             System.out.println("3. Remover funcionario");
             System.out.println("4. Bater ponto");
-            System.out.println("5. Alterar senha do gerente");
+            System.out.println("5. Listar funcionarios");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
             switch (opcao) {
-                case 1 ->
-                    cadastrarFuncionario();
-                case 2 ->
-                    editarFuncionario();
-                case 3 ->
-                    removerFuncionario();
-                case 4 ->
-                    baterPonto();
-                case 5 ->
-                    alterarSenhaGerente();
-
-                case 0 ->
-                    System.out.println("Voltando ao menu principal...");
-                default ->
-                    System.out.println("Opcao invalida.");
+                case 1 -> cadastrarFuncionario();
+                case 2 -> editarFuncionario();
+                case 3 -> removerFuncionario();
+                case 4 -> baterPonto();
+                case 5 -> listarFuncionarios();
+                case 0 -> System.out.println("Voltando...");
+                default -> System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -57,7 +47,7 @@ public class FuncionarioService {
 
     public void cadastrarFuncionario() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Cadastro de Funcionario ---");
+        System.out.println("\n--- Cadastro de Funcionario (Mecânico) ---");
 
         System.out.print("ID: ");
         int id = sc.nextInt();
@@ -72,31 +62,17 @@ public class FuncionarioService {
 
         System.out.print("Nome: ");
         String nome = sc.nextLine();
-        System.out.print("Cargo (Gerente/Mecanico): ");
-        String cargo = sc.nextLine();
         System.out.print("Email: ");
         String email = sc.nextLine();
         System.out.print("Salario: ");
         float salario = sc.nextFloat();
         sc.nextLine();
+        System.out.print("Especialidade: ");
+        String especialidade = sc.nextLine();
 
-        Funcionario funcionario;
-
-        if (cargo.equalsIgnoreCase("Gerente")) {
-            System.out.print("Senha: ");
-            String senha = sc.nextLine();
-            funcionario = new Gerente(id, nome, cargo, email, salario, senha);
-        } else if (cargo.equalsIgnoreCase("Mecanico")) {
-            System.out.print("Especialidade: ");
-            String especialidade = sc.nextLine();
-            funcionario = new Mecanico(id, nome, cargo, email, salario, especialidade);
-        } else {
-            System.out.println("Cargo invalido.");
-            return;
-        }
-
-        funcionarios.add(funcionario);
-        System.out.println("Funcionario cadastrado com sucesso!");
+        Mecanico mecanico = new Mecanico(id, nome, "Mecanico", email, salario, especialidade);
+        funcionarios.add(mecanico);
+        System.out.println("Mecanico cadastrado com sucesso!");
     }
 
     public void editarFuncionario() {
@@ -121,9 +97,6 @@ public class FuncionarioService {
                     Mecanico m = (Mecanico) f;
                     System.out.print("Nova especialidade: ");
                     m.setEspecialidade(sc.nextLine());
-                } else if (f instanceof Gerente) {
-                    System.out.print("Nova senha: ");
-                    ((Gerente) f).setSenha(sc.nextLine());
                 }
 
                 System.out.println("Funcionario editado com sucesso!");
@@ -132,38 +105,6 @@ public class FuncionarioService {
         }
 
         System.out.println("Funcionario com ID " + id + " nao encontrado.");
-    }
-
-    public void alterarSenhaGerente() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Alterar Senha do Gerente ---");
-
-        System.out.print("ID do gerente: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        for (Funcionario f : funcionarios) {
-            if (f instanceof Gerente && f.getId() == id) {
-                Gerente gerente = (Gerente) f;
-
-                System.out.print("Digite a senha atual: ");
-                String senhaAtual = sc.nextLine();
-
-                if (!gerente.getSenha().equals(senhaAtual)) {
-                    System.out.println("Senha incorreta. Alteracao cancelada.");
-                    return;
-                }
-
-                System.out.print("Digite a nova senha: ");
-                String novaSenha = sc.nextLine();
-
-                gerente.setSenha(novaSenha);
-                System.out.println("Senha alterada com sucesso!");
-                return;
-            }
-        }
-
-        System.out.println("Gerente com ID " + id + " não encontrado.");
     }
 
     public void removerFuncionario() {
@@ -178,15 +119,6 @@ public class FuncionarioService {
         while (iterator.hasNext()) {
             Funcionario f = iterator.next();
             if (f.getId() == id) {
-                if (f instanceof Gerente) {
-                    System.out.print("Digite a senha do gerente: ");
-                    String senha = sc.nextLine();
-                    if (!((Gerente) f).getSenha().equals(senha)) {
-                        System.out.println("Senha incorreta. Remocao cancelada.");
-                        return;
-                    }
-                }
-
                 iterator.remove();
                 System.out.println("Funcionario removido com sucesso");
                 return;
@@ -194,6 +126,18 @@ public class FuncionarioService {
         }
 
         System.out.println("Funcionario com ID " + id + " nao encontrado.");
+    }
+
+    public void listarFuncionarios() {
+        if (funcionarios.isEmpty()) {
+            System.out.println("Nenhum funcionario cadastrado.");
+            return;
+        }
+
+        System.out.println("\n--- Lista de Funcionarios ---");
+        for (Funcionario f : funcionarios) {
+            System.out.println(f);
+        }
     }
 
     public Mecanico buscarMecanicoPorId(int idMec) {
@@ -232,11 +176,11 @@ public class FuncionarioService {
                 LocalDateTime agora = LocalDateTime.now();
 
                 if (tipo == 1) {
-                    f.getPonto().setEntrada(agora);  // ✅ Ajuste aqui
+                    f.getPonto().setEntrada(agora);
                     System.out.println("Ponto de entrada registrado para " + f.getNome() + " em: " + agora);
                 } else if (tipo == 2) {
-                    f.getPonto().setSaida(agora);  // ✅ Ajuste aqui
-                    System.out.println("Ponto de saida registrado para " + f.getNome() + " em: " + agora);
+                    f.getPonto().setSaida(agora);
+                    System.out.println("Ponto de saída registrado para " + f.getNome() + " em: " + agora);
                 } else {
                     System.out.println("Opcao invalida.");
                 }

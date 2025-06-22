@@ -104,6 +104,24 @@ public class VeiculoService {
         System.out.println("Total de veículos cadastrados: " + Veiculo.getTotalVeiculos());
     }
 
+    public Veiculo buscarOuCadastrarVeiculo(Cliente cliente) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Veículo já está cadastrado? (s/n): ");
+        String resposta = sc.nextLine();
+
+        if (resposta.equalsIgnoreCase("s")) {
+            Veiculo veiculo = buscarVeiculoPorCliente(cliente);
+            if (veiculo == null) {
+                System.out.println("Veículo não encontrado.");
+                return null;
+            }
+            return veiculo;
+        } else {
+            cadastrarVeiculoParaCliente(cliente);
+            return getUltimoVeiculoCadastrado();
+        }
+    }
+
     public void editarVeiculo() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Editar Veículo ---");

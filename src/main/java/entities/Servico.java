@@ -16,79 +16,89 @@ public class Servico {
 
     public Servico() {
     }
-/**
- * 
- * @param id
- * @param descricao
- * @param valor
- * @param data 
- */
+
+    /**
+     *
+     * @param id
+     * @param descricao
+     * @param valor
+     * @param data
+     */
     public Servico(int id, String descricao, double valor, LocalDate data) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
         this.data = data;
     }
-/**
- * 
- * @return 
- */
+
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
-/**
- * 
- * @param id 
- */
+
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
-/**
- * 
- * @return 
- */
+
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
-/**
- * 
- * @param descricao 
- */
+
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-/**
- * 
- * @return 
- */
+
+    /**
+     *
+     * @return
+     */
     public double getValor() {
         return valor;
     }
-/**
- * 
- * @param valor 
- */
+
+    /**
+     *
+     * @param valor
+     */
     public void setValor(double valor) {
         this.valor = valor;
     }
-/**
- * 
- * @return 
- */
+
+    /**
+     *
+     * @return
+     */
     public LocalDate getData() {
         return data;
     }
-/**
- * 
- * @param data 
- */
+
+    /**
+     *
+     * @param data
+     */
     public void setData(LocalDate data) {
         this.data = data;
     }
-/**
- * 
- * @return 
- */
+
+    /**
+     *
+     * @return
+     */
     // toString
     @Override
     public String toString() {

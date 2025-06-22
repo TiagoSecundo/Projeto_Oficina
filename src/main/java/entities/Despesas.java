@@ -15,41 +15,66 @@ public class Despesas {
         this.valor = valor;
         this.data = data;
     }
-
-    // Getters e Setters
-
+    /**
+     * 
+     * @return 
+     */
     public int getId() {
         return id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getDescricao() {
         return descricao;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public double getValor() {
         return valor;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public LocalDate getData() {
         return data;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(int id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @param descricao 
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
+    /**
+     * 
+     * @param valor 
+     */
     public void setValor(double valor) {
         this.valor = valor;
     }
-
+    /**
+     * 
+     * @param data 
+     */
     public void setData(LocalDate data) {
         this.data = data;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "Despesas{" +
