@@ -63,7 +63,6 @@ public class OficinaController {
         if (ordens == null) ordens = new ArrayList<>();
         if (balancos == null) balancos = new ArrayList<>();
 
-        // Instanciando os serviços
         this.clienteService = new ClienteService(clientes);
         this.veiculoService = new VeiculoService(veiculos, clientes);
         this.produtoService = new ProdutoService(produtos);
@@ -93,7 +92,7 @@ public class OficinaController {
                 balancos
         );
     }
-
+   
     public void menuPrincipal() {
         Scanner sc = new Scanner(System.in);
         int opcao;
