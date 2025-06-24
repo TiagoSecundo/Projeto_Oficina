@@ -57,11 +57,16 @@ public class Veiculo {
      */
     public void setAno(int ano) {
         this.ano = ano;
-    }
+    } 
     /**
      * 
      * @param proprietario 
      */
+    
+    public Cliente getProprietario() {
+        return proprietario;
+    }
+
     public void setProprietario(Cliente proprietario) {
         this.proprietario = proprietario;
     }
@@ -140,6 +145,7 @@ public class Veiculo {
      */
     @Override
     public String toString() {
-        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}';
+        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + 
+                ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}'+"\n";
     }
 }

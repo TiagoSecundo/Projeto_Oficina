@@ -83,7 +83,12 @@ public class ClienteService {
         Cliente novo = new Cliente(id, nome, telefone, endereco, cpf, email);
         clientes.add(novo);
         System.out.println("Cliente cadastrado com sucesso!");
+        
+        if( nome == null || telefone == null || endereco == null || cpf == null ||email == null ){
+            System.out.print("Cliente cadastrodo com algum(s) dado(s) em branco, recomendado editar cliente");
+        }
     }
+    
 
     public Cliente buscarOuCadastrarCliente() {
         Scanner sc = new Scanner(System.in);
@@ -101,10 +106,7 @@ public class ClienteService {
             cadastrarCliente();
             return getUltimoClienteCadastrado();
         }   
-    }
-    
-
-    
+    } 
 
     public void editarCliente() {
         Scanner sc = new Scanner(System.in);

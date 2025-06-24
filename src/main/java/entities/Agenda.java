@@ -210,6 +210,7 @@ public class Agenda {
      */
     @Override
     public String toString() {
-        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + ", dataHora=" + dataHora + ", status=" + status + ", elevador=" + elevador + ", agendamentos=" + agendamentos + '}';
+        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + 
+                ", dataHora=" + dataHora + ", status=" + status + ", elevador=" + elevador + ", agendamentos=" + agendamentos + '}' + "\n";
     }
 }

@@ -28,7 +28,7 @@ public class VeiculoService {
             System.out.println("3. Remover veiculo");
             System.out.println("4. Listar veiculos por cliente");
             System.out.println("5. Atualizar status de veiculo");
-            System.out.println("6. Atualizar relatorio do veículo");
+            System.out.println("6. Atualizar relatorio do veiculo");
             System.out.println("7. Listar todos veiculos");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
@@ -36,24 +36,15 @@ public class VeiculoService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 ->
-                    cadastrarVeiculo();
-                case 2 ->
-                    editarVeiculo();
-                case 3 ->
-                    removerVeiculo();
-                case 4 ->
-                    listarVeiculosDoCliente();
-                case 5 ->
-                    atualizarStatusVeiculo();
-                case 6 ->
-                    atualizarRelatorioVeiculo();
-                case 7 ->
-                    listarTodosVeiculos();
-                case 0 ->
-                    System.out.println("Voltando ao menu principal...");
-                default ->
-                    System.out.println("Opcao invalida.");
+                case 1 -> cadastrarVeiculo();
+                case 2 -> editarVeiculo();
+                case 3 -> removerVeiculo();
+                case 4 -> listarVeiculosDoCliente();
+                case 5 -> atualizarStatusVeiculo();
+                case 6 -> atualizarRelatorioVeiculo();
+                case 7 -> listarTodosVeiculos();
+                case 0 -> System.out.println("Voltando ao menu principal...");
+                default -> System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
@@ -101,30 +92,11 @@ public class VeiculoService {
         }
 
         System.out.println("Cliente nao encontrado. Veículo foi cadastrado, mas sem dono.");
-        System.out.println("Total de veículos cadastrados: " + Veiculo.getTotalVeiculos());
-    }
-
-    public Veiculo buscarOuCadastrarVeiculo(Cliente cliente) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Veículo já está cadastrado? (s/n): ");
-        String resposta = sc.nextLine();
-
-        if (resposta.equalsIgnoreCase("s")) {
-            Veiculo veiculo = buscarVeiculoPorCliente(cliente);
-            if (veiculo == null) {
-                System.out.println("Veículo não encontrado.");
-                return null;
-            }
-            return veiculo;
-        } else {
-            cadastrarVeiculoParaCliente(cliente);
-            return getUltimoVeiculoCadastrado();
-        }
     }
 
     public void editarVeiculo() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Editar Veículo ---");
+        System.out.println("\n--- Editar Veiculo ---");
 
         System.out.print("Digite a placa do veiculo a editar: ");
         String placa = sc.nextLine();
@@ -138,7 +110,7 @@ public class VeiculoService {
                 System.out.print("Novo ano: ");
                 v.setAno(sc.nextInt());
                 sc.nextLine();
-                System.out.print("Nova cor: ");
+                System.out.print("Novo status: ");
                 v.setStatus(sc.nextLine());
 
                 System.out.println("Veiculo atualizado com sucesso!");
@@ -147,21 +119,6 @@ public class VeiculoService {
         }
 
         System.out.println("Veiculo com placa " + placa + " nao encontrado.");
-    }
-
-    public void listarTodosVeiculos() {
-        System.out.println("\n--- Lista de TODOS os veículos cadastrados ---");
-
-        if (veiculos.isEmpty()) {
-            System.out.println("Nenhum veículo foi encontrado (nem do JSON, nem local).");
-            return;
-        }
-
-        int contador = 1;
-        for (Veiculo v : veiculos) {
-            System.out.println("[" + contador + "] " + v);
-            contador++;
-        }
     }
 
     public void removerVeiculo() {
@@ -212,9 +169,24 @@ public class VeiculoService {
         System.out.println("Cliente com ID " + clienteId + " nao encontrado.");
     }
 
+    public void listarTodosVeiculos() {
+        System.out.println("\n--- Lista de TODOS os veiculos cadastrados ---");
+
+        if (veiculos.isEmpty()) {
+            System.out.println("Nenhum veiculo foi encontrado.");
+            return;
+        }
+
+        int contador = 1;
+        for (Veiculo v : veiculos) {
+            System.out.println("[" + contador + "] " + v);
+            contador++;
+        }
+    }
+
     public void atualizarStatusVeiculo() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Atualizar Status do Veículo ---");
+        System.out.println("\n--- Atualizar Status do Veiculo ---");
 
         System.out.print("Digite a placa do veiculo: ");
         String placa = sc.nextLine();
@@ -244,26 +216,34 @@ public class VeiculoService {
                 System.out.print("Novo relatorio: ");
                 String relatorio = sc.nextLine();
                 v.setRelatorio(relatorio);
-                System.out.println("Relatorio do veículo atualizado com sucesso!");
+                System.out.println("Relatorio do veiculo atualizado com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Veiculo com placa " + placa + " não encontrado.");
+        System.out.println("Veiculo com placa " + placa + " nao encontrado.");
     }
 
+    // 🔥 MÉTODO CORRIGIDO PARA FUNCIONAR NO AGENDAMENTO
     public Veiculo buscarVeiculoPorCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Informe a placa do veiculo: ");
+        System.out.print("Informe a placa do veículo: ");
         String placa = sc.nextLine();
 
-        return cliente.getVeiculo().stream()
-                .filter(v -> v.getPlaca().equalsIgnoreCase(placa))
-                .findFirst().orElse(null);
+        for (Veiculo v : veiculos) {
+            if (v.getPlaca().equalsIgnoreCase(placa) &&
+                v.getProprietario() != null &&
+                v.getProprietario().getIdCliente() == cliente.getIdCliente()) {
+                return v;
+            }
+        }
+
+        System.out.println("Veículo não encontrado para este cliente.");
+        return null;
     }
 
     public void cadastrarVeiculoParaCliente(Cliente cliente) {
-        cadastrarVeiculo(); // já adiciona ao cliente dentro do método
+        cadastrarVeiculo();
     }
 
     public Veiculo getUltimoVeiculoCadastrado() {

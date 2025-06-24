@@ -98,6 +98,6 @@ public class Produto {
                 ", quantidade=" + quantidade +
                 ", status='" + status + '\'' +
                 ", fornecedor='" + fornecedor + '\'' +
-                '}';
+                '}'+"\n";
     }
 }

@@ -49,7 +49,7 @@ public class Gerente extends Funcionario {
      */
     @Override
     public String toString() {
-        return super.toString() + " | Cargo: Gerente";
+        return super.toString() + " | Cargo: Gerente\n";
     }
 
 }

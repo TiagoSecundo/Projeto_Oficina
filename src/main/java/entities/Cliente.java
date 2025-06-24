@@ -170,6 +170,6 @@ public class Cliente {
                 + ", Telefone: " + telefone
                 + ", Endereco: " + endereco
                 + ", CPF: " + getCpfAnonimizado()
-                + ", Email: " + email;
+                + ", Email: " + email + "\n";
     }
 }

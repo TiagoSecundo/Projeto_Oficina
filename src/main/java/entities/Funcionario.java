@@ -142,7 +142,7 @@ public class Funcionario {
     @Override
     public String toString() {
         return String.format(
-                "Funcionario [Id: %d, Nome: %s, Cargo: %s, email: %s]",
+                "Funcionario [Id: %d, Nome: %s, Cargo: %s, email: %s]\n",
                 id, nome, cargo, email);
     }
 }

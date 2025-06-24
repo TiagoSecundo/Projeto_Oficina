@@ -40,6 +40,6 @@ public class Ponto {
      */
     @Override
     public String toString() {
-        return "Ponto{" + "entrada=" + entrada + ", saida=" + saida + '}';
+        return "Ponto{" + "entrada=" + entrada + ", saida=" + saida + '}'+"\n";
     }
 }

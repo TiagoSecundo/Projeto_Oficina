@@ -197,6 +197,6 @@ public class OrdemServico {
                 "\nMão de Obra: R$ " + valorMaoDeObra +
                 "\nValor Total: R$ " + valorTotal +
                 "\nStatus: " + status +
-                "\n-------------------------";
+                "\n-------------------------\n";
     }
 }

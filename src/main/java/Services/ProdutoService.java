@@ -15,6 +15,9 @@ public class ProdutoService {
         this.produtos = produtos;
     }
 
+    /**
+     *
+     */
     public void menuProdutos() {
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -32,18 +35,28 @@ public class ProdutoService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> cadastrarProduto();
-                case 2 -> editarProduto();
-                case 3 -> removerProduto();
-                case 4 -> listarProdutos();
-                case 5 -> listarProdutosOrdenadosPorPreco();
-                case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opção invalida.");
+                case 1 ->
+                    cadastrarProduto();
+                case 2 ->
+                    editarProduto();
+                case 3 ->
+                    removerProduto();
+                case 4 ->
+                    listarProdutos();
+                case 5 ->
+                    listarProdutosOrdenadosPorPreco();
+                case 0 ->
+                    System.out.println("Voltando ao menu principal...");
+                default ->
+                    System.out.println("Opção invalida.");
             }
 
         } while (opcao != 0);
     }
 
+    /**
+     *
+     */
     public void cadastrarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Cadastro de Produto ---");
@@ -65,10 +78,18 @@ public class ProdutoService {
         System.out.print("Preco de Custo: ");
         double precoCusto = sc.nextDouble();
         sc.nextLine();
+        if (precoCusto < 0) {
+            System.out.print("Preco do produto negativo, cadastro de produto cancelado");
+            return;
+        }
 
         System.out.print("Quantidade: ");
         int quantidade = sc.nextInt();
         sc.nextLine();
+        if (quantidade < 0) {
+            System.out.print("Preco do produto negativo, cadastro de produto cancelado");
+            return;
+        }
 
         System.out.print("Status: ");
         String status = sc.nextLine();
@@ -79,8 +100,12 @@ public class ProdutoService {
         Produto novo = new Produto(id, nome, precoCusto, quantidade, status, fornecedor);
         produtos.add(novo);
         System.out.println("Produto cadastrado com sucesso!");
+
     }
 
+    /**
+     *
+     */
     public void editarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Editar Produto ---");
@@ -117,6 +142,9 @@ public class ProdutoService {
         System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
+    /**
+     *
+     */
     public void removerProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Remover Produto ---");
@@ -138,6 +166,9 @@ public class ProdutoService {
         System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
+    /**
+     *
+     */
     public void listarProdutos() {
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");
@@ -150,6 +181,11 @@ public class ProdutoService {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Produto buscarProdutoPorId(int id) {
         for (Produto p : produtos) {
             if (p.getId() == id) {
@@ -159,10 +195,17 @@ public class ProdutoService {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Produto> getProdutos() {
         return produtos;
     }
 
+    /**
+     *
+     */
     public void listarProdutosOrdenadosPorPreco() {
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");

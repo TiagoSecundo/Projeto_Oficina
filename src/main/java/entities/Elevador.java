@@ -76,6 +76,6 @@ public class Elevador {
     public String toString() {
         return "Elevador [ID=" + id + ", Status=" + status
                 + ", Veículo=" + (veiculoNaPlataforma == null ? "Nenhum" : veiculoNaPlataforma)
-                + ", Serviço=" + (servicoEmExecucao == null ? "Nenhum" : servicoEmExecucao) + "]";
+                + ", Serviço=" + (servicoEmExecucao == null ? "Nenhum" : servicoEmExecucao) + "]" +"\n";
     }
 }
