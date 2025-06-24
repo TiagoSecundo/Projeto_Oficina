@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class FuncionarioService {
 
@@ -33,13 +34,20 @@ public class FuncionarioService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> cadastrarFuncionario();
-                case 2 -> editarFuncionario();
-                case 3 -> removerFuncionario();
-                case 4 -> baterPonto();
-                case 5 -> listarFuncionarios();
-                case 0 -> System.out.println("Voltando...");
-                default -> System.out.println("Opcao invalida.");
+                case 1 ->
+                    cadastrarFuncionario();
+                case 2 ->
+                    editarFuncionario();
+                case 3 ->
+                    removerFuncionario();
+                case 4 ->
+                    baterPonto();
+                case 5 ->
+                    listarFuncionarios();
+                case 0 ->
+                    System.out.println("Voltando...");
+                default ->
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -189,6 +197,16 @@ public class FuncionarioService {
         }
 
         System.out.println("Funcionario com ID " + id + " nao encontrado.");
+    }
+
+    public List<Mecanico> listarMecanicos() {
+        List<Mecanico> mecanicos = new ArrayList<>();
+        for (Funcionario f : funcionarios) {
+            if (f instanceof Mecanico) {
+                mecanicos.add((Mecanico) f);
+            }
+        }
+        return mecanicos;
     }
 
     public List<Funcionario> getFuncionarios() {

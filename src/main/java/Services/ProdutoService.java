@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class ProdutoService {
 
     private List<Produto> produtos;
-    private final double LUCRO = 0.3;
 
     public ProdutoService(List<Produto> produtos) {
         this.produtos = produtos;
@@ -26,27 +25,20 @@ public class ProdutoService {
             System.out.println("2. Editar produto");
             System.out.println("3. Remover produto");
             System.out.println("4. Listar produtos");
-            System.out.println("5. Listar produtos por preço final");
+            System.out.println("5. Listar produtos por preco final");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
             switch (opcao) {
-                case 1 ->
-                    cadastrarProduto();
-                case 2 ->
-                    editarProduto();
-                case 3 ->
-                    removerProduto();
-                case 4 ->
-                    listarProdutos();
-                case 5 ->
-                    listarProdutosOrdenadosPorPreco();
-                case 0 ->
-                    System.out.println("Voltando ao menu principal...");
-                default ->
-                    System.out.println("Opcao inválida.");
+                case 1 -> cadastrarProduto();
+                case 2 -> editarProduto();
+                case 3 -> removerProduto();
+                case 4 -> listarProdutos();
+                case 5 -> listarProdutosOrdenadosPorPreco();
+                case 0 -> System.out.println("Voltando ao menu principal...");
+                default -> System.out.println("Opção invalida.");
             }
 
         } while (opcao != 0);
@@ -84,9 +76,7 @@ public class ProdutoService {
         System.out.print("Fornecedor: ");
         String fornecedor = sc.nextLine();
 
-        double precoFinal = precoCusto * (1 + LUCRO);
-
-        Produto novo = new Produto(id, nome, precoCusto, precoFinal, quantidade, status, fornecedor);
+        Produto novo = new Produto(id, nome, precoCusto, quantidade, status, fornecedor);
         produtos.add(novo);
         System.out.println("Produto cadastrado com sucesso!");
     }
@@ -107,8 +97,7 @@ public class ProdutoService {
                 System.out.print("Novo preco de custo: ");
                 double novoPrecoCusto = sc.nextDouble();
                 sc.nextLine();
-                produto.setPrecoCusto(novoPrecoCusto);
-                produto.setPrecoFinal(novoPrecoCusto * (1 + LUCRO));
+                produto.setPrecoCusto(novoPrecoCusto); // ✅ Já atualiza o preço final automaticamente
 
                 System.out.print("Nova quantidade: ");
                 produto.setQuantidade(sc.nextInt());
@@ -116,6 +105,9 @@ public class ProdutoService {
 
                 System.out.print("Novo status: ");
                 produto.setStatus(sc.nextLine());
+
+                System.out.print("Novo fornecedor: ");
+                produto.setFornecedor(sc.nextLine());
 
                 System.out.println("Produto editado com sucesso:\n" + produto);
                 return;
@@ -181,7 +173,7 @@ public class ProdutoService {
 
         System.out.println("\n--- Produtos ordenados por preco final ---");
         for (Produto p : produtos) {
-            System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
+            System.out.println(p.getNome() + " - R$ " + String.format("%.2f", p.getPrecoFinal()));
         }
     }
 }

@@ -22,13 +22,13 @@ public class VeiculoService {
         int opcao;
 
         do {
-            System.out.println("\n--- Menu de Veículos ---");
+            System.out.println("\n--- Menu de Veiculos ---");
             System.out.println("1. Cadastrar veiculo");
             System.out.println("2. Editar veiculo");
             System.out.println("3. Remover veiculo");
-            System.out.println("4. Listar veículos por cliente");
+            System.out.println("4. Listar veiculos por cliente");
             System.out.println("5. Atualizar status de veiculo");
-            System.out.println("6. Atualizar relatório do veículo");
+            System.out.println("6. Atualizar relatorio do veículo");
             System.out.println("7. Listar todos veiculos");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");

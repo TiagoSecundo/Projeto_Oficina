@@ -18,6 +18,7 @@ public class OficinaController {
     private List<Produto> produtos;
     private List<Despesas> despesas;
     private List<Funcionario> funcionarios;
+    private List<Gerente> gerentes;
     private List<Agenda> agendamentos;
     private List<Elevador> elevadores;
     private List<OrdemServico> ordens;
@@ -30,69 +31,93 @@ public class OficinaController {
     private EstoqueService estoqueService;
     private DespesaService despesaService;
     private FuncionarioService funcionarioService;
+    private GerenteService gerenteService;
     private AgendamentoService agendamentoService;
     private ElevadorService elevadorService;
     private OrdemServicoService ordemServicoService;
     private BalancoMensalService balancoMensalService;
 
     public OficinaController() {
-        // Carregamento dos dados
-        this.clientes = carregar("clientes.json", new TypeToken<List<Cliente>>() {}.getType());
-        this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {}.getType());
-        this.funcionarios = carregar("funcionarios.json", new TypeToken<List<Funcionario>>() {}.getType());
-        this.produtos = carregar("produtos.json", new TypeToken<List<Produto>>() {}.getType());
-        this.agendamentos = carregar("agendamentos.json", new TypeToken<List<Agenda>>() {}.getType());
-        this.despesas = carregar("despesas.json", new TypeToken<List<Despesas>>() {}.getType());
-        this.elevadores = carregar("elevadores.json", new TypeToken<List<Elevador>>() {}.getType());
-        this.ordens = carregar("ordens.json", new TypeToken<List<OrdemServico>>() {}.getType());
-        this.balancos = carregar("balancoMensal.json", new TypeToken<List<BalancoMensal>>() {}.getType());
+        // Carregar dados
+        this.clientes = carregar("clientes.json", new TypeToken<List<Cliente>>() {
+        }.getType());
+        this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {
+        }.getType());
+        this.funcionarios = carregar("funcionarios.json", new TypeToken<List<Funcionario>>() {
+        }.getType());
+        this.gerentes = carregar("gerentes.json", new TypeToken<List<Gerente>>() {
+        }.getType());
+        this.produtos = carregar("produtos.json", new TypeToken<List<Produto>>() {
+        }.getType());
+        this.agendamentos = carregar("agendamentos.json", new TypeToken<List<Agenda>>() {
+        }.getType());
+        this.despesas = carregar("despesas.json", new TypeToken<List<Despesas>>() {
+        }.getType());
+        this.elevadores = carregar("elevadores.json", new TypeToken<List<Elevador>>() {
+        }.getType());
+        this.ordens = carregar("ordens.json", new TypeToken<List<OrdemServico>>() {
+        }.getType());
+        this.balancos = carregar("balancoMensal.json", new TypeToken<List<BalancoMensal>>() {
+        }.getType());
 
-        // Inicialização caso estejam nulos
-        if (clientes == null) clientes = new ArrayList<>();
-        if (veiculos == null) veiculos = new ArrayList<>();
-        if (funcionarios == null) funcionarios = new ArrayList<>();
-        if (produtos == null) produtos = new ArrayList<>();
-        if (agendamentos == null) agendamentos = new ArrayList<>();
-        if (despesas == null) despesas = new ArrayList<>();
+        // Inicializar listas vazias se necessário
+        if (clientes == null) {
+            clientes = new ArrayList<>();
+        }
+        if (veiculos == null) {
+            veiculos = new ArrayList<>();
+        }
+        if (funcionarios == null) {
+            funcionarios = new ArrayList<>();
+        }
+        if (gerentes == null) {
+            gerentes = new ArrayList<>();
+        }
+        if (produtos == null) {
+            produtos = new ArrayList<>();
+        }
+        if (agendamentos == null) {
+            agendamentos = new ArrayList<>();
+        }
+        if (despesas == null) {
+            despesas = new ArrayList<>();
+        }
         if (elevadores == null || elevadores.isEmpty()) {
             elevadores = new ArrayList<>();
             elevadores.add(new Elevador(1));
             elevadores.add(new Elevador(2));
             elevadores.add(new Elevador(3));
         }
-        if (ordens == null) ordens = new ArrayList<>();
-        if (balancos == null) balancos = new ArrayList<>();
+        if (ordens == null) {
+            ordens = new ArrayList<>();
+        }
+        if (balancos == null) {
+            balancos = new ArrayList<>();
+        }
 
+        // Instanciar serviços
         this.clienteService = new ClienteService(clientes);
         this.veiculoService = new VeiculoService(veiculos, clientes);
         this.produtoService = new ProdutoService(produtos);
         this.estoqueService = new EstoqueService(produtos);
         this.funcionarioService = new FuncionarioService(funcionarios);
+        this.gerenteService = new GerenteService(gerentes);
         this.despesaService = new DespesaService(despesas);
         this.elevadorService = new ElevadorService(elevadores);
         this.agendamentoService = new AgendamentoService(
-                agendamentos,
-                clienteService,
-                veiculoService,
-                funcionarioService,
-                elevadorService
-        );
-        this.ordemServicoService = new OrdemServicoService(
-                ordens,
-                clienteService,
-                veiculoService,
-                funcionarioService,
-                elevadorService,
+                agendamentos, ordens,
+                clienteService, veiculoService,
+                funcionarioService, elevadorService,
                 produtoService
         );
+        this.ordemServicoService = new OrdemServicoService(
+                ordens, clienteService, veiculoService, funcionarioService, elevadorService, produtoService
+        );
         this.balancoMensalService = new BalancoMensalService(
-                ordens,
-                despesas,
-                funcionarios,
-                balancos
+                ordens, despesas, funcionarios, gerentes, balancos
         );
     }
-   
+
     public void menuPrincipal() {
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -104,32 +129,46 @@ public class OficinaController {
             System.out.println("3. Produtos");
             System.out.println("4. Agendamentos");
             System.out.println("5. Estoque");
-            System.out.println("6. Funcionarios e Gerente");
-            System.out.println("7. Despesas");
-            System.out.println("8. Elevadores");
-            System.out.println("9. Ordem de Serviço");
-            System.out.println("10. Balanço Mensal");
+            System.out.println("6. Funcionarios");
+            System.out.println("7. Gerente");
+            System.out.println("8. Despesas");
+            System.out.println("9. Elevadores");
+            System.out.println("10. Ordem de Serviço");
+            System.out.println("11. Balanço Mensal");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> clienteService.menuCliente();
-                case 2 -> veiculoService.menuVeiculo();
-                case 3 -> produtoService.menuProdutos();
-                case 4 -> agendamentoService.menuAgendamentos();
-                case 5 -> estoqueService.menuEstoque();
-                case 6 -> funcionarioService.menuFuncionario();
-                case 7 -> despesaService.menuDespesas();
-                case 8 -> elevadorService.menuElevadores();
-                case 9 -> ordemServicoService.menuOrdemDeServico();
-                case 10 -> balancoMensalService.gerarBalancoMensal();
+                case 1 ->
+                    clienteService.menuCliente();
+                case 2 ->
+                    veiculoService.menuVeiculo();
+                case 3 ->
+                    produtoService.menuProdutos();
+                case 4 ->
+                    agendamentoService.menuAgendamentos();
+                case 5 ->
+                    estoqueService.menuEstoque();
+                case 6 ->
+                    funcionarioService.menuFuncionario();
+                case 7 ->
+                    gerenteService.menuGerente();
+                case 8 ->
+                    despesaService.menuDespesas();
+                case 9 ->
+                    elevadorService.menuElevadores();
+                case 10 ->
+                    ordemServicoService.menuOrdemDeServico();
+                case 11 ->
+                    balancoMensalService.gerarBalancoMensal();
                 case 0 -> {
                     salvarTudo();
                     System.out.println("Encerrando sistema e salvando dados...");
                 }
-                default -> System.out.println("Opcao invalida.");
+                default ->
+                    System.out.println("Opcao invalida.");
             }
         } while (opcao != 0);
     }
@@ -138,6 +177,7 @@ public class OficinaController {
         PersistenciaUtil.salvarEmArquivo(clientes, "clientes.json");
         PersistenciaUtil.salvarEmArquivo(veiculos, "veiculos.json");
         PersistenciaUtil.salvarEmArquivo(funcionarios, "funcionarios.json");
+        PersistenciaUtil.salvarEmArquivo(gerentes, "gerentes.json");
         PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");
         PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");
         PersistenciaUtil.salvarEmArquivo(despesas, "despesas.json");

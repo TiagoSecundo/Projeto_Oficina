@@ -38,17 +38,25 @@ public class OrdemServicoService {
             System.out.println("1. Criar Ordem de Serviço");
             System.out.println("2. Listar Ordens de Serviço");
             System.out.println("3. Consultar por ID");
+            System.out.println("4. Editar Ordem de Serviço");  // ✅ Novo
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> criarOrdemDeServico();
-                case 2 -> listarOrdemDeServico();
-                case 3 -> consultarPorId();
-                case 0 -> System.out.println("Voltando...");
-                default -> System.out.println("Opção inválida.");
+                case 1 ->
+                    criarOrdemDeServico();
+                case 2 ->
+                    listarOrdemDeServico();
+                case 3 ->
+                    consultarPorId();
+                case 4 ->
+                    editarOrdemDeServico();  // ✅ Novo
+                case 0 ->
+                    System.out.println("Voltando...");
+                default ->
+                    System.out.println("Opção inválida.");
             }
 
         } while (opcao != 0);
@@ -133,6 +141,88 @@ public class OrdemServicoService {
             System.out.println(os);
         }
     }
+    
+    public void editarOrdemDeServico() {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("\n--- Editar Ordem de Serviço ---");
+    System.out.print("Informe o ID da OS: ");
+    int id = sc.nextInt();
+    sc.nextLine();
+
+    OrdemServico os = null;
+    for (OrdemServico ordem : ordensDeServico) {
+        if (ordem.getId() == id) {
+            os = ordem;
+            break;
+        }
+    }
+
+    if (os == null) {
+        System.out.println("Ordem de Serviço com ID " + id + " não encontrada.");
+        return;
+    }
+
+    System.out.println("\nOrdem Selecionada:");
+    System.out.println(os);
+
+    System.out.println("\nO que deseja fazer?");
+    System.out.println("1. Adicionar Produto");
+    System.out.println("2. Alterar Valor de Mão de Obra");
+    System.out.println("3. Alterar Status");
+    System.out.println("0. Cancelar");
+    System.out.print("Escolha: ");
+    int opcao = sc.nextInt();
+    sc.nextLine();
+
+    switch (opcao) {
+        case 1 -> {
+            String continuar;
+            do {
+                System.out.print("ID do Produto: ");
+                int idProduto = sc.nextInt();
+                sc.nextLine();
+                Produto produto = produtoService.buscarProdutoPorId(idProduto);
+                if (produto == null) {
+                    System.out.println("Produto não encontrado.");
+                } else {
+                    System.out.print("Quantidade: ");
+                    int qtd = sc.nextInt();
+                    sc.nextLine();
+                    os.getItensServico().add(new ItemServico(produto, qtd));
+                    System.out.println("Produto adicionado!");
+                }
+                System.out.print("Adicionar outro produto? (s/n): ");
+                continuar = sc.nextLine();
+            } while (continuar.equalsIgnoreCase("s"));
+        }
+
+        case 2 -> {
+            System.out.print("Novo valor de mão de obra: R$ ");
+            double novoValor = sc.nextDouble();
+            sc.nextLine();
+            os.setValorMaoDeObra(novoValor);
+            System.out.println("Valor de mão de obra atualizado.");
+        }
+
+        case 3 -> {
+            System.out.print("Novo status (Aberta, Concluída, Emitida Nota Fiscal): ");
+            String status = sc.nextLine();
+            os.setStatus(status);
+            System.out.println("Status atualizado.");
+        }
+
+        case 0 -> System.out.println("Edição cancelada.");
+
+        default -> System.out.println("Opção inválida.");
+    }
+
+    // Atualizar o valor total da OS após as alterações
+    os.setValorTotal(os.calcularValorTotal());
+
+    System.out.println("\n--- Ordem de Serviço Atualizada ---");
+    System.out.println(os);
+}
+
 
     public void consultarPorId() {
         Scanner sc = new Scanner(System.in);
