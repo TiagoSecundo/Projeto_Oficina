@@ -208,7 +208,7 @@ public class OficinaController {
                 case 10 ->
                     ordemServicoService.menuOrdemDeServico();
                 case 11 ->
-                    balancoMensalService.gerarBalancoMensal();
+                    balancoMensalService.exibirMenuRelatorios();
                 case 0 -> {
                     salvarTudo();
                     System.out.println("Encerrando sistema e salvando dados...");

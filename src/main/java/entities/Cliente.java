@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Cliente {
 
     private int idCliente;
+    protected static int totalVeiculosProtected = 0;
     private String nome;
     private String telefone;
     private String endereco;

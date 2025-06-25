@@ -304,7 +304,7 @@ public class AgendamentoService {
         System.out.print("Digite o ID do agendamento: ");
         try {
             int id = sc.nextInt();
-            sc.nextLine(); // Consome a quebra de linha
+            sc.nextLine();
 
             Agenda encontrado = null;
             for (Agenda a : agendamentos) {
@@ -315,26 +315,47 @@ public class AgendamentoService {
             }
 
             if (encontrado != null) {
-                // Lógica de multa (mantida como estava, mas você pode refinar)
+                if (encontrado.getStatus().equalsIgnoreCase("Cancelado")) {
+                    System.out.println("Agendamento já está cancelado.");
+                    return;
+                }
+                if (encontrado.getStatus().equalsIgnoreCase("Concluído")) {
+                    System.out.println("Agendamento já foi concluído e não pode ser cancelado.");
+                    return;
+                }
+
                 System.out.print("Informe o valor estimado do servico: R$ ");
-                double valor = sc.nextDouble();
-                sc.nextLine(); // Consome a quebra de linha
+                double valorEstimado = sc.nextDouble();
+                sc.nextLine();
 
                 LocalDate hoje = LocalDate.now();
                 LocalDate dataAgendada = encontrado.getDataAgendamento().toLocalDate();
+                double multa = 0.0;
+                String percentualMulta = "0%";
 
-                double multa = (dataAgendada.isAfter(hoje.plusDays(1))) ? 0.0 : valor * 0.2; // Exemplo de multa
-                if (multa > 0) {
-                     System.out.printf("Cancelamento com multa de 20%%: R$ %.2f%n", multa);
-                } else {
-                    System.out.println("Cancelamento sem multa.");
+                // ✅ Lógica da multa corrigida
+                if (dataAgendada.isEqual(hoje)) { // Se a data agendada é HOJE
+                    multa = valorEstimado * 0.50; // 50% de multa
+                    percentualMulta = "50%";
+                } else if (dataAgendada.isAfter(hoje)) { // Se a data agendada é FUTURA
+                    multa = valorEstimado * 0.20; // 20% de multa
+                    percentualMulta = "20%";
+                } else { // Se a data agendada já passou (teoricamente, já deveria estar concluído ou em atraso)
+                    System.out.println("Este agendamento é de uma data passada e não pode ser cancelado como antecipado.");
+                    multa = valorEstimado; // Opcional: ou nenhuma multa, dependendo da regra de negócio
+                    percentualMulta = "100% (data passada)";
                 }
 
-                encontrado.setStatus("Cancelado");
-                // ✅ CORREÇÃO: Chamar o método liberarElevadorPorId do ElevadorService
+
+                System.out.printf("Cancelamento com multa de %s: R$ %.2f%n", percentualMulta, multa);
+
+                encontrado.setStatus("Cancelado"); // ✅ Define o status como Cancelado
+
+                // ✅ Libera o elevador se ele estava alocado
                 Elevador elevador = encontrado.getElevador();
                 if (elevador != null) {
-                    elevadorService.liberarElevadorPorId(elevador.getId());
+                    elevadorService.liberarElevadorPorId(elevador.getId()); // Chama o método do serviço
+                    System.out.println("Elevador " + elevador.getId() + " liberado.");
                 }
 
                 System.out.println("Agendamento " + id + " cancelado com sucesso.");
@@ -342,12 +363,9 @@ public class AgendamentoService {
                 System.out.println("Agendamento com ID " + id + " nao encontrado.");
             }
         } catch (InputMismatchException e) {
-            System.out.println("Entrada inválida. Por favor, digite um número.");
-            sc.nextLine();
+            System.out.println("Entrada inválida. Por favor, digite um número para o ID ou valor.");
+            sc.nextLine(); // Limpa o buffer do scanner
         }
-
-
-        salvarDados();
     }
 
     public void consultarAgendaPorData() {
