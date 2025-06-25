@@ -186,6 +186,7 @@ public class OrdemServico {
      */
     @Override
     public String toString() {
+         String elevadorStr = (elevador != null) ? "Elevador ID: " + elevador.getId() : "Sem elevador alocado";
         return "\n--- ORDEM DE SERVIÇO ---" +
                 "\nID: " + id +
                 "\nCliente: " + cliente.getNome() +

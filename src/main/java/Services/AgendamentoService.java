@@ -93,12 +93,19 @@ public class AgendamentoService {
             return;
         }
 
-        Elevador elevador = alocarElevador(veiculo, problema);
-        if (elevador == null) {
-            return;
+        System.out.print("O Servico necessita de elevador: (s/n)");
+        String resp = sc.nextLine();
+        if (resp.equalsIgnoreCase("s")) {
+            Elevador elevador = elevadorService.alocarElevador(problema);
+            if (elevador == null) {
+                return;
+            }
+            criarAgendamento(id, cliente, veiculo, problema, mecanico, dataHora, elevador);
+        }else{
+            criarAgendamento(id, cliente, veiculo, problema, mecanico, dataHora, null);
         }
 
-        criarAgendamento(id, cliente, veiculo, problema, mecanico, dataHora, elevador);
+        
     }
 
     private int solicitarIdAgendamento(Scanner sc) {
@@ -107,7 +114,7 @@ public class AgendamentoService {
     }
 
     private Cliente obterCliente(Scanner sc) {
-        sc.nextLine(); // limpar buffer
+        sc.nextLine();
         System.out.print("Cliente ja cadastrado? (s/n): ");
         String resp = sc.nextLine();
 

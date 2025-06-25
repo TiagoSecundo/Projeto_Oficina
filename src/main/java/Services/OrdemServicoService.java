@@ -141,88 +141,107 @@ public class OrdemServicoService {
             System.out.println(os);
         }
     }
-    
+
     public void editarOrdemDeServico() {
-    Scanner sc = new Scanner(System.in);
-    System.out.println("\n--- Editar Ordem de Serviço ---");
-    System.out.print("Informe o ID da OS: ");
-    int id = sc.nextInt();
-    sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n--- Editar Ordem de Serviço ---");
+        System.out.print("Informe o ID da OS: ");
+        int id = sc.nextInt();
+        sc.nextLine();
 
-    OrdemServico os = null;
-    for (OrdemServico ordem : ordensDeServico) {
-        if (ordem.getId() == id) {
-            os = ordem;
-            break;
+        OrdemServico os = null;
+        for (OrdemServico ordem : ordensDeServico) {
+            if (ordem.getId() == id) {
+                os = ordem;
+                break;
+            }
         }
-    }
 
-    if (os == null) {
-        System.out.println("Ordem de Serviço com ID " + id + " não encontrada.");
-        return;
-    }
+        if (os == null) {
+            System.out.println("Ordem de Serviço com ID " + id + " não encontrada.");
+            return;
+        }
 
-    System.out.println("\nOrdem Selecionada:");
-    System.out.println(os);
+        System.out.println("\nOrdem Selecionada:");
+        System.out.println(os);
 
-    System.out.println("\nO que deseja fazer?");
-    System.out.println("1. Adicionar Produto");
-    System.out.println("2. Alterar Valor de Mão de Obra");
-    System.out.println("3. Alterar Status");
-    System.out.println("0. Cancelar");
-    System.out.print("Escolha: ");
-    int opcao = sc.nextInt();
-    sc.nextLine();
+        System.out.println("\nO que deseja fazer?");
+        System.out.println("1. Adicionar Produto");
+        System.out.println("2. Alterar Valor de Mão de Obra");
+        System.out.println("3. Alterar Status");
+        System.out.println("0. Cancelar");
+        System.out.print("Escolha: ");
+        int opcao = sc.nextInt();
+        sc.nextLine();
 
-    switch (opcao) {
-        case 1 -> {
-            String continuar;
-            do {
-                System.out.print("ID do Produto: ");
-                int idProduto = sc.nextInt();
-                sc.nextLine();
-                Produto produto = produtoService.buscarProdutoPorId(idProduto);
-                if (produto == null) {
-                    System.out.println("Produto não encontrado.");
-                } else {
-                    System.out.print("Quantidade: ");
-                    int qtd = sc.nextInt();
+        switch (opcao) {
+            case 1 -> {
+                String continuar;
+                do {
+                    System.out.print("ID do Produto: ");
+                    int idProduto = sc.nextInt();
                     sc.nextLine();
-                    os.getItensServico().add(new ItemServico(produto, qtd));
-                    System.out.println("Produto adicionado!");
-                }
-                System.out.print("Adicionar outro produto? (s/n): ");
-                continuar = sc.nextLine();
-            } while (continuar.equalsIgnoreCase("s"));
+                    Produto produto = produtoService.buscarProdutoPorId(idProduto);
+                    if (produto == null) {
+                        System.out.println("Produto não encontrado.");
+                    } else {
+                        System.out.print("Quantidade: ");
+                        int quantidade = sc.nextInt();
+                        sc.nextLine();
+                        os.getItensServico().add(new ItemServico(produto, quantidade));
+                        System.out.println("Produto adicionado!");
+                    }
+                    System.out.print("Adicionar outro produto? (s/n): ");
+                    continuar = sc.nextLine();
+                } while (continuar.equalsIgnoreCase("s"));
+            }
+
+            case 2 -> {
+                System.out.print("Novo valor de mão de obra: R$ ");
+                double novoValor = sc.nextDouble();
+                sc.nextLine();
+                os.setValorMaoDeObra(novoValor);
+                System.out.println("Valor de mão de obra atualizado.");
+            }
+
+            case 3 -> {
+                System.out.print("Novo status (Aberta, Concluída, Emitida Nota Fiscal): ");
+                String status = sc.nextLine();
+                os.setStatus(status);
+                System.out.println("Status atualizado.");
+            }
+
+            case 0 ->
+                System.out.println("Edição cancelada.");
+
+            default ->
+                System.out.println("Opção inválida.");
+                
         }
 
-        case 2 -> {
-            System.out.print("Novo valor de mão de obra: R$ ");
-            double novoValor = sc.nextDouble();
-            sc.nextLine();
-            os.setValorMaoDeObra(novoValor);
-            System.out.println("Valor de mão de obra atualizado.");
-        }
 
-        case 3 -> {
-            System.out.print("Novo status (Aberta, Concluída, Emitida Nota Fiscal): ");
-            String status = sc.nextLine();
-            os.setStatus(status);
-            System.out.println("Status atualizado.");
-        }
 
-        case 0 -> System.out.println("Edição cancelada.");
-
-        default -> System.out.println("Opção inválida.");
+        System.out.println("\n--- Ordem de Serviço Atualizada ---");
+        System.out.println(os);
     }
 
-    // Atualizar o valor total da OS após as alterações
-    os.setValorTotal(os.calcularValorTotal());
-
-    System.out.println("\n--- Ordem de Serviço Atualizada ---");
-    System.out.println(os);
-}
-
+    private int gerarIdOrdemServicoUnico() {
+        int id = 1;
+        while (true) {
+            boolean existe = false;
+            for (OrdemServico o : ordensDeServico) {
+                if (o.getId() == id) {
+                    existe = true;
+                    id++;
+                    break;
+                }
+            }
+            if (!existe) {
+                break;
+            }
+        }
+        return id;
+    }
 
     public void consultarPorId() {
         Scanner sc = new Scanner(System.in);

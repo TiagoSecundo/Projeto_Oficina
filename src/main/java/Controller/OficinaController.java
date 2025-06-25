@@ -43,10 +43,21 @@ public class OficinaController {
         }.getType());
         this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {
         }.getType());
-        this.funcionarios = carregar("funcionarios.json", new TypeToken<List<Funcionario>>() {
+        List<Mecanico> mecanicos = carregar("mecanicos.json", new TypeToken<List<Mecanico>>() {
         }.getType());
-        this.gerentes = carregar("gerentes.json", new TypeToken<List<Gerente>>() {
+        List<Gerente> gerentes = carregar("gerentes.json", new TypeToken<List<Gerente>>() {
         }.getType());
+
+        this.funcionarios = new ArrayList<>();
+        if (mecanicos != null) {
+            this.funcionarios.addAll(mecanicos);
+        }
+        if (gerentes != null) {
+            this.funcionarios.addAll(gerentes);
+        }
+
+        this.gerentes = gerentes != null ? gerentes : new ArrayList<>();
+
         this.produtos = carregar("produtos.json", new TypeToken<List<Produto>>() {
         }.getType());
         this.agendamentos = carregar("agendamentos.json", new TypeToken<List<Agenda>>() {
@@ -84,10 +95,17 @@ public class OficinaController {
         }
         if (elevadores == null || elevadores.isEmpty()) {
             elevadores = new ArrayList<>();
-            elevadores.add(new Elevador(1));
-            elevadores.add(new Elevador(2));
-            elevadores.add(new Elevador(3));
+
+            Elevador elevador1 = new Elevador(1);
+            Elevador elevador2 = new Elevador(2);
+            Elevador elevador3 = new Elevador(3);
+            elevador3.setExclusivoBalanceamento(true);
+
+            elevadores.add(elevador1);
+            elevadores.add(elevador2);
+            elevadores.add(elevador3);
         }
+
         if (ordens == null) {
             ordens = new ArrayList<>();
         }
@@ -133,8 +151,8 @@ public class OficinaController {
             System.out.println("7. Gerente");
             System.out.println("8. Despesas");
             System.out.println("9. Elevadores");
-            System.out.println("10. Ordem de Serviço");
-            System.out.println("11. Balanço Mensal");
+            System.out.println("10. Ordem de Servico");
+            System.out.println("11. Balanco Mensal");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -176,7 +194,19 @@ public class OficinaController {
     public void salvarTudo() {
         PersistenciaUtil.salvarEmArquivo(clientes, "clientes.json");
         PersistenciaUtil.salvarEmArquivo(veiculos, "veiculos.json");
-        PersistenciaUtil.salvarEmArquivo(funcionarios, "funcionarios.json");
+// Separar tipos antes de salvar
+        List<Mecanico> mecanicos = funcionarios.stream()
+                .filter(f -> f instanceof Mecanico)
+                .map(f -> (Mecanico) f)
+                .toList();
+
+        List<Gerente> gerentes = funcionarios.stream()
+                .filter(f -> f instanceof Gerente)
+                .map(f -> (Gerente) f)
+                .toList();
+
+// Salvar separadamente
+        PersistenciaUtil.salvarEmArquivo(mecanicos, "mecanicos.json");
         PersistenciaUtil.salvarEmArquivo(gerentes, "gerentes.json");
         PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");
         PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");

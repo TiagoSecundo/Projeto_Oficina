@@ -7,29 +7,32 @@ import java.util.Scanner;
 public class ElevadorService {
 
     private List<Elevador> elevadores;
-    
+
     public void menuElevadores() {
-    Scanner sc = new Scanner(System.in);
-    int opcao;
+        Scanner sc = new Scanner(System.in);
+        int opcao;
 
-    do {
-        System.out.println("\n--- Menu de Elevadores ---");
-        System.out.println("1. Listar elevadores");
-        System.out.println("2. Liberar elevador");
-        System.out.println("0. Voltar");
-        System.out.print("Escolha uma opção: ");
-        opcao = sc.nextInt();
-        sc.nextLine();
+        do {
+            System.out.println("\n--- Menu de Elevadores ---");
+            System.out.println("1. Listar elevadores");
+            System.out.println("2. Liberar elevador");
+            System.out.println("0. Voltar");
+            System.out.print("Escolha uma opcao: ");
+            opcao = sc.nextInt();
+            sc.nextLine();
 
-        switch (opcao) {
-            case 1 -> listarElevadores();
-            case 2 -> liberarElevador();
-            case 0 -> System.out.println("Voltando...");
-            default -> System.out.println("Opção inválida.");
-        }
-    } while (opcao != 0);
-}
-
+            switch (opcao) {
+                case 1 ->
+                    listarElevadores();
+                case 2 ->
+                    liberarElevador();
+                case 0 ->
+                    System.out.println("Voltando...");
+                default ->
+                    System.out.println("Opcao invalida.");
+            }
+        } while (opcao != 0);
+    }
 
     public ElevadorService(List<Elevador> elevadores) {
         this.elevadores = elevadores;
@@ -53,7 +56,7 @@ public class ElevadorService {
         for (Elevador e : elevadores) {
             if (e.getId() == id) {
                 if (e.getStatus().equalsIgnoreCase("Livre")) {
-                    System.out.println("Elevador já está livre.");
+                    System.out.println("Elevador ja esta livre.");
                     return;
                 }
                 e.setStatus("Livre");
@@ -63,7 +66,29 @@ public class ElevadorService {
                 return;
             }
         }
-        System.out.println("Elevador com ID " + id + " não encontrado.");
+        System.out.println("Elevador com ID " + id + " nao encontrado.");
+    }
+
+    public Elevador alocarElevador(String problema) {
+        for (Elevador e : elevadores) {
+            boolean ocupado = !e.getStatus().equalsIgnoreCase("Livre");
+            boolean balanceamento = problema.toLowerCase().contains("balanceamento");
+
+            if (ocupado) {
+                continue;
+            }
+
+            if (e.isExclusivoBalanceamento() && !balanceamento) {
+                continue;
+            }
+
+            e.setStatus("Ocupado");
+            e.setServicoEmExecucao(problema);
+            return e;
+        }
+
+        System.out.println("Nenhum elevador disponível para esse tipo de serviço.");
+        return null;
     }
 
     public void liberarElevadorPorId(int id) {

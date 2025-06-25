@@ -3,10 +3,6 @@ package services;
 import entities.Cliente;
 import entities.Veiculo;
 
-import Chains.VerificaClienteExistenteHandler;
-import Chains.VerificaVeiculoDoClienteHandler;
-import Chains.ClienteHandler;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +60,7 @@ public class ClienteService {
 
         for (Cliente c : clientes) {
             if (c.getIdCliente() == id) {
-                System.out.println("Cliente ja está cadastrado.");
+                System.out.println("Cliente ja cadastrado.");
                 return;
             }
         }
@@ -85,20 +81,20 @@ public class ClienteService {
         System.out.println("Cliente cadastrado com sucesso!");
         
         if( nome == null || telefone == null || endereco == null || cpf == null ||email == null ){
-            System.out.print("Cliente cadastrodo com algum(s) dado(s) em branco, recomendado editar cliente");
+            System.out.print("Cliente cadastrodo com algum(s) dado(s) em branco, recomendado editar");
         }
     }
     
 
     public Cliente buscarOuCadastrarCliente() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Cliente já está cadastrado? (s/n): ");
+        System.out.print("Cliente ja cadastrado? (s/n): ");
         String resposta = sc.nextLine();
 
         if (resposta.equalsIgnoreCase("s")) {
             Cliente cliente = buscarClientePorId();
             if (cliente == null) {
-                System.out.println("Cliente não encontrado.");
+                System.out.println("Cliente nao encontrado.");
                 return null;
             }
             return cliente;

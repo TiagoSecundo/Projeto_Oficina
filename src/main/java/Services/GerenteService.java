@@ -37,7 +37,7 @@ public class GerenteService {
                 case 3 -> removerGerente();
                 case 4 -> listarGerentes();
                 case 0 -> System.out.println("Voltando...");
-                default -> System.out.println("Opção inválida.");
+                default -> System.out.println("Opção invalida.");
             }
 
             PersistenciaUtil.salvarEmArquivo(gerentes, "gerentes.json");
@@ -45,7 +45,6 @@ public class GerenteService {
         } while (opcao != 0);
     }
 
-    // ✅ Cadastrar gerente (só pede senha se já houver gerente cadastrado)
     public void cadastrarGerente() {
         Scanner sc = new Scanner(System.in);
 
@@ -59,7 +58,7 @@ public class GerenteService {
         sc.nextLine();
 
         if (buscarPorId(id) != null) {
-            System.out.println("Gerente com esse ID já existe.");
+            System.out.println("Gerente com esse ID ja existe.");
             return;
         }
 
@@ -79,7 +78,6 @@ public class GerenteService {
         System.out.println("Gerente cadastrado com sucesso!");
     }
 
-    // ✅ Editar gerente
     public void editarGerente() {
         if (gerentes.isEmpty()) {
             System.out.println("Nenhum gerente cadastrado.");
@@ -95,7 +93,7 @@ public class GerenteService {
 
         Gerente gerente = buscarPorId(id);
         if (gerente == null) {
-            System.out.println("Gerente com ID " + id + " não encontrado.");
+            System.out.println("Gerente com ID " + id + " nao encontrado.");
             return;
         }
 
