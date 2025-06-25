@@ -1,12 +1,19 @@
 package services;
 
 import entities.Elevador;
+import entities.TipoServico; // ✅ Importar TipoServico
+import utils.PersistenciaUtil;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class ElevadorService {
 
     private List<Elevador> elevadores;
+
+    public ElevadorService(List<Elevador> elevadores) {
+        this.elevadores = elevadores;
+    }
 
     public void menuElevadores() {
         Scanner sc = new Scanner(System.in);
@@ -25,7 +32,7 @@ public class ElevadorService {
                 case 1 ->
                     listarElevadores();
                 case 2 ->
-                    liberarElevador();
+                    liberarElevadorViaMenu();
                 case 0 ->
                     System.out.println("Voltando...");
                 default ->
@@ -34,57 +41,46 @@ public class ElevadorService {
         } while (opcao != 0);
     }
 
-    public ElevadorService(List<Elevador> elevadores) {
-        this.elevadores = elevadores;
-    }
-
-    public Elevador buscarElevadorDisponivel() {
-        for (Elevador e : elevadores) {
-            if (e.getStatus().equalsIgnoreCase("Livre")) {
-                return e;
-            }
-        }
-        return null;
-    }
-
-    public void liberarElevador() {
+    public void liberarElevadorViaMenu() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite o ID do elevador para liberar: ");
         int id = sc.nextInt();
         sc.nextLine();
-
-        for (Elevador e : elevadores) {
-            if (e.getId() == id) {
-                if (e.getStatus().equalsIgnoreCase("Livre")) {
-                    System.out.println("Elevador ja esta livre.");
-                    return;
-                }
-                e.setStatus("Livre");
-                e.setVeiculoNaPlataforma(null);
-                e.setServicoEmExecucao(null);
-                System.out.println("Elevador " + id + " liberado.");
-                return;
-            }
-        }
-        System.out.println("Elevador com ID " + id + " nao encontrado.");
+        liberarElevadorPorId(id);
     }
 
-    public Elevador alocarElevador(String problema) {
-        for (Elevador e : elevadores) {
-            boolean ocupado = !e.getStatus().equalsIgnoreCase("Livre");
-            boolean balanceamento = problema.toLowerCase().contains("balanceamento");
-
-            if (ocupado) {
-                continue;
+    // ✅ CORREÇÃO: Método alocarElevador agora recebe TipoServico
+    public Elevador alocarElevador(String veiculoPlaca, TipoServico tipoServico) {
+        // 1. Tentar alocar elevador de balanceamento se o serviço for de BALANCEAMENTO
+        if (tipoServico == TipoServico.BALANCEAMENTO) {
+            for (Elevador elevador : elevadores) {
+                if (elevador.isExclusivoBalanceamento()) {
+                    if (elevador.getStatus().equalsIgnoreCase("Livre")) {
+                        elevador.setStatus("Ocupado - Balanceamento");
+                        elevador.setVeiculoNaPlataforma(veiculoPlaca);
+                        elevador.setServicoEmExecucao(tipoServico.getDescricao()); // Usa a descrição do enum
+                        PersistenciaUtil.salvarEmArquivo(elevadores, "elevadores.json"); //
+                        System.out.println("Elevador " + elevador.getId() + " alocado para Balanceamento.");
+                        return elevador;
+                    } else {
+                        System.out.println("Elevador de Balanceamento (ID " + elevador.getId() + ") não está livre.");
+                        return null;
+                    }
+                }
             }
+        }
 
-            if (e.isExclusivoBalanceamento() && !balanceamento) {
-                continue;
+        // 2. Se não for balanceamento OU o elevador de balanceamento não estiver disponível/não existir
+        // Tentar alocar um elevador geral
+        for (Elevador elevador : elevadores) {
+            if (!elevador.isExclusivoBalanceamento() && elevador.getStatus().equalsIgnoreCase("Livre")) {
+                elevador.setStatus("Ocupado");
+                elevador.setVeiculoNaPlataforma(veiculoPlaca);
+                elevador.setServicoEmExecucao(tipoServico.getDescricao()); // Usa a descrição do enum
+                PersistenciaUtil.salvarEmArquivo(elevadores, "elevadores.json"); //
+                System.out.println("Elevador " + elevador.getId() + " alocado para serviço geral.");
+                return elevador;
             }
-
-            e.setStatus("Ocupado");
-            e.setServicoEmExecucao(problema);
-            return e;
         }
 
         System.out.println("Nenhum elevador disponível para esse tipo de serviço.");
@@ -97,9 +93,21 @@ public class ElevadorService {
                 e.setStatus("Livre");
                 e.setVeiculoNaPlataforma(null);
                 e.setServicoEmExecucao(null);
+                System.out.println("Elevador " + id + " liberado.");
+                PersistenciaUtil.salvarEmArquivo(elevadores, "elevadores.json"); //
                 return;
             }
         }
+        System.out.println("Elevador com ID " + id + " nao encontrado.");
+    }
+
+    public Elevador buscarElevadorDisponivel() { // Manter este método se for usado em outro lugar, mas ele não considera o tipo de serviço.
+        for (Elevador e : elevadores) {
+            if (e.getStatus().equalsIgnoreCase("Livre")) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public void listarElevadores() {
@@ -110,8 +118,21 @@ public class ElevadorService {
 
         System.out.println("\n--- Lista de Elevadores ---");
         for (Elevador e : elevadores) {
-            System.out.println(e);
+            System.out.println("ID: " + e.getId()
+                               + " | Status: " + e.getStatus()
+                               + " | Veículo: " + (e.getVeiculoNaPlataforma() != null ? e.getVeiculoNaPlataforma() : "N/A")
+                               + " | Serviço: " + (e.getServicoEmExecucao() != null ? e.getServicoEmExecucao() : "N/A")
+                               + " | Exclusivo Balanceamento: " + e.isExclusivoBalanceamento());
         }
+    }
+
+    public Elevador buscarElevadorPorId(int id) {
+        for (Elevador e : elevadores) {
+            if (e.getId() == id) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public List<Elevador> getElevadores() {

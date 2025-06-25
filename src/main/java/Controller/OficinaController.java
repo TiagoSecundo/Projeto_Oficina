@@ -45,18 +45,18 @@ public class OficinaController {
         }.getType());
         List<Mecanico> mecanicos = carregar("mecanicos.json", new TypeToken<List<Mecanico>>() {
         }.getType());
-        List<Gerente> gerentes = carregar("gerentes.json", new TypeToken<List<Gerente>>() {
+        List<Gerente> gerentesCarregados = carregar("gerentes.json", new TypeToken<List<Gerente>>() { // Renomeado para evitar conflito
         }.getType());
 
         this.funcionarios = new ArrayList<>();
         if (mecanicos != null) {
             this.funcionarios.addAll(mecanicos);
         }
-        if (gerentes != null) {
-            this.funcionarios.addAll(gerentes);
+        if (gerentesCarregados != null) { // Usar gerentesCarregados
+            this.funcionarios.addAll(gerentesCarregados);
         }
 
-        this.gerentes = gerentes != null ? gerentes : new ArrayList<>();
+        this.gerentes = gerentesCarregados != null ? gerentesCarregados : new ArrayList<>();
 
         this.produtos = carregar("produtos.json", new TypeToken<List<Produto>>() {
         }.getType());
@@ -71,68 +71,96 @@ public class OficinaController {
         this.balancos = carregar("balancoMensal.json", new TypeToken<List<BalancoMensal>>() {
         }.getType());
 
-        // Inicializar listas vazias se necessário
-        if (clientes == null) {
-            clientes = new ArrayList<>();
+        // Inicializar listas vazias se necessário (usando as variáveis de instância)
+        if (this.clientes == null) { // Usar this.clientes
+            this.clientes = new ArrayList<>();
         }
-        if (veiculos == null) {
-            veiculos = new ArrayList<>();
+        if (this.veiculos == null) { // Usar this.veiculos
+            this.veiculos = new ArrayList<>();
         }
-        if (funcionarios == null) {
-            funcionarios = new ArrayList<>();
+        if (this.funcionarios == null) { // Usar this.funcionarios
+            this.funcionarios = new ArrayList<>();
         }
-        if (gerentes == null) {
-            gerentes = new ArrayList<>();
+        if (this.gerentes == null) { // Usar this.gerentes
+            this.gerentes = new ArrayList<>();
         }
-        if (produtos == null) {
-            produtos = new ArrayList<>();
+        if (this.produtos == null) { // Usar this.produtos
+            this.produtos = new ArrayList<>();
         }
-        if (agendamentos == null) {
-            agendamentos = new ArrayList<>();
+        if (this.agendamentos == null) { // Usar this.agendamentos
+            this.agendamentos = new ArrayList<>();
         }
-        if (despesas == null) {
-            despesas = new ArrayList<>();
+        if (this.despesas == null) { // Usar this.despesas
+            this.despesas = new ArrayList<>();
         }
-        if (elevadores == null || elevadores.isEmpty()) {
-            elevadores = new ArrayList<>();
+        if (this.elevadores == null || this.elevadores.isEmpty()) { // Usar this.elevadores
+            this.elevadores = new ArrayList<>();
 
             Elevador elevador1 = new Elevador(1);
             Elevador elevador2 = new Elevador(2);
             Elevador elevador3 = new Elevador(3);
             elevador3.setExclusivoBalanceamento(true);
 
-            elevadores.add(elevador1);
-            elevadores.add(elevador2);
-            elevadores.add(elevador3);
+            this.elevadores.add(elevador1); // Usar this.elevadores
+            this.elevadores.add(elevador2); // Usar this.elevadores
+            this.elevadores.add(elevador3); // Usar this.elevadores
+            System.out.println("Elevadores padrao criados e inicializados.");
+            // Persistir os elevadores recém-criados para garantir que estejam no arquivo
+            PersistenciaUtil.salvarEmArquivo(this.elevadores, "elevadores.json");
+        } else {
+            // ✅ CORREÇÃO AQUI: Garante que o elevador de balanceamento esteja sempre marcado
+            // mesmo se carregado de um JSON antigo sem a flag ou com ela como false.
+            boolean foundBalanceamentoElevator = false;
+            for (Elevador elevador : this.elevadores) {
+                if (elevador.getId() == 3) { // Supondo que ID 3 é o elevador de balanceamento
+                    if (!elevador.isExclusivoBalanceamento()) {
+                        elevador.setExclusivoBalanceamento(true);
+                        System.out.println("Elevador 3 (balanceamento) marcado como exclusivo.");
+                    }
+                    foundBalanceamentoElevator = true;
+                }
+            }
+            // Se por algum motivo o elevador de balanceamento (ID 3) não foi encontrado no JSON carregado,
+            // você pode optar por criá-lo aqui, ou considerar que o arquivo JSON está malformado.
+            if (!foundBalanceamentoElevator) {
+                System.out.println("Atenção: Elevador de balanceamento (ID 3) não encontrado no arquivo carregado. Criando...");
+                Elevador elevador3 = new Elevador(3);
+                elevador3.setExclusivoBalanceamento(true);
+                this.elevadores.add(elevador3);
+                // Pode ser necessário reordenar ou verificar duplicatas após adicionar
+            }
+            // Salvar para persistir a correção (se houver)
+            PersistenciaUtil.salvarEmArquivo(this.elevadores, "elevadores.json");
         }
 
-        if (ordens == null) {
-            ordens = new ArrayList<>();
+
+        if (this.ordens == null) { // Usar this.ordens
+            this.ordens = new ArrayList<>();
         }
-        if (balancos == null) {
-            balancos = new ArrayList<>();
+        if (this.balancos == null) { // Usar this.balancos
+            this.balancos = new ArrayList<>();
         }
 
         // Instanciar serviços
-        this.clienteService = new ClienteService(clientes);
-        this.veiculoService = new VeiculoService(veiculos, clientes);
-        this.produtoService = new ProdutoService(produtos);
-        this.estoqueService = new EstoqueService(produtos);
-        this.funcionarioService = new FuncionarioService(funcionarios);
-        this.gerenteService = new GerenteService(gerentes);
-        this.despesaService = new DespesaService(despesas);
-        this.elevadorService = new ElevadorService(elevadores);
+        this.clienteService = new ClienteService(this.clientes);
+        this.veiculoService = new VeiculoService(this.veiculos, this.clientes);
+        this.produtoService = new ProdutoService(this.produtos);
+        this.estoqueService = new EstoqueService(this.produtos);
+        this.funcionarioService = new FuncionarioService(this.funcionarios);
+        this.gerenteService = new GerenteService(this.gerentes);
+        this.despesaService = new DespesaService(this.despesas);
+        this.elevadorService = new ElevadorService(this.elevadores); // Passar a lista de elevadores corrigida
         this.agendamentoService = new AgendamentoService(
-                agendamentos, ordens,
-                clienteService, veiculoService,
-                funcionarioService, elevadorService,
-                produtoService
+                this.agendamentos, this.ordens,
+                this.clienteService, this.veiculoService,
+                this.funcionarioService, this.elevadorService,
+                this.produtoService
         );
         this.ordemServicoService = new OrdemServicoService(
-                ordens, clienteService, veiculoService, funcionarioService, elevadorService, produtoService
+                this.ordens, this.clienteService, this.veiculoService, this.funcionarioService, this.elevadorService, this.produtoService, this.estoqueService
         );
         this.balancoMensalService = new BalancoMensalService(
-                ordens, despesas, funcionarios, gerentes, balancos
+                this.ordens, this.despesas, this.funcionarios, this.gerentes, this.balancos
         );
     }
 
@@ -194,7 +222,7 @@ public class OficinaController {
     public void salvarTudo() {
         PersistenciaUtil.salvarEmArquivo(clientes, "clientes.json");
         PersistenciaUtil.salvarEmArquivo(veiculos, "veiculos.json");
-// Separar tipos antes de salvar
+        // Separar tipos antes de salvar
         List<Mecanico> mecanicos = funcionarios.stream()
                 .filter(f -> f instanceof Mecanico)
                 .map(f -> (Mecanico) f)
@@ -205,13 +233,13 @@ public class OficinaController {
                 .map(f -> (Gerente) f)
                 .toList();
 
-// Salvar separadamente
+        // Salvar separadamente
         PersistenciaUtil.salvarEmArquivo(mecanicos, "mecanicos.json");
         PersistenciaUtil.salvarEmArquivo(gerentes, "gerentes.json");
         PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");
         PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");
         PersistenciaUtil.salvarEmArquivo(despesas, "despesas.json");
-        PersistenciaUtil.salvarEmArquivo(elevadores, "elevadores.json");
+        PersistenciaUtil.salvarEmArquivo(elevadores, "elevadores.json"); // Salvar a lista de elevadores
         PersistenciaUtil.salvarEmArquivo(ordens, "ordens.json");
         PersistenciaUtil.salvarEmArquivo(balancos, "balancoMensal.json");
     }
