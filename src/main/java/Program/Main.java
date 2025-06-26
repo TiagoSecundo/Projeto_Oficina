@@ -1,7 +1,7 @@
 package Program;
 
 import controller.OficinaController;
-
+import entities.*;
 
 public class Main {
 

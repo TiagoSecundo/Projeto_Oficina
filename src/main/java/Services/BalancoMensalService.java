@@ -82,7 +82,7 @@ public class BalancoMensalService {
         System.out.println(balanco);
     }
 
-    // 🔑 Validação de senha do gerente
+
     private boolean validarSenhaGerente(Scanner sc) {
         System.out.print("Digite a senha do gerente: ");
         String senha = sc.nextLine();

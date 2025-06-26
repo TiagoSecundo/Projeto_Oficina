@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class AgendamentoService {
 
@@ -20,14 +21,21 @@ public class AgendamentoService {
     private VeiculoService veiculoService;
     private FuncionarioService funcionarioService;
     private ElevadorService elevadorService;
+    private OrdemServicoService ordemServicoService;
 
     public AgendamentoService(List<Agenda> agendamentos, ClienteService clienteService, VeiculoService veiculoService,
-            FuncionarioService funcionarioService, ElevadorService elevadorService) {
+            FuncionarioService funcionarioService, ElevadorService elevadorService, OrdemServicoService ordemServicoService) {
         this.agendamentos = agendamentos;
         this.clienteService = clienteService;
         this.veiculoService = veiculoService;
         this.funcionarioService = funcionarioService;
         this.elevadorService = elevadorService;
+        this.ordemServicoService = ordemServicoService;
+        if (ordemServicoService == null) {
+            System.out.println("ERRO: ordemServicoService ainda está NULL no AgendamentoService!");
+        } else {
+            System.out.println("V: ordemServicoService foi recebida corretamente.");
+        }
     }
 
     public void menuAgendamentos() {
@@ -71,15 +79,21 @@ public class AgendamentoService {
         int id = sc.nextInt();
         sc.nextLine();
 
-        // Cliente
+        for (Agenda a : agendamentos) {
+            if (a.getId() == id) {
+                System.out.println("Ja existe um agendamento com esse ID. Cancelando operacao.");
+                return;
+            }
+        }
+
         Cliente cliente;
-        System.out.print("Cliente já está cadastrado? (s/n): ");
+        System.out.print("Cliente ja esta cadastrado? (s/n): ");
         String respCliente = sc.nextLine();
 
         if (respCliente.equalsIgnoreCase("s")) {
             cliente = clienteService.buscarClientePorId();
             if (cliente == null) {
-                System.out.println("Cliente não encontrado. Encerrando agendamento.");
+                System.out.println("Cliente nao encontrado. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -87,15 +101,14 @@ public class AgendamentoService {
             cliente = clienteService.getUltimoClienteCadastrado();
         }
 
-        // Veículo
         Veiculo veiculo;
-        System.out.print("Veículo já está cadastrado? (s/n): ");
+        System.out.print("Veiculo ja esta cadastrado? (s/n): ");
         String respVeiculo = sc.nextLine();
 
         if (respVeiculo.equalsIgnoreCase("s")) {
             veiculo = veiculoService.buscarVeiculoPorCliente(cliente);
             if (veiculo == null) {
-                System.out.println("Veículo não encontrado para este cliente. Encerrando agendamento.");
+                System.out.println("Veiculo nao encontrado para este cliente. Encerrando agendamento.");
                 return;
             }
         } else {
@@ -103,29 +116,30 @@ public class AgendamentoService {
             veiculo = veiculoService.getUltimoVeiculoCadastrado();
         }
 
-        // Descrição
-        System.out.print("Descrição do problema: ");
+        System.out.print("Descricao do problema apresentado pelo cliente: ");
         String problema = sc.nextLine();
 
-        // Funcionário (Mecânico)
-        System.out.print("ID do mecânico: ");
+        List<Mecanico> mecanicos = funcionarioService.getMecanicos();
+        if (mecanicos.isEmpty()) {
+            System.out.println("Nao ha mecanicos cadastrados no sistema. Agendamento cancelado.");
+            return;
+        }
+
+        System.out.println("Mecanicos disponiveis:");
+        for (Mecanico m : mecanicos) {
+            System.out.println("ID: " + m.getId() + " - Nome: " + m.getNome() + " - Especialidade: " + m.getEspecialidade());
+        }
+
+        System.out.print("Digite o ID do mecanico desejado: ");
         int idMec = sc.nextInt();
         sc.nextLine();
 
         Mecanico mecanico = funcionarioService.buscarMecanicoPorId(idMec);
         if (mecanico == null) {
-            System.out.print("Mecânico não encontrado. Deseja cadastrar um novo? (s/n): ");
-            String respFunc = sc.nextLine();
-            if (respFunc.equalsIgnoreCase("s")) {
-                funcionarioService.cadastrarFuncionario();
-                mecanico = funcionarioService.getUltimoMecanicoCadastrado();
-            } else {
-                System.out.println("Agendamento cancelado.");
-                return;
-            }
+            System.out.println("Mecanico nao encontrado. Agendamento cancelado.");
+            return;
         }
 
-        // Data e hora
         System.out.print("Data e hora do agendamento (ex: 20/05/2025 14:30): ");
         String dataHoraStr = sc.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -134,43 +148,68 @@ public class AgendamentoService {
         try {
             dataHora = LocalDateTime.parse(dataHoraStr, formatter);
         } catch (Exception e) {
-            System.out.println("Formato de data e hora inválido.");
+            System.out.println("Formato de data e hora invalido.");
             return;
         }
 
-        // Verificar se já existe agendamento no mesmo horário
         for (Agenda a : agendamentos) {
             if (a.getDataAgendamento().equals(dataHora)) {
-                System.out.println("Já existe um agendamento neste horário. Agendamento cancelado.");
+                System.out.println("Ja existe um agendamento neste horario. Agendamento cancelado.");
                 return;
             }
         }
 
-        // Buscar elevador disponível
-        Elevador elevador = elevadorService.buscarElevadorDisponivel();
-        if (elevador == null) {
-            System.out.println("Nenhum elevador disponível no momento. Tente novamente mais tarde.");
-            return;
+        System.out.print("O servico necessita de elevador? (s/n): ");
+        String resp = sc.nextLine();
+        Elevador elevador = null;
+
+        if (resp.equalsIgnoreCase("s")) {
+            elevador = elevadorService.buscarElevadorDisponivelParaServico(problema);
+            if (elevador == null) {
+                System.out.println("Nenhum elevador disponivel no momento. Agendamento cancelado.");
+                return;
+            }
+            elevador.setStatus("Ocupado");
+            elevador.setVeiculoNaPlataforma(veiculo.getPlaca());
+            elevador.setServicoEmExecucao(problema);
         }
 
-        // Marcar o elevador como ocupado
-        elevador.setStatus("Ocupado");
-        elevador.setVeiculoNaPlataforma(veiculo.getPlaca());
-        elevador.setServicoEmExecucao(problema);
-
-        // Criar o objeto Agenda
         Agenda agenda = new Agenda(id, cliente, veiculo, problema, mecanico, dataHora, "Agendado", elevador);
-        agenda.setElevador(elevador); // <- Aqui faz o vínculo do elevador na agenda
-
-        // Adicionar na lista de agendamentos
         agendamentos.add(agenda);
+        System.out.println("Deseja gerar automaticamente a ordem de servico para este agendamento? (s/n)");
+        String gerarOS = sc.nextLine();
+        if (gerarOS.equalsIgnoreCase("s")) {
+            OrdemServico os = new OrdemServico(
+                    gerarIdOrdemServico(), // crie ou use uma função para gerar novo ID
+                    cliente,
+                    veiculo,
+                    mecanico,
+                    elevador,
+                    LocalDateTime.now(),
+                    new ArrayList<>(), // itens em branco por padrão
+                    0.0, // valor inicial da mão de obra
+                    "Aberta"
+            );
+            ordemServicoService.getOrdensDeServico().add(os);
+            System.out.println("Ordem de servico gerada com sucesso para o agendamento.");
+        }
 
         System.out.println("\n--- Agendamento realizado com sucesso! ---");
         System.out.println("Cliente: " + cliente.getNome());
-        System.out.println("Veículo: " + veiculo.getModelo() + " - " + veiculo.getPlaca());
-        System.out.println("Mecânico: " + mecanico.getNome());
-        System.out.println("Elevador utilizado: " + elevador.getId());
+        System.out.println("Veiculo: " + veiculo.getModelo() + " - " + veiculo.getPlaca());
+        System.out.println("Mecanico: " + mecanico.getNome());
+        if (elevador != null) {
+            System.out.println("Elevador utilizado: " + elevador.getId());
+        } else {
+            System.out.println("Elevador: nao necessario");
+        }
         System.out.println("Data e hora: " + dataHora.format(formatter));
+    }
+
+    private int gerarIdOrdemServico() {
+        return ordemServicoService.getOrdensDeServico().stream()
+                .mapToInt(OrdemServico::getId)
+                .max().orElse(0) + 1;
     }
 
     public void cancelarAgendamento() {
@@ -181,25 +220,53 @@ public class AgendamentoService {
         int id = sc.nextInt();
         sc.nextLine();
 
+        Agenda agendamentoEncontrado = null;
+
         for (Agenda a : agendamentos) {
             if (a.getId() == id) {
-                a.setStatus("Cancelado");
-
-                // Exemplo: se houver valor associado ao serviço.
-                System.out.print("Informe o valor estimado do serviço (ou 0 se não houver): ");
-                double valor = sc.nextDouble();
-                sc.nextLine();
-
-                if (valor > 0) {
-                    double multa = valor * 0.20;
-                    System.out.printf("Agendamento cancelado. Multa de 20%%: R$ %.2f\n", multa);
-                } else {
-                    System.out.println("Agendamento cancelado sem multa.");
-                }
-                return;
+                agendamentoEncontrado = a;
+                break;
             }
         }
-        System.out.println("Agendamento com ID " + id + " nao encontrado.");
+
+        if (agendamentoEncontrado == null) {
+            System.out.println("Agendamento com ID " + id + " nao encontrado.");
+            return;
+        }
+
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDate dataHoje = agora.toLocalDate();
+        LocalDate dataAgendamento = agendamentoEncontrado.getDataAgendamento().toLocalDate();
+
+        System.out.print("Informe o valor estimado do servico (ou 0 se nao houver): ");
+        double valor = sc.nextDouble();
+        sc.nextLine();
+
+        if (valor > 0) {
+            if (dataHoje.equals(dataAgendamento)) {
+                double multa = valor * 0.50;
+                System.out.printf("Cancelamento no mesmo dia. Multa de 50%%: R$ %.2f\n", multa);
+            } else {
+                double multa = valor * 0.20;
+                System.out.printf("Cancelamento antecipado. Multa de 20%%: R$ %.2f\n", multa);
+            }
+        } else {
+            System.out.println("Cancelamento sem multa.");
+        }
+
+        // ✅ Liberar elevador, se tiver
+        Elevador elevador = agendamentoEncontrado.getElevador();
+        if (elevador != null) {
+            elevador.setStatus("Disponivel");
+            elevador.setVeiculoNaPlataforma(null);
+            elevador.setServicoEmExecucao(null);
+        }
+
+        // ✅ Marcar como cancelado OU remover da lista
+        agendamentoEncontrado.setStatus("Cancelado");
+        // agendamentos.remove(agendamentoEncontrado); // Se preferir remover em vez de marcar
+
+        System.out.println("Agendamento cancelado com sucesso.");
     }
 
     public void consultarAgendaPorData() {
@@ -243,8 +310,24 @@ public class AgendamentoService {
         }
     }
 
+    public void criarOrdemDeServicoAutomatica(Agenda agenda) {
+        List<ItemServico> itens = new ArrayList<>(); // começa vazia
+        OrdemServico os = new OrdemServico(
+                agenda.getId(), // mesmo ID do agendamento
+                agenda.getCliente(),
+                agenda.getVeiculo(),
+                agenda.getMecanicoResponsavel(),
+                agenda.getElevador(),
+                LocalDateTime.now(),
+                itens,
+                0.0, // valor inicial da mão de obra
+                "Aberta"
+        );
+        ordemServicoService.getOrdensDeServico().add(os);
+        System.out.println("Ordem de serviço criada automaticamente após o agendamento.");
+    }
+
     public List<Agenda> getAgendamentos() {
         return agendamentos;
     }
-
 }

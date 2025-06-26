@@ -171,6 +171,14 @@ public class ProdutoService {
         return produtos;
     }
 
+    public void decrementarEstoque(Produto produto, int quantidade) {
+        if (produto.getQuantidade() >= quantidade) {
+            produto.setQuantidade(produto.getQuantidade() - quantidade);
+        } else {
+            System.out.println("Erro: Estoque insuficiente para decrementar.");
+        }
+    }
+
     public void listarProdutosOrdenadosPorPreco() {
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");

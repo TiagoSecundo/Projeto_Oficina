@@ -3,74 +3,93 @@ package entities;
 public class Elevador {
 
     private int id;
-    private String status; 
+    private String status;
+    private String tipo;
     private String veiculoNaPlataforma;
     private String servicoEmExecucao;
 
     public Elevador() {
     }
+
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
-    public Elevador(int id) {
+    public Elevador(int id, String tipo) {
         this.id = id;
+        this.tipo = tipo;
         this.status = "Livre";
         this.veiculoNaPlataforma = null;
         this.servicoEmExecucao = null;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public int getId() {
         return id;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getStatus() {
         return status;
     }
+
     /**
-     * 
-     * @param status 
+     *
+     * @param status
      */
     public void setStatus(String status) {
         this.status = status;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getVeiculoNaPlataforma() {
         return veiculoNaPlataforma;
     }
+
     /**
-     * 
-     * @param veiculoNaPlataforma 
+     *
+     * @param veiculoNaPlataforma
      */
     public void setVeiculoNaPlataforma(String veiculoNaPlataforma) {
         this.veiculoNaPlataforma = veiculoNaPlataforma;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getServicoEmExecucao() {
         return servicoEmExecucao;
     }
+
     /**
-     * 
-     * @param servicoEmExecucao 
+     *
+     * @param servicoEmExecucao
      */
     public void setServicoEmExecucao(String servicoEmExecucao) {
         this.servicoEmExecucao = servicoEmExecucao;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {

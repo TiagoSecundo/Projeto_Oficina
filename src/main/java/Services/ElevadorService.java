@@ -35,14 +35,20 @@ public class ElevadorService {
         this.elevadores = elevadores;
     }
 
-    public Elevador buscarElevadorDisponivel() {
-        for (Elevador e : elevadores) {
-            if (e.getStatus().equalsIgnoreCase("Livre")) {
+    public Elevador buscarElevadorDisponivelParaServico(String tipoServico) {
+    for (Elevador e : elevadores) {
+        if (e.getStatus().equalsIgnoreCase("Livre")) {
+            if (tipoServico.equalsIgnoreCase("balanceamento") && e.getTipo().equalsIgnoreCase("Balanceamento")) {
+                return e;
+            } else if (!tipoServico.equalsIgnoreCase("balanceamento") && e.getTipo().equalsIgnoreCase("Geral")) {
                 return e;
             }
         }
-        return null;
     }
+    System.out.println("Nenhum elevador disponível para este tipo de serviço.");
+    return null;
+}
+
 
     public void liberarElevador() {
         Scanner sc = new Scanner(System.in);
@@ -88,6 +94,23 @@ public class ElevadorService {
             System.out.println(e);
         }
     }
+    public Elevador alocarElevador(String tipoServico) {
+    for (Elevador e : elevadores) {
+        if (e.getStatus().equalsIgnoreCase("Livre")) {
+            // Balanceamento só no elevador 1
+            if (tipoServico.equalsIgnoreCase("Balanceamento") && e.getId() == 1) {
+                return e;
+            }
+
+            // Outros serviços apenas nos elevadores 2 e 3
+            if (!tipoServico.equalsIgnoreCase("Balanceamento") && e.getId() != 1) {
+                return e;
+            }
+        }
+    }
+
+    return null; // Nenhum elevador adequado disponível
+}
 
     public List<Elevador> getElevadores() {
         return elevadores;

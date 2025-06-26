@@ -94,6 +94,8 @@ public class EstoqueService {
             System.out.println("ID: " + p.getId() + " | Nome: " + p.getNome() + " | Quantidade: " + p.getQuantidade());
         }
     }
+    
+    
 
     private Produto buscarProdutoPorId(int id) {
         for (Produto p : produtos) {

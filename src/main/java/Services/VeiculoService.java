@@ -262,6 +262,12 @@ public class VeiculoService {
                 .findFirst().orElse(null);
     }
 
+public Veiculo buscarVeiculoPorPlacaECliente(String placa, Cliente cliente) {
+    return cliente.getVeiculo().stream()
+            .filter(v -> v.getPlaca().equalsIgnoreCase(placa))
+            .findFirst().orElse(null);
+}
+
     public void cadastrarVeiculoParaCliente(Cliente cliente) {
         cadastrarVeiculo(); // já adiciona ao cliente dentro do método
     }
