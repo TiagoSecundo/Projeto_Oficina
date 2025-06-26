@@ -1,7 +1,6 @@
 package services;
 
 import entities.*;
-import utils.PersistenciaUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -64,8 +63,11 @@ public class AgendamentoService {
                     System.out.println("Opcao invalida.");
             }
 
+<<<<<<< Updated upstream
             salvarDados(); // Salva após cada operação do menu
 
+=======
+>>>>>>> Stashed changes
         } while (opcao != 0);
     }
 
@@ -314,6 +316,7 @@ public class AgendamentoService {
                 }
             }
 
+<<<<<<< Updated upstream
             if (encontrado != null) {
                 if (encontrado.getStatus().equalsIgnoreCase("Cancelado")) {
                     System.out.println("Agendamento já está cancelado.");
@@ -365,6 +368,11 @@ public class AgendamentoService {
         } catch (InputMismatchException e) {
             System.out.println("Entrada inválida. Por favor, digite um número para o ID ou valor.");
             sc.nextLine(); // Limpa o buffer do scanner
+=======
+            System.out.println("Agendamento removido com sucesso.");
+        } else {
+            System.out.println("Agendamento com ID " + id + " nao encontrado.");
+>>>>>>> Stashed changes
         }
     }
 
@@ -425,9 +433,13 @@ public class AgendamentoService {
             }
         }
     }
+<<<<<<< Updated upstream
 
     private void salvarDados() {
         PersistenciaUtil.salvarEmArquivo(agendamentos, "agendamentos.json");
         PersistenciaUtil.salvarEmArquivo(ordens, "ordens.json");
     }
 }
+=======
+}
+>>>>>>> Stashed changes
