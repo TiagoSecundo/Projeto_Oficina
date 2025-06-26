@@ -12,8 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PersistenciaUtil {
 
+public class PersistenciaUtil {
+    
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapterUtil())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimerUtil())

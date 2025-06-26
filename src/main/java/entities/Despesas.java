@@ -82,6 +82,6 @@ public class Despesas {
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +
                 ", data=" + data +
-                '}';
+                '}' + "\n";
     }
 }

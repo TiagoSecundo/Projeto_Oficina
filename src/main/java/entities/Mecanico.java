@@ -44,7 +44,7 @@ public class Mecanico extends Funcionario {
      */
     @Override
     public String toString() {
-        return super.toString() + String.format(", Especialidade: %s", especialidade);
+        return super.toString() + String.format(", Especialidade: %s", especialidade +"\n");
     }
    
 }

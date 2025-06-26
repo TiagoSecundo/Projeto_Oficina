@@ -93,6 +93,6 @@ public class BalancoMensal {
                 "\nDespesas Totais......: R$ " + despesasTotais +
                 "\nLucro Bruto..........: R$ " + lucroBruto +
                 "\nLucro Líquido........: R$ " + lucroLiquido +
-                "\n==============================";
+                "\n==============================\n";
     }
 }

@@ -37,6 +37,22 @@ public class Veiculo {
         incrementarTotal();
         contadorVeiculos++;
     }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public Cliente getProprietario() {
+        return proprietario;
+    }
+
+    public ArrayList<Servico> getHistoricoServicos() {
+        return historicoServicos;
+    }
     /**
      * 
      */
@@ -85,6 +101,7 @@ public class Veiculo {
     public String getPlaca() {
         return this.placa;
     }
+    
 
     /**
      *

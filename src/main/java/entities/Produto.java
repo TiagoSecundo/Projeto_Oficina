@@ -1,5 +1,4 @@
 package entities;
-// ainda preciso comentar
 
 public class Produto {
 
@@ -15,139 +14,90 @@ public class Produto {
     }
 
     /**
-     *
+     * Construtor que já calcula o preço final automaticamente com 30% de lucro.
+     * 
      * @param id
      * @param nome
      * @param precoCusto
-     * @param precoFinal
      * @param quantidade
      * @param status
+     * @param fornecedor
      */
-    public Produto(int id, String nome, double precoCusto, double precoFinal, int quantidade, String status, String fornecedor) {
+    public Produto(int id, String nome, double precoCusto, int quantidade, String status, String fornecedor) {
         this.id = id;
         this.nome = nome;
         this.precoCusto = precoCusto;
+        this.precoFinal = precoCusto * 1.3; // ✅ Calcula o preço final automaticamente
         this.quantidade = quantidade;
         this.status = status;
         this.fornecedor = fornecedor;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     *
-     * @param nome
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    /**
-     *
-     * @return
-     */
     public double getPrecoCusto() {
         return precoCusto;
     }
 
-    /**
-     *
-     * @param precoCusto
-     */
     public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
+        this.precoFinal = precoCusto * 1.3; // ✅ Sempre atualiza preço final quando custo muda
     }
 
-    /**
-     *
-     * @return
-     */
     public double getPrecoFinal() {
         return precoFinal;
     }
 
-    /**
-     *
-     * @param precoFinal
-     */
-    public void setPrecoFinal(double precoFinal) {
-        this.precoFinal = precoFinal;
-    }
 
-    /**
-     *
-     * @return
-     */
+
     public int getQuantidade() {
         return quantidade;
     }
 
-    /**
-     *
-     * @param quantidade
-     */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getStatus() {
         return status;
     }
 
-    /**
-     *
-     * @param status
-     */
     public void setStatus(String status) {
         this.status = status;
     }
-    /**
-     * 
-     * @return 
-     */
+
     public String getFornecedor() {
         return fornecedor;
     }
-    /**
-     * 
-     * @param fornecedor 
-     */
+
     public void setFornecedor(String fornecedor) {
         this.fornecedor = fornecedor;
     }
-    /**
-     * 
-     * @return 
-     */
+
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", nome=" + nome + ", precoCusto=" + precoCusto + ", precoFinal=" + precoFinal + ", quantidade=" + quantidade + ", status=" + status + ", fornecedor=" + fornecedor + '}';
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", precoCusto=" + precoCusto +
+                ", precoFinal=" + precoFinal +
+                ", quantidade=" + quantidade +
+                ", status='" + status + '\'' +
+                ", fornecedor='" + fornecedor + '\'' +
+                '}'+"\n";
     }
-    
 }

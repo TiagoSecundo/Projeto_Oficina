@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Cliente {
 
     private int idCliente;
+    protected static int totalVeiculosProtected = 0;
     private String nome;
     private String telefone;
     private String endereco;
@@ -170,6 +171,6 @@ public class Cliente {
                 + ", Telefone: " + telefone
                 + ", Endereco: " + endereco
                 + ", CPF: " + getCpfAnonimizado()
-                + ", Email: " + email;
+                + ", Email: " + email + "\n";
     }
 }

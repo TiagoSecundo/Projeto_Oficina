@@ -39,6 +39,6 @@ public class ItemServico {
     public String toString() {
         return "\n - Produto: " + produto.getNome() + 
                " | Quantidade: " + quantidade +
-               " | Preço Unit.: R$" + produto.getPrecoFinal();
+               " | Preço Unit.: R$" + produto.getPrecoFinal()+"\n";
     }
 }
