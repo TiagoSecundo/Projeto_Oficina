@@ -55,19 +55,16 @@ public class BalancoMensalService {
             return;
         }
 
-        // Receitas
         double receitaTotal = 0;
         for (OrdemServico os : ordens) {
             receitaTotal += os.getValorTotal();
         }
 
-        // Despesas Operacionais
         double despesasOperacionais = 0;
         for (Despesas d : despesas) {
             despesasOperacionais += d.getValor();
         }
 
-        // Salários
         double totalSalarios = 0;
         for (Funcionario f : funcionarios) {
             totalSalarios += f.getSalario();
@@ -78,11 +75,10 @@ public class BalancoMensalService {
 
         double despesasTotais = despesasOperacionais + totalSalarios;
 
-        // Lucro
+
         double lucroBruto = receitaTotal;
         double lucroLiquido = lucroBruto - despesasTotais;
 
-        // Criar balanço
         BalancoMensal balanco = new BalancoMensal(
                 LocalDate.now(),
                 receitaTotal,
