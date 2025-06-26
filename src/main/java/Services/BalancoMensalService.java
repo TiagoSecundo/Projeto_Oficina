@@ -106,37 +106,29 @@ public class BalancoMensalService {
     }
 
     /**
-     * Gera e salva um balanço completo do mês corrente.
+     * Gera um balanço completo do mês corrente.
      */
     private void gerarBalancoMensal() {
-        // Receitas do mês atual
         double receitaTotal = ordens.stream()
-                .filter(os -> os.getDataHora().getMonth() == LocalDate.now().getMonth() && os.getDataHora().getYear() == LocalDate.now().getYear())
                 .mapToDouble(OrdemServico::getValorTotal)
                 .sum();
 
-        // Despesas Operacionais do mês atual
         double despesasOperacionais = despesas.stream()
-                .filter(d -> d.getData().getMonth() == LocalDate.now().getMonth() && d.getData().getYear() == LocalDate.now().getYear())
                 .mapToDouble(Despesas::getValor)
                 .sum();
 
-        // Salários
-        double totalSalarios = funcionarios.stream().mapToDouble(Funcionario::getSalario).sum()
-                + gerentes.stream().mapToDouble(Gerente::getSalario).sum();
+        double totalSalarios = funcionarios.stream()
+                .mapToDouble(Funcionario::getSalario)
+                .sum();
 
         double despesasTotais = despesasOperacionais + totalSalarios;
-
-        // Lucro
         double lucroBruto = receitaTotal;
         double lucroLiquido = lucroBruto - despesasTotais;
 
         BalancoMensal balanco = new BalancoMensal(LocalDate.now(), receitaTotal, despesasOperacionais, totalSalarios, despesasTotais, lucroBruto, lucroLiquido);
-
         balancos.add(balanco);
-        PersistenciaUtil.salvarEmArquivo(balancos, "balancoMensal.json");
 
-        System.out.println("\nBalanço Gerado e Salvo com Sucesso!");
+        System.out.println("\nBalanço Gerado com Sucesso!");
         System.out.println(balanco);
     }
 
