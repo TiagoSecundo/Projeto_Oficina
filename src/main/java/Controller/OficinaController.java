@@ -32,7 +32,7 @@ public class OficinaController {
     private DespesaService despesaService;
     private FuncionarioService funcionarioService;
     private GerenteService gerenteService;
-    private AgendamentoService agendamentoService;
+
     private ElevadorService elevadorService;
     private OrdemServicoService ordemServicoService;
     private BalancoMensalService balancoMensalService;

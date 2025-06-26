@@ -13,7 +13,7 @@ public class Cliente {
     private String cpf;
     private String email;
     private static ArrayList<Veiculo> veiculo;
-    protected static int totalVeiculosProtected = 0;
+
 
     public Cliente() {
         veiculo = new ArrayList<>();
