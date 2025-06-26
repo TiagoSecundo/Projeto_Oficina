@@ -4,9 +4,9 @@ public class Elevador {
 
     private int id;
     private String status;
+    private String tipo;
     private String veiculoNaPlataforma;
     private String servicoEmExecucao;
-    private boolean exclusivoBalanceamento = false;
 
     public Elevador() {
     }
@@ -15,12 +15,12 @@ public class Elevador {
      *
      * @param id
      */
-    public Elevador(int id) {
+    public Elevador(int id, String tipo) {
         this.id = id;
+        this.tipo = tipo;
         this.status = "Livre";
         this.veiculoNaPlataforma = null;
         this.servicoEmExecucao = null;
-        this.exclusivoBalanceamento = false;
     }
 
     /**
@@ -79,21 +79,22 @@ public class Elevador {
         this.servicoEmExecucao = servicoEmExecucao;
     }
 
-  // ... (restante dos getters e setters e toString)
-    public boolean isExclusivoBalanceamento() {
-        return exclusivoBalanceamento;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setExclusivoBalanceamento(boolean exclusivoBalanceamento) {
-        this.exclusivoBalanceamento = exclusivoBalanceamento;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
-
         return "Elevador [ID=" + id + ", Status=" + status
-                + ", Veiculo=" + (veiculoNaPlataforma == null ? " " : veiculoNaPlataforma)
-                + ", Servico=" + (servicoEmExecucao == null ? " " : servicoEmExecucao)
-                + ", ExclusivoBalanceamento=" + exclusivoBalanceamento + "]" +"\n"; // Adicionado para depuração
+                + ", Veículo=" + (veiculoNaPlataforma == null ? "Nenhum" : veiculoNaPlataforma)
+                + ", Serviço=" + (servicoEmExecucao == null ? "Nenhum" : servicoEmExecucao) + "]";
     }
 }

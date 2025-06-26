@@ -10,14 +10,12 @@ import java.util.Scanner;
 public class ProdutoService {
 
     private List<Produto> produtos;
+    private final double LUCRO = 0.3;
 
     public ProdutoService(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
-    /**
-     *
-     */
     public void menuProdutos() {
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -28,9 +26,9 @@ public class ProdutoService {
             System.out.println("2. Editar produto");
             System.out.println("3. Remover produto");
             System.out.println("4. Listar produtos");
-            System.out.println("5. Listar produtos por preco final");
+            System.out.println("5. Listar produtos por preço final");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opcao: ");
+            System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
             sc.nextLine();
 
@@ -48,15 +46,12 @@ public class ProdutoService {
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
-                    System.out.println("Opção invalida.");
+                    System.out.println("Opcao inválida.");
             }
 
         } while (opcao != 0);
     }
 
-    /**
-     *
-     */
     public void cadastrarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Cadastro de Produto ---");
@@ -78,18 +73,10 @@ public class ProdutoService {
         System.out.print("Preco de Custo: ");
         double precoCusto = sc.nextDouble();
         sc.nextLine();
-        if (precoCusto < 0) {
-            System.out.print("Preco do produto negativo, cadastro de produto cancelado");
-            return;
-        }
 
         System.out.print("Quantidade: ");
         int quantidade = sc.nextInt();
         sc.nextLine();
-        if (quantidade < 0) {
-            System.out.print("Preco do produto negativo, cadastro de produto cancelado");
-            return;
-        }
 
         System.out.print("Status: ");
         String status = sc.nextLine();
@@ -97,15 +84,13 @@ public class ProdutoService {
         System.out.print("Fornecedor: ");
         String fornecedor = sc.nextLine();
 
-        Produto novo = new Produto(id, nome, precoCusto, quantidade, status, fornecedor);
+        double precoFinal = precoCusto * (1 + LUCRO);
+
+        Produto novo = new Produto(id, nome, precoCusto, precoFinal, quantidade, status, fornecedor);
         produtos.add(novo);
         System.out.println("Produto cadastrado com sucesso!");
-
     }
 
-    /**
-     *
-     */
     public void editarProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Editar Produto ---");
@@ -122,7 +107,8 @@ public class ProdutoService {
                 System.out.print("Novo preco de custo: ");
                 double novoPrecoCusto = sc.nextDouble();
                 sc.nextLine();
-                produto.setPrecoCusto(novoPrecoCusto); // ✅ Já atualiza o preço final automaticamente
+                produto.setPrecoCusto(novoPrecoCusto);
+                produto.setPrecoFinal(novoPrecoCusto * (1 + LUCRO));
 
                 System.out.print("Nova quantidade: ");
                 produto.setQuantidade(sc.nextInt());
@@ -130,9 +116,6 @@ public class ProdutoService {
 
                 System.out.print("Novo status: ");
                 produto.setStatus(sc.nextLine());
-
-                System.out.print("Novo fornecedor: ");
-                produto.setFornecedor(sc.nextLine());
 
                 System.out.println("Produto editado com sucesso:\n" + produto);
                 return;
@@ -142,9 +125,6 @@ public class ProdutoService {
         System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
-    /**
-     *
-     */
     public void removerProduto() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Remover Produto ---");
@@ -166,9 +146,6 @@ public class ProdutoService {
         System.out.println("Produto com ID " + id + " nao encontrado.");
     }
 
-    /**
-     *
-     */
     public void listarProdutos() {
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");
@@ -181,11 +158,6 @@ public class ProdutoService {
         }
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
     public Produto buscarProdutoPorId(int id) {
         for (Produto p : produtos) {
             if (p.getId() == id) {
@@ -195,17 +167,18 @@ public class ProdutoService {
         return null;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Produto> getProdutos() {
         return produtos;
     }
 
-    /**
-     *
-     */
+    public void decrementarEstoque(Produto produto, int quantidade) {
+        if (produto.getQuantidade() >= quantidade) {
+            produto.setQuantidade(produto.getQuantidade() - quantidade);
+        } else {
+            System.out.println("Erro: Estoque insuficiente para decrementar.");
+        }
+    }
+
     public void listarProdutosOrdenadosPorPreco() {
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");
@@ -216,7 +189,7 @@ public class ProdutoService {
 
         System.out.println("\n--- Produtos ordenados por preco final ---");
         for (Produto p : produtos) {
-            System.out.println(p.getNome() + " - R$ " + String.format("%.2f", p.getPrecoFinal()));
+            System.out.println(p.getNome() + " - R$ " + p.getPrecoFinal());
         }
     }
 }

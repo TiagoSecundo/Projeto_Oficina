@@ -12,7 +12,8 @@ public class Veiculo {
     private Cliente proprietario;
     private ArrayList<Servico> historicoServicos;
     private String relatorio;
-    private static int totalVeiculos = 0;
+    private static int totalVeiculos = 0; //protege a integridade da contagem e impede alterações externas. É ideal para controle e manutenibilidade.
+    protected static int contadorVeiculos = 0; //  facilita o uso por subclasses, mas sacrifica parte da segurança e controle de acesso direto, o que pode causar bugs ou inconsistências se for mal utilizado.
     /**
      * 
      * @param placa
@@ -22,6 +23,9 @@ public class Veiculo {
      * @param status
      * @param relatorio 
      */
+        private static void incrementarTotal() {
+        totalVeiculos++;
+    }
     public Veiculo(String placa, String marca, String modelo, int ano, String status, String relatorio) {
         this.placa = placa;
         this.marca = marca;
@@ -30,8 +34,24 @@ public class Veiculo {
         this.status = status;
         this.relatorio = relatorio;
         this.historicoServicos = new ArrayList<>();
-        totalVeiculos++;
-        Cliente.totalVeiculosProtected++;
+        incrementarTotal();
+        contadorVeiculos++;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public Cliente getProprietario() {
+        return proprietario;
+    }
+
+    public ArrayList<Servico> getHistoricoServicos() {
+        return historicoServicos;
     }
     /**
      * 
@@ -58,16 +78,11 @@ public class Veiculo {
      */
     public void setAno(int ano) {
         this.ano = ano;
-    } 
+    }
     /**
      * 
      * @param proprietario 
      */
-    
-    public Cliente getProprietario() {
-        return proprietario;
-    }
-
     public void setProprietario(Cliente proprietario) {
         this.proprietario = proprietario;
     }
@@ -86,6 +101,7 @@ public class Veiculo {
     public String getPlaca() {
         return this.placa;
     }
+    
 
     /**
      *
@@ -146,7 +162,6 @@ public class Veiculo {
      */
     @Override
     public String toString() {
-        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + 
-                ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}'+"\n";
+        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}';
     }
 }
