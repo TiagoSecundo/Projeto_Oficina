@@ -22,12 +22,12 @@ public class FuncionarioService {
         int opcao;
 
         do {
-            System.out.println("\n--- Menu de Funcionarios ---");
-            System.out.println("1. Cadastrar funcionario (Mecânico)");
-            System.out.println("2. Editar funcionario");
-            System.out.println("3. Remover funcionario");
+            System.out.println("\n--- Menu de Mecanicos ---");
+            System.out.println("1. Cadastrar Mecanico");
+            System.out.println("2. Editar Mecanico");
+            System.out.println("3. Remover Mecanico");
             System.out.println("4. Bater ponto");
-            System.out.println("5. Listar funcionarios");
+            System.out.println("5. Listar Mecanico");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opcao: ");
             opcao = sc.nextInt();
@@ -55,7 +55,7 @@ public class FuncionarioService {
 
     public void cadastrarFuncionario() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Cadastro de Funcionario (Mecânico) ---");
+        System.out.println("\n--- Cadastro de Mecanico ---");
 
         System.out.print("ID: ");
         int id = sc.nextInt();
@@ -63,7 +63,7 @@ public class FuncionarioService {
 
         for (Funcionario f : funcionarios) {
             if (f.getId() == id) {
-                System.out.println("Funcionario com esse ID ja existe.");
+                System.out.println("Mecanico com esse ID ja existe.");
                 return;
             }
         }
@@ -85,9 +85,9 @@ public class FuncionarioService {
 
     public void editarFuncionario() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Editar Funcionario ---");
+        System.out.println("\n--- Editar Mecanico ---");
 
-        System.out.print("ID do funcionario: ");
+        System.out.print("ID do Mecanico: ");
         int id = sc.nextInt();
         sc.nextLine();
 
@@ -107,19 +107,19 @@ public class FuncionarioService {
                     m.setEspecialidade(sc.nextLine());
                 }
 
-                System.out.println("Funcionario editado com sucesso!");
+                System.out.println("Mecanico editado com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Funcionario com ID " + id + " nao encontrado.");
+        System.out.println("Mecanico com ID " + id + " nao encontrado.");
     }
 
     public void removerFuncionario() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n--- Remover Funcionario ---");
+        System.out.println("\n--- Remover Mecanico ---");
 
-        System.out.print("ID do funcionario: ");
+        System.out.print("ID do Mecanico: ");
         int id = sc.nextInt();
         sc.nextLine();
 
@@ -128,21 +128,21 @@ public class FuncionarioService {
             Funcionario f = iterator.next();
             if (f.getId() == id) {
                 iterator.remove();
-                System.out.println("Funcionario removido com sucesso");
+                System.out.println("Mecanico removido com sucesso");
                 return;
             }
         }
 
-        System.out.println("Funcionario com ID " + id + " nao encontrado.");
+        System.out.println("Mecanico com ID " + id + " nao encontrado.");
     }
 
     public void listarFuncionarios() {
         if (funcionarios.isEmpty()) {
-            System.out.println("Nenhum funcionario cadastrado.");
+            System.out.println("Nenhum Mecanico cadastrado.");
             return;
         }
 
-        System.out.println("\n--- Lista de Funcionarios ---");
+        System.out.println("\n--- Lista de Mecanico ---");
         for (Funcionario f : funcionarios) {
             System.out.println(f);
         }
@@ -171,7 +171,7 @@ public class FuncionarioService {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Bater Ponto ---");
 
-        System.out.print("ID do funcionario: ");
+        System.out.print("ID do Mecanico: ");
         int id = sc.nextInt();
         sc.nextLine();
 
@@ -196,7 +196,7 @@ public class FuncionarioService {
             }
         }
 
-        System.out.println("Funcionario com ID " + id + " nao encontrado.");
+        System.out.println("Mecanico com ID " + id + " nao encontrado.");
     }
 
     public List<Mecanico> listarMecanicos() {

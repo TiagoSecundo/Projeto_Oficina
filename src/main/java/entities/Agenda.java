@@ -15,6 +15,7 @@ public class Agenda {
     private String status;
     private Elevador elevador;
     private ArrayList<Servico> agendamentos;
+    private TipoServico tipoServico;
 
     /**
      * Construtor padrão que inicializa a lista de agendamentos
@@ -35,7 +36,7 @@ public class Agenda {
      * @param status
      */
     public Agenda(int id, Cliente cliente, Veiculo veiculo, String problemaDescrito,
-            Mecanico mecanicoResponsavel, LocalDateTime dataAgendamento, String status, Elevador elevador) {
+            Mecanico mecanicoResponsavel, LocalDateTime dataAgendamento, String status, Elevador elevador, TipoServico tipoServico) {
         this.id = id;
         this.cliente = cliente;
         this.veiculo = veiculo;
@@ -45,6 +46,7 @@ public class Agenda {
         this.status = status;
         this.elevador = elevador;
         this.agendamentos = new ArrayList<>();
+        this.tipoServico = tipoServico;
     }
 
     /**
@@ -189,28 +191,34 @@ public class Agenda {
     public void setAgendamentos(ArrayList<Servico> agendamentos) {
         this.agendamentos = agendamentos;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public Elevador getElevador() {
         return elevador;
     }
+
     /**
-     * 
-     * @param elevador 
+     *
+     * @param elevador
      */
     public void setElevador(Elevador elevador) {
         this.elevador = elevador;
     }
-    
-    /**
-     * 
-     * @return 
-     */
+
+    public TipoServico getTipoServico() { 
+        return tipoServico;
+    }
+
+    public void setTipoServico(TipoServico tipoServico) { 
+        this.tipoServico = tipoServico;
+    }
+
     @Override
     public String toString() {
-        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + 
-                ", dataHora=" + dataHora + ", status=" + status + ", elevador=" + elevador + ", agendamentos=" + agendamentos + '}' + "\n";
+        return "Agenda{" + "id=" + id + ", cliente=" + cliente + ", veiculo=" + veiculo + ", problemaDescrito=" + problemaDescrito + ", mecanicoResponsavel=" + mecanicoResponsavel + ", dataHora=" + dataHora + ", status=" + status + ", elevador=" + elevador + ", agendamentos=" + agendamentos + ", tipoServico=" + tipoServico + '}';
     }
+
 }

@@ -31,6 +31,7 @@ public class Veiculo {
         this.relatorio = relatorio;
         this.historicoServicos = new ArrayList<>();
         totalVeiculos++;
+        Cliente.totalVeiculosProtected++;
     }
     /**
      * 

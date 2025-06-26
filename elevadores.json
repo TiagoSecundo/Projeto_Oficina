@@ -1,1 +1,1 @@
-[{"id":1,"status":"Ocupado","veiculoNaPlataforma":"abc1234","servicoEmExecucao":"a"},{"id":2,"status":"Livre"},{"id":3,"status":"Livre"}]
+[{"id":1,"status":"Livre","exclusivoBalanceamento":false},{"id":2,"status":"Livre","exclusivoBalanceamento":false},{"id":3,"status":"Livre","exclusivoBalanceamento":true}]

@@ -28,11 +28,16 @@ public class EstoqueService {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> adicionarEstoque();
-                case 2 -> darBaixaEstoque();
-                case 3 -> consultarEstoque();
-                case 0 -> System.out.println("Voltando ao menu principal...");
-                default -> System.out.println("Opcao invalida.");
+                case 1 ->
+                    adicionarEstoque();
+                case 2 ->
+                    darBaixaEstoque();
+                case 3 ->
+                    consultarEstoque();
+                case 0 ->
+                    System.out.println("Voltando ao menu principal...");
+                default ->
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 0);
@@ -56,6 +61,18 @@ public class EstoqueService {
 
         produto.setQuantidade(produto.getQuantidade() + quantidade);
         System.out.println("Estoque atualizado com sucesso!");
+    }
+
+    public void decrementarEstoque(Produto produto, int quantidade) {
+        if (produto != null) {
+            if (quantidade > 0 && produto.getQuantidade() >= quantidade) {
+                produto.setQuantidade(produto.getQuantidade() - quantidade);
+            } else if (quantidade <= 0) {
+                System.out.println("Quantidade para decremento deve ser positiva.");
+            } else {
+                System.out.println("Estoque insuficiente para o produto: " + produto.getNome());
+            }
+        }
     }
 
     private void darBaixaEstoque() {
