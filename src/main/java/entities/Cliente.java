@@ -13,6 +13,7 @@ public class Cliente {
     private String cpf;
     private String email;
     private static ArrayList<Veiculo> veiculo;
+    protected static int totalVeiculosProtected = 0;
 
     public Cliente() {
         veiculo = new ArrayList<>();
@@ -144,9 +145,10 @@ public class Cliente {
     public ArrayList<Veiculo> getVeiculo() {
         return veiculo;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getCpfAnonimizado() {
         if (cpf == null || cpf.length() < 5) {

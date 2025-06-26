@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class OficinaController {
 
-    // Listas
+  
     private List<Cliente> clientes;
     private List<Veiculo> veiculos;
     private List<Produto> produtos;
@@ -24,7 +24,7 @@ public class OficinaController {
     private List<OrdemServico> ordens;
     private List<BalancoMensal> balancos;
 
-    // Serviços
+
     private ClienteService clienteService;
     private VeiculoService veiculoService;
     private ProdutoService produtoService;
@@ -38,7 +38,7 @@ public class OficinaController {
     private BalancoMensalService balancoMensalService;
 
     public OficinaController() {
-        // Carregar dados
+
         this.clientes = carregar("clientes.json", new TypeToken<List<Cliente>>() {
         }.getType());
         this.veiculos = carregar("veiculos.json", new TypeToken<List<Veiculo>>() {
@@ -52,7 +52,7 @@ public class OficinaController {
         if (mecanicos != null) {
             this.funcionarios.addAll(mecanicos);
         }
-        if (gerentesCarregados != null) { // Usar gerentesCarregados
+        if (gerentesCarregados != null) { 
             this.funcionarios.addAll(gerentesCarregados);
         }
 
@@ -71,23 +71,22 @@ public class OficinaController {
         this.balancos = carregar("balancoMensal.json", new TypeToken<List<BalancoMensal>>() {
         }.getType());
 
-        // Inicializar listas vazias se necessário (usando as variáveis de instância)
-        if (this.clientes == null) { // Usar this.clientes
+        if (this.clientes == null) { 
             this.clientes = new ArrayList<>();
         }
-        if (this.veiculos == null) { // Usar this.veiculos
+        if (this.veiculos == null) { 
             this.veiculos = new ArrayList<>();
         }
-        if (this.funcionarios == null) { // Usar this.funcionarios
+        if (this.funcionarios == null) { 
             this.funcionarios = new ArrayList<>();
         }
-        if (this.gerentes == null) { // Usar this.gerentes
+        if (this.gerentes == null) { 
             this.gerentes = new ArrayList<>();
         }
-        if (this.produtos == null) { // Usar this.produtos
+        if (this.produtos == null) { 
             this.produtos = new ArrayList<>();
         }
-        if (this.agendamentos == null) { // Usar this.agendamentos
+        if (this.agendamentos == null) { 
             this.agendamentos = new ArrayList<>();
         }
         if (this.despesas == null) { // Usar this.despesas
@@ -105,11 +104,8 @@ public class OficinaController {
             this.elevadores.add(elevador2); // Usar this.elevadores
             this.elevadores.add(elevador3); // Usar this.elevadores
             System.out.println("Elevadores padrao criados e inicializados.");
-            // Persistir os elevadores recém-criados para garantir que estejam no arquivo
             PersistenciaUtil.salvarEmArquivo(this.elevadores, "elevadores.json");
         } else {
-            // ✅ CORREÇÃO AQUI: Garante que o elevador de balanceamento esteja sempre marcado
-            // mesmo se carregado de um JSON antigo sem a flag ou com ela como false.
             boolean foundBalanceamentoElevator = false;
             for (Elevador elevador : this.elevadores) {
                 if (elevador.getId() == 3) { // Supondo que ID 3 é o elevador de balanceamento
@@ -222,7 +218,6 @@ public class OficinaController {
     public void salvarTudo() {
         PersistenciaUtil.salvarEmArquivo(clientes, "clientes.json");
         PersistenciaUtil.salvarEmArquivo(veiculos, "veiculos.json");
-        // Separar tipos antes de salvar
         List<Mecanico> mecanicos = funcionarios.stream()
                 .filter(f -> f instanceof Mecanico)
                 .map(f -> (Mecanico) f)
@@ -233,7 +228,7 @@ public class OficinaController {
                 .map(f -> (Gerente) f)
                 .toList();
 
-        // Salvar separadamente
+
         PersistenciaUtil.salvarEmArquivo(mecanicos, "mecanicos.json");
         PersistenciaUtil.salvarEmArquivo(gerentes, "gerentes.json");
         PersistenciaUtil.salvarEmArquivo(produtos, "produtos.json");

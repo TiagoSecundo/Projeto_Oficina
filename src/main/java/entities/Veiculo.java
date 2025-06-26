@@ -2,7 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 
-public class Veiculo {
+public class Veiculo extends Cliente {
 
     private String marca;
     private String modelo;
@@ -13,14 +13,15 @@ public class Veiculo {
     private ArrayList<Servico> historicoServicos;
     private String relatorio;
     private static int totalVeiculos = 0;
+
     /**
-     * 
+     *
      * @param placa
      * @param marca
      * @param modelo
      * @param ano
      * @param status
-     * @param relatorio 
+     * @param relatorio
      */
     public Veiculo(String placa, String marca, String modelo, int ano, String status, String relatorio) {
         this.placa = placa;
@@ -33,37 +34,42 @@ public class Veiculo {
         totalVeiculos++;
         Cliente.totalVeiculosProtected++;
     }
+
     /**
-     * 
+     *
      */
     public Veiculo() {
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public static int getTotalVeiculos() {
         return totalVeiculos;
     }
+
     /**
-     * 
-     * @param marca 
+     *
+     * @param marca
      */
     public void setMarca(String marca) {
         this.marca = marca;
     }
+
     /**
-     * 
-     * @param ano 
+     *
+     * @param ano
      */
     public void setAno(int ano) {
         this.ano = ano;
-    } 
+    }
+
     /**
-     * 
-     * @param proprietario 
+     *
+     * @param proprietario
      */
-    
+
     public Cliente getProprietario() {
         return proprietario;
     }
@@ -71,9 +77,10 @@ public class Veiculo {
     public void setProprietario(Cliente proprietario) {
         this.proprietario = proprietario;
     }
+
     /**
-     * 
-     * @param historicoServicos 
+     *
+     * @param historicoServicos
      */
     public void setHistoricoServicos(ArrayList<Servico> historicoServicos) {
         this.historicoServicos = historicoServicos;
@@ -126,27 +133,30 @@ public class Veiculo {
     public void setStatus(String status) {
         this.status = status;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getRelatorio() {
         return relatorio;
     }
+
     /**
-     * 
-     * @param relatorio 
+     *
+     * @param relatorio
      */
     public void setRelatorio(String relatorio) {
         this.relatorio = relatorio;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
-        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa + 
-                ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}'+"\n";
+        return "Veiculo{" + "marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", placa=" + placa
+                + ", status=" + status + ", proprietario=" + proprietario + ", historicoServicos=" + historicoServicos + ", relatorio=" + relatorio + '}' + "\n";
     }
 }
